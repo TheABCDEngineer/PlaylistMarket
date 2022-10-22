@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="title">22sp</dimen>
+    <dimen name="button_text">22sp</dimen>
+    <dimen name="setting_line_height">61dp</dimen>
+    <dimen name="setting_text">16sp</dimen>
+    <dimen name="corner_radius">16dp</dimen>
+    <dimen name="setting_menu_titles_indent">16dp</dimen>
+</resources>
