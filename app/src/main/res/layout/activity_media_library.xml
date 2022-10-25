@@ -6,11 +6,16 @@
     tools:context=".MediaLibraryActivity"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/media_library"
-        android:textSize="@dimen/button_text"
-        android:textColor="@color/text_color"
-        android:gravity="center"/>
+        android:layout_height="56dp"
+        android:orientation="horizontal">
+
+        <ImageView style="@style/ActionBarButton"
+            android:id="@+id/media_library_goBack"
+            android:src="@drawable/arrow_back" />
+
+        <TextView style="@style/ActionBarTitle"
+            android:text="@string/media_library" />
+    </LinearLayout>
 </LinearLayout>

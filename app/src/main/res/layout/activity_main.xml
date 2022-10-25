@@ -4,80 +4,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/main_common_margin">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:fontFamily="@font/ys_display_medium"
+        android:text="@string/app_name"
+        android:textColor="@color/main_title"
+        android:textFontWeight="500"
+        android:textSize="@dimen/title" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="14dp"
-            android:text="@string/app_name"
-            android:textColor="@color/main_title"
-            android:textSize="@dimen/title" />
-    </LinearLayout>
+    <Button style="@style/MainButton"
+        android:id="@+id/main_SearchButton"
+        android:layout_marginBottom="16dp"
+        android:text="@string/search"
+        app:icon="@drawable/search_icon" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingLeft="17dp"
-        android:paddingTop="24dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="28dp">
+    <Button style="@style/MainButton"
+        android:id="@+id/main_MediaLibraryButton"
+        android:layout_marginBottom="16dp"
+        android:text="@string/media_library"
+        app:icon="@drawable/media_library_icon" />
 
-        <Button
-            android:id="@+id/search_button"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/fill_color"
-            android:textAllCaps="false"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/button_text"
-            android:layout_marginBottom="16dp"
-            app:cornerRadius="@dimen/corner_radius"
-            app:iconGravity="textStart"
-            app:iconTint="@color/text_color"
-            app:icon="@drawable/search_icon"
-            app:iconSize="19dp"
-            android:text="@string/search" />
+    <Button style="@style/MainButton"
+        android:id="@+id/main_SettingsButton"
+        android:text="@string/settings"
+        android:layout_marginBottom="12dp"
+        app:icon="@drawable/settings_icon" />
 
-        <Button
-            android:id="@+id/media_library_button"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/fill_color"
-            android:textAllCaps="false"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/button_text"
-            android:layout_marginBottom="16dp"
-            app:cornerRadius="@dimen/corner_radius"
-            app:iconGravity="textStart"
-            app:iconTint="@color/text_color"
-            app:icon="@drawable/media_library_icon"
-            app:iconSize="20dp"
-            android:text="@string/media_library" />
-
-        <Button
-            android:id="@+id/setting_button"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/fill_color"
-            android:textAllCaps="false"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/button_text"
-            app:cornerRadius="@dimen/corner_radius"
-            app:iconGravity="textStart"
-            app:iconTint="@color/text_color"
-            app:icon="@drawable/settings_icon"
-            app:iconSize="19dp"
-            android:text="@string/settings" />
-
-    </LinearLayout>
 </LinearLayout>

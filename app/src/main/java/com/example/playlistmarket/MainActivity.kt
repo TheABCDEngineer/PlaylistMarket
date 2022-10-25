@@ -9,10 +9,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        supportActionBar?.hide()
 
-        val buttonSearch = findViewById<Button>(R.id.search_button)
-        val buttonMediaLibrary = findViewById<Button>(R.id.media_library_button)
-        val buttonSetting = findViewById<Button>(R.id.setting_button)
+        val buttonSearch = findViewById<Button>(R.id.main_SearchButton)
+        val buttonMediaLibrary = findViewById<Button>(R.id.main_MediaLibraryButton)
+        val buttonSetting = findViewById<Button>(R.id.main_SettingsButton)
 
         buttonSearch.setOnClickListener {
             val displayIntent = Intent(this, SearchActivity::class.java)

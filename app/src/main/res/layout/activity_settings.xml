@@ -11,115 +11,55 @@
         android:layout_marginBottom="24dp"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_margin="20dp"
+        <ImageView style="@style/ActionBarButton"
+            android:id="@+id/settings_goBack"
             android:src="@drawable/arrow_back" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="8dp"
-            android:text="@string/settings"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/button_text" />
+        <TextView style="@style/ActionBarTitle"
+            android:text="@string/settings" />
+
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/setting_line_height"
-        android:orientation="horizontal">
+    <LinearLayout style="@style/SettingMenuLine">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/setting_menu_titles_indent"
-            android:layout_weight="1"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/setting_text"
+        <TextView style="@style/SettingMenuTextButton"
             android:text="@string/dark_theme" />
 
         <Switch
-            android:id="@+id/settingDarkThemeSwitch"
+            android:id="@+id/settings_DarkThemeSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingEnd="5dp"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/setting_line_height"
-        android:orientation="horizontal">
+    <LinearLayout style="@style/SettingMenuLine">
 
-        <TextView
-            android:id="@+id/settingShare"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/setting_menu_titles_indent"
-            android:layout_weight="1"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/setting_text"
+        <TextView style="@style/SettingMenuTextButton"
+            android:id="@+id/settings_Share"
             android:text="@string/share_app" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingEnd="@dimen/setting_menu_titles_indent"
+        <ImageView style="@style/SettingButtonImage"
             android:src="@drawable/share_icon" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/setting_line_height"
-        android:orientation="horizontal">
+    <LinearLayout style="@style/SettingMenuLine">
 
-        <TextView
-            android:id="@+id/settingMailToSupport"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/setting_menu_titles_indent"
-            android:layout_weight="1"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/setting_text"
+        <TextView style="@style/SettingMenuTextButton"
+            android:id="@+id/settings_MailToSupport"
             android:text="@string/mail_to_support" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingEnd="@dimen/setting_menu_titles_indent"
+        <ImageView style="@style/SettingButtonImage"
             android:src="@drawable/support_icon" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/setting_line_height"
-        android:orientation="horizontal">
+    <LinearLayout style="@style/SettingMenuLine">
 
-        <TextView
-            android:id="@+id/settingUserTerms"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/setting_menu_titles_indent"
-            android:layout_weight="1"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/setting_text"
+        <TextView style="@style/SettingMenuTextButton"
+            android:id="@+id/settings_UserTerms"
             android:text="@string/user_terms" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingEnd="@dimen/setting_menu_titles_indent"
+        <ImageView style="@style/SettingButtonImage"
             android:src="@drawable/arrow_forward" />
     </LinearLayout>
 
