@@ -1,5 +1,6 @@
 package com.example.playlistmarket
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +22,9 @@ class SettingsActivity : AppCompatActivity() {
         val mailButton = findViewById<TextView>(R.id.settings_MailToSupport)
         val userTermsButton = findViewById<TextView>(R.id.settings_UserTerms)
 
+        themeSwitch.isChecked =
+            AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+
         goBackButton.setOnClickListener {
             onBackPressed()
         }
@@ -32,19 +36,22 @@ class SettingsActivity : AppCompatActivity() {
                 false -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
         }
-        
+
         shareButton.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND)
             shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.settings_share_object))
             shareIntent.type = "text/plain"
-            startActivity(Intent.createChooser(shareIntent,null))
+            startActivity(Intent.createChooser(shareIntent, null))
         }
 
         mailButton.setOnClickListener {
             val mailIntent = Intent(Intent.ACTION_SENDTO)
             mailIntent.data = Uri.parse("mailto:")
             mailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.settings_mailto_subject))
-            mailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.settings_mailto_addressee)))
+            mailIntent.putExtra(
+                Intent.EXTRA_EMAIL,
+                arrayOf(getString(R.string.settings_mailto_addressee))
+            )
             mailIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.settings_mailto_letter))
             startActivity(mailIntent)
         }

@@ -30,7 +30,7 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        searchContentEditTextValue = savedInstanceState.getString(SEARCH_CONTENT_EDIT_TEXT,"")
+        searchContentEditTextValue = savedInstanceState.getString(SEARCH_CONTENT_EDIT_TEXT, "")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,9 +52,11 @@ class SearchActivity : AppCompatActivity() {
             searchContentEditText.setText("")
             searchContentClearButton.visibility = View.GONE
 
-            val inputMethodManager =
-                getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            inputMethodManager?.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+            this.currentFocus?.let { view ->
+                val inputMethodManager =
+                    getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                inputMethodManager?.hideSoftInputFromWindow(view.windowToken, 0)
+            }
         }
 
         val searchContentEditTextWatcher = object : TextWatcher {
