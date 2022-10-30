@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="title">20sp</dimen>
+    <dimen name="button_text">20sp</dimen>
+    <dimen name="main_common_margin">16dp</dimen>
+    <dimen name="main_button_icon_size">20dp</dimen>
+    <dimen name="setting_line_height">62dp</dimen>
+    <dimen name="setting_text">16sp</dimen>
+    <dimen name="edit_text_dim">16sp</dimen>
+    <dimen name="corner_radius">16dp</dimen>
+    <dimen name="setting_menu_titles_indent">16dp</dimen>
+</resources>

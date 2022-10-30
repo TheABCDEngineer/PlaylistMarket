@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MediaLibraryActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal">
+
+        <ImageView style="@style/ActionBarButton"
+            android:id="@+id/media_library_goBack"
+            android:src="@drawable/arrow_back" />
+
+        <TextView style="@style/ActionBarTitle"
+            android:text="@string/media_library" />
+    </LinearLayout>
+</LinearLayout>
