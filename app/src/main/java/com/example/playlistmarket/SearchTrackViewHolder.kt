@@ -7,17 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 class SearchTrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    private val trackNameView: TextView
-    private val artistNameView: TextView
-    private val trackTimeView: TextView
-    private val artworkView: ImageView
-
-    init {
-        trackNameView = itemView.findViewById(R.id.search_cardview_track_title)
-        artistNameView = itemView.findViewById(R.id.search_cardview_track_artist)
-        trackTimeView = itemView.findViewById(R.id.search_cardview_track_time)
-        artworkView = itemView.findViewById(R.id.search_cardview_track_picture)
-    }
+    private val trackNameView: TextView = itemView.findViewById(R.id.search_cardview_track_title)
+    private val artistNameView: TextView = itemView.findViewById(R.id.search_cardview_track_artist)
+    private val trackTimeView: TextView = itemView.findViewById(R.id.search_cardview_track_time)
+    private val artworkView: ImageView = itemView.findViewById(R.id.search_cardview_track_picture)
 
     fun bind(trackData: Track) {
         trackNameView.text = trackData.trackName

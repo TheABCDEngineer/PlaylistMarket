@@ -1,6 +1,6 @@
 package com.example.playlistmarket
 
-class Track(
+data class Track(
     val trackName: String,
     val artistName: String,
     val trackTime: String,
