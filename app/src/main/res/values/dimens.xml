@@ -9,4 +9,8 @@
     <dimen name="edit_text_dim">16sp</dimen>
     <dimen name="corner_radius">16dp</dimen>
     <dimen name="setting_menu_titles_indent">16dp</dimen>
+    <dimen name="search_track_card_height">64dp</dimen>
+    <dimen name="search_track_card_title">16sp</dimen>
+    <dimen name="search_track_card_add_info">11sp</dimen>
+    <dimen name="search_track_card_artwork_size">45dp</dimen>
 </resources>

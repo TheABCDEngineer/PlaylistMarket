@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
     android:orientation="vertical"
     tools:context=".MediaLibraryActivity">
 
@@ -12,11 +13,13 @@
         android:layout_height="56dp"
         android:orientation="horizontal">
 
-        <ImageView style="@style/ActionBarButton"
+        <ImageView
             android:id="@+id/search_goBack"
+            style="@style/ActionBarButton"
             android:src="@drawable/arrow_back" />
 
-        <TextView style="@style/ActionBarTitle"
+        <TextView
+            style="@style/ActionBarTitle"
             android:text="@string/search" />
     </LinearLayout>
 
@@ -29,24 +32,24 @@
             android:id="@+id/search_EditText"
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:paddingStart="32dp"
+            android:background="@color/text_edit_fill_color"
             android:hint="@string/search"
             android:inputType="text"
             android:lines="1"
             android:maxLength="15"
-            android:background="@color/text_edit_fill_color"
-            android:textColorHint="@color/text_edit_icon_color"
+            android:paddingStart="32dp"
             android:textColor="@color/text_color_single"
+            android:textColorHint="@color/text_edit_icon_color"
             android:textSize="@dimen/edit_text_dim"
-            app:cornerRadius = "16dp"/>
+            app:cornerRadius="16dp" />
 
         <ImageView
             android:id="@+id/search_ClearButton"
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_gravity="end"
-            android:gravity="center"
             android:layout_margin="12dp"
+            android:gravity="center"
             android:src="@drawable/edit_text_clear_button"
             android:visibility="gone" />
 
@@ -54,10 +57,16 @@
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_gravity="start"
-            android:gravity="center"
             android:layout_margin="12dp"
+            android:gravity="center"
             android:src="@drawable/search_icon"
             app:tint="@color/text_edit_icon_color" />
-
     </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_track_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 </LinearLayout>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/search_track_card_height"
+    android:orientation="horizontal"
+    android:paddingVertical="8dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="24dp"
+    app:cardBackgroundColor="@color/background_color">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/search_cardview_track_picture"
+        android:layout_width="@dimen/search_track_card_artwork_size"
+        android:layout_height="@dimen/search_track_card_artwork_size"
+        android:src="@drawable/default_album_image"
+        app:shapeAppearanceOverlay="@style/ImageRoundedSquare" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="4dp">
+
+        <TextView style="@style/TrackSearchViewText"
+            android:id="@+id/search_cardview_track_title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textColor="@color/theme_hard_text_color"
+            android:textSize="@dimen/search_track_card_title"
+            tools:text="Track Name" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView style="@style/TrackSearchViewText"
+                android:id="@+id/search_cardview_track_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/theme_soft_text_color"
+                android:textSize="@dimen/search_track_card_add_info"
+                tools:text="Artist Name" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="4dp"
+                android:src="@drawable/ellipse_track_time" />
+
+            <TextView style="@style/TrackSearchViewText"
+                android:id="@+id/search_cardview_track_time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/theme_soft_text_color"
+                android:textSize="@dimen/search_track_card_add_info"
+                tools:text="1:00" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/arrow_forward" />
+</LinearLayout>
+
