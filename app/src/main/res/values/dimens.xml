@@ -13,4 +13,7 @@
     <dimen name="search_track_card_title">16sp</dimen>
     <dimen name="search_track_card_add_info">11sp</dimen>
     <dimen name="search_track_card_artwork_size">45dp</dimen>
+    <dimen name="search_update_button_text">14sp</dimen>
+    <dimen name="search_request_status_text">19sp</dimen>
+    <dimen name="search_request_status_icon">120dp</dimen>
 </resources>
