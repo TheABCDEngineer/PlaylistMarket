@@ -31,7 +31,6 @@ class SearchActivity : AppCompatActivity() {
 
     private val itunesService = retrofit.create(ItunesApi::class.java)
 
-    private lateinit var searchContentEditTextValue: String
     private lateinit var searchContentEditText: EditText
     private lateinit var searchContentClearButton: ImageView
     private lateinit var goBackButton: ImageView
@@ -46,13 +45,8 @@ class SearchActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         outState.putString(
             SEARCH_CONTENT_EDIT_TEXT,
-            searchContentEditTextValue
+            searchContentEditText.text.toString()
         )
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        searchContentEditTextValue = savedInstanceState.getString(SEARCH_CONTENT_EDIT_TEXT, "")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,42 +54,22 @@ class SearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search)
         supportActionBar?.hide()
 
-        searchContentEditTextValue = ""
-        searchContentEditText = findViewById(R.id.search_EditText)
-        searchContentClearButton = findViewById(R.id.search_ClearButton)
-        goBackButton = findViewById(R.id.search_goBack)
-        requestStatusImage = findViewById(R.id.search_request_status_image)
-        requestStatusMessage = findViewById(R.id.search_request_status_text)
-        refreshButton = findViewById(R.id.search_refresh_button)
-        queryTrackList = findViewById(R.id.search_track_list)
-
-        queryTrackList.adapter = SearchTrackAdapter(searchItemsList)
-
-        searchContentEditText.setText(searchContentEditTextValue)
+        initiateViewItems()
 
         hideQueryPlaceholder()
 
-        goBackButton.setOnClickListener {
-            onBackPressed()
+        setOnClickListenersAtViews()
+
+        if (savedInstanceState != null) {
+            searchContentEditText.setText(
+                savedInstanceState.getString(
+                    SEARCH_CONTENT_EDIT_TEXT,
+                    ""
+                )
+            )
         }
 
-        refreshButton.setOnClickListener {
-            tracksSearchOnQuery()
-        }
-
-        searchContentClearButton.setOnClickListener {
-            searchContentEditText.setText("")
-            searchContentClearButton.visibility = View.GONE
-            queryTrackList.visibility = View.GONE
-            hideKeyboard()
-        }
-
-        searchContentEditText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                tracksSearchOnQuery()
-            }
-            false
-        }
+        queryTrackList.adapter = SearchTrackAdapter(searchItemsList)
 
         val searchContentEditTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -105,7 +79,6 @@ class SearchActivity : AppCompatActivity() {
                 if (s.isNullOrEmpty()) {
                     searchContentClearButton.visibility = View.GONE
                 } else {
-                    searchContentEditTextValue = s.toString()
                     searchContentClearButton.visibility = View.VISIBLE
                 }
             }
@@ -116,6 +89,41 @@ class SearchActivity : AppCompatActivity() {
 
         searchContentEditText.addTextChangedListener(searchContentEditTextWatcher)
 
+    }
+
+    private fun initiateViewItems() {
+        searchContentEditText = findViewById(R.id.search_EditText)
+        searchContentClearButton = findViewById(R.id.search_ClearButton)
+        goBackButton = findViewById(R.id.search_goBack)
+        requestStatusImage = findViewById(R.id.search_request_status_image)
+        requestStatusMessage = findViewById(R.id.search_request_status_text)
+        refreshButton = findViewById(R.id.search_refresh_button)
+        queryTrackList = findViewById(R.id.search_track_list)
+    }
+
+    private fun setOnClickListenersAtViews() {
+        goBackButton.setOnClickListener {
+            onBackPressed()
+        }
+
+        refreshButton.setOnClickListener {
+            searchTracksOnQuery()
+        }
+
+        searchContentClearButton.setOnClickListener {
+            searchContentEditText.setText("")
+            searchContentClearButton.visibility = View.GONE
+            queryTrackList.visibility = View.GONE
+            hideQueryPlaceholder()
+            hideKeyboard()
+        }
+
+        searchContentEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                searchTracksOnQuery()
+            }
+            false
+        }
     }
 
     private fun hideKeyboard() {
@@ -144,7 +152,7 @@ class SearchActivity : AppCompatActivity() {
         refreshButton.visibility = View.GONE
     }
 
-    private fun tracksSearchOnQuery() {
+    private fun searchTracksOnQuery() {
         showQueryPlaceholder(R.drawable.please_wait_icon, R.string.search_status_please_wait, false)
         if (searchContentEditText.text.isNotEmpty()) {
             itunesService.findTrack(searchContentEditText.text.toString()).enqueue(object :

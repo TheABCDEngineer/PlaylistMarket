@@ -1,5 +1,5 @@
 package com.example.playlistmarket
 
-class TracksResponse(
+data class TracksResponse(
     val results: ArrayList<Track>
 ) {}

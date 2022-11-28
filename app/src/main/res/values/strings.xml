@@ -17,4 +17,5 @@
     <string name="search_request_status_text_if_no_internet">Проблемы со связью\n\nЗагрузка не удалась. Проверьте\nподключение к интернету</string>
     <string name="search_request_status_text_if_server_error">Что-то пошло не так…\nОшибка сервера</string>
     <string name="search_status_please_wait">Поиск…</string>
+    <string name="no_track_time_from_response">не так уж и долго</string>
 </resources>

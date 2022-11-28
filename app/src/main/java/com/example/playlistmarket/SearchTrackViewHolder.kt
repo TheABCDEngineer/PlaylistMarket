@@ -17,12 +17,20 @@ class SearchTrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
     fun bind(trackData: Track) {
         trackNameView.text = trackData.trackName
         artistNameView.text = trackData.artistName
-        trackTimeView.text =
-            SimpleDateFormat("mm:ss", Locale.getDefault()).format(trackData.trackTimeMillis.toInt())
+        trackTimeView.text = formatTrackTimeFromResponse(trackData.trackTimeMillis)
+
         Glide.with(itemView)
             .load(trackData.artworkUrl100)
             .centerCrop()
             .placeholder(R.drawable.default_album_image)
             .into(artworkView)
+    }
+
+    private fun formatTrackTimeFromResponse(sample: String?): String {
+        if (sample != null) {
+            return SimpleDateFormat("mm:ss", Locale.getDefault()).format(sample.toInt())
+        }
+
+        return itemView.context.getString(R.string.no_track_time_from_response)
     }
 }
