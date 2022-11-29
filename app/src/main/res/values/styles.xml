@@ -73,4 +73,13 @@
         <item name="android:singleLine">true</item>
         <item name="layout_constrainedWidth">true</item>
     </style>
+
+    <style name="SearchRefreshButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="backgroundTint">@color/theme_hard_text_color</item>
+        <item name="android:textColor">@color/background_color</item>
+        <item name="fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">@dimen/search_update_button_text</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textFontWeight">500</item>
+    </style>
 </resources>
