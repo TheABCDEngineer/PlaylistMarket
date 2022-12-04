@@ -11,22 +11,25 @@
         android:layout_marginBottom="24dp"
         android:orientation="horizontal">
 
-        <ImageView style="@style/ActionBarButton"
+        <ImageView
             android:id="@+id/settings_goBack"
+            style="@style/ActionBarButton"
             android:src="@drawable/arrow_back" />
 
-        <TextView style="@style/ActionBarTitle"
+        <TextView
+            style="@style/ActionBarTitle"
             android:text="@string/settings" />
 
     </LinearLayout>
 
     <LinearLayout style="@style/SettingMenuLine">
 
-        <TextView style="@style/SettingMenuTextButton"
+        <TextView
+            style="@style/SettingMenuTextButton"
             android:text="@string/dark_theme" />
 
         <Switch
-            android:id="@+id/settings_DarkThemeSwitch"
+            android:id="@+id/settings_DarkThemeSwitcher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -35,31 +38,37 @@
 
     <LinearLayout style="@style/SettingMenuLine">
 
-        <TextView style="@style/SettingMenuTextButton"
+        <TextView
             android:id="@+id/settings_Share"
+            style="@style/SettingMenuTextButton"
             android:text="@string/share_app" />
 
-        <ImageView style="@style/SettingButtonImage"
+        <ImageView
+            style="@style/SettingButtonImage"
             android:src="@drawable/share_icon" />
     </LinearLayout>
 
     <LinearLayout style="@style/SettingMenuLine">
 
-        <TextView style="@style/SettingMenuTextButton"
+        <TextView
             android:id="@+id/settings_MailToSupport"
+            style="@style/SettingMenuTextButton"
             android:text="@string/mail_to_support" />
 
-        <ImageView style="@style/SettingButtonImage"
+        <ImageView
+            style="@style/SettingButtonImage"
             android:src="@drawable/support_icon" />
     </LinearLayout>
 
     <LinearLayout style="@style/SettingMenuLine">
 
-        <TextView style="@style/SettingMenuTextButton"
+        <TextView
             android:id="@+id/settings_UserTerms"
+            style="@style/SettingMenuTextButton"
             android:text="@string/user_terms" />
 
-        <ImageView style="@style/SettingButtonImage"
+        <ImageView
+            style="@style/SettingButtonImage"
             android:src="@drawable/arrow_forward" />
     </LinearLayout>
 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_share_object">https://practicum.yandex.ru/profile/android-developer/</string>
+    <string name="settings_mailto_addressee">avtor103@yandex.ru</string>
+    <string name="settings_user_terms_link">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="app_preference_file_name">MP_preferences</string>
+    <string name="dark_mode_status_key">dark_mode_status</string>
+    <string name="recent_tracks_list_key">recent_tracks_list</string>
+</resources>
