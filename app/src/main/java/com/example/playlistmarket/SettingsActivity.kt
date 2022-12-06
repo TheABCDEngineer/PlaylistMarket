@@ -1,7 +1,7 @@
 package com.example.playlistmarket
 
-import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,30 +11,53 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 
 class SettingsActivity : AppCompatActivity() {
+    private lateinit var goBackButton: ImageView
+    private lateinit var themeSwitcher: Switch
+    private lateinit var shareButton: TextView
+    private lateinit var mailButton: TextView
+    private lateinit var userTermsButton: TextView
+
+    private lateinit var sharedPrefs: SharedPreferences
+    private lateinit var fileName: String
+    private lateinit var darkModeKey: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         supportActionBar?.hide()
 
-        val goBackButton = findViewById<ImageView>(R.id.settings_goBack)
-        val themeSwitch = findViewById<Switch>(R.id.settings_DarkThemeSwitch)
-        val shareButton = findViewById<TextView>(R.id.settings_Share)
-        val mailButton = findViewById<TextView>(R.id.settings_MailToSupport)
-        val userTermsButton = findViewById<TextView>(R.id.settings_UserTerms)
+        initializeVariables()
 
-        themeSwitch.isChecked =
+        setOnClickListenersAtViews()
+
+        themeSwitcher.isChecked = sharedPrefs.getBoolean(
+            darkModeKey,
             AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+        )
+    }
 
+    private fun initializeVariables() {
+        goBackButton = findViewById(R.id.settings_goBack)
+        themeSwitcher = findViewById(R.id.settings_DarkThemeSwitcher)
+        shareButton = findViewById(R.id.settings_Share)
+        mailButton = findViewById(R.id.settings_MailToSupport)
+        userTermsButton = findViewById(R.id.settings_UserTerms)
+
+        fileName = getString(R.string.app_preference_file_name)
+        darkModeKey = getString(R.string.dark_mode_status_key)
+        sharedPrefs = getSharedPreferences(fileName, MODE_PRIVATE)
+    }
+
+    private fun setOnClickListenersAtViews() {
         goBackButton.setOnClickListener {
             onBackPressed()
         }
 
-        themeSwitch.setOnCheckedChangeListener { _, isChecked ->
-            when (isChecked) {
-                true -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-
-                false -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
+        themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
+            setDarkMode(isChecked)
+            sharedPrefs.edit()
+                .putBoolean(darkModeKey, isChecked)
+                .apply()
         }
 
         shareButton.setOnClickListener {
