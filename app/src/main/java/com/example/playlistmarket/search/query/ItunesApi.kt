@@ -1,4 +1,4 @@
-package com.example.playlistmarket
+package com.example.playlistmarket.search.query
 
 import retrofit2.Call
 import retrofit2.http.GET

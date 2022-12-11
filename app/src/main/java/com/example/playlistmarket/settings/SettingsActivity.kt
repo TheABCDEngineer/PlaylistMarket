@@ -1,4 +1,4 @@
-package com.example.playlistmarket
+package com.example.playlistmarket.settings
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -9,6 +9,8 @@ import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.playlistmarket.R
+import com.example.playlistmarket.setDarkMode
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var goBackButton: ImageView

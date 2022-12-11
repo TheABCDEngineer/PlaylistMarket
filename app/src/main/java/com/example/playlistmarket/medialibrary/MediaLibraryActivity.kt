@@ -1,8 +1,9 @@
-package com.example.playlistmarket
+package com.example.playlistmarket.medialibrary
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
+import com.example.playlistmarket.R
 
 class MediaLibraryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

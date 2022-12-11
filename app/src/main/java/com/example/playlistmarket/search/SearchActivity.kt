@@ -1,4 +1,4 @@
-package com.example.playlistmarket
+package com.example.playlistmarket.search
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -11,28 +11,13 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.example.playlistmarket.QueryStatusObserver
+import com.example.playlistmarket.R
+import com.example.playlistmarket.Track
+import com.example.playlistmarket.search.query.ResponseHandle
+import com.example.playlistmarket.search.query.SearchQuery
 
-
-class SearchActivity : AppCompatActivity() {
-
-    companion object {
-        const val SEARCH_CONTENT_EDIT_TEXT = "searchContentEditText"
-    }
-
-    private val searchBaseUrl = "https://itunes.apple.com"
-
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(searchBaseUrl)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val itunesService = retrofit.create(ItunesApi::class.java)
-
+class SearchActivity : AppCompatActivity(), QueryStatusObserver {
     private lateinit var searchContentEditText: EditText
     private lateinit var searchContentClearButton: ImageView
     private lateinit var goBackButton: ImageView
@@ -43,16 +28,16 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var recentTitle: TextView
     private lateinit var recyclerLayout: LinearLayout
 
-    private lateinit var queryAdapter: SearchTrackAdapter
     private lateinit var historyAdapter: SearchTrackAdapter
     private lateinit var searchHistory: SearchHistory
 
     private var queryTracksList = ArrayList<Track>()
+    private val queryAdapter = SearchTrackAdapter(queryTracksList)
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(
-            SEARCH_CONTENT_EDIT_TEXT,
+            getString(R.string.search_content_edit_text_key),
             searchContentEditText.text.toString()
         )
     }
@@ -71,7 +56,7 @@ class SearchActivity : AppCompatActivity() {
         if (savedInstanceState != null) {
             searchContentEditText.setText(
                 savedInstanceState.getString(
-                    SEARCH_CONTENT_EDIT_TEXT,
+                    getString(R.string.search_content_edit_text_key),
                     ""
                 )
             )
@@ -122,7 +107,6 @@ class SearchActivity : AppCompatActivity() {
         searchHistory = SearchHistory(sharedPrefs, recentTracksListKey)
         searchHistory.loadFromFile()
 
-        queryAdapter = SearchTrackAdapter(queryTracksList)
         queryAdapter.addObserver(searchHistory)
         historyAdapter = SearchTrackAdapter(searchHistory.recentTracksList)
         historyAdapter.addObserver(searchHistory)
@@ -136,7 +120,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         refreshButton.setOnClickListener {
-            if (refreshButton.text == getString(R.string.search_refresh_button_title)) searchTracksOnQuery()
+            if (refreshButton.text == getString(R.string.search_refresh_button_title)) startTracksSearchingOnQuery()
             if (refreshButton.text == getString(R.string.clear_history_button)) clearSearchingHistory()
         }
 
@@ -151,7 +135,7 @@ class SearchActivity : AppCompatActivity() {
 
         searchContentEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                searchTracksOnQuery()
+                startTracksSearchingOnQuery()
             }
             false
         }
@@ -170,19 +154,19 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun showQueryPlaceholder(image: Int, message: Int, isRefreshButton: Boolean) {
+    private fun showQueryPlaceholder(status: ResponseHandle) {
         recyclerLayout.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
         recyclerLayout.layoutParams.apply {
             (this as LinearLayout.LayoutParams).weight = 0F
         }
         trackListRecycler.visibility = View.GONE
-        requestStatusImage.setImageResource(image)
+        requestStatusImage.setImageDrawable(status.image)
         requestStatusImage.visibility = View.VISIBLE
-        requestStatusMessage.setText(message)
+        requestStatusMessage.text = status.message
         requestStatusMessage.visibility = View.VISIBLE
         refreshButton.visibility = View.GONE
 
-        if (isRefreshButton) {
+        if (status.isRefreshButton) {
             refreshButton.text = getString(R.string.search_refresh_button_title)
             refreshButton.visibility = View.VISIBLE
         }
@@ -194,51 +178,16 @@ class SearchActivity : AppCompatActivity() {
         refreshButton.visibility = View.GONE
     }
 
-    private fun searchTracksOnQuery() {
+    private fun startTracksSearchingOnQuery() {
+        if (searchContentEditText.text.isEmpty()) return
         recentTitle.visibility = View.GONE
-        showQueryPlaceholder(R.drawable.please_wait_icon, R.string.search_status_please_wait, false)
+        showQueryPlaceholder(ResponseHandle.SEARCHING)
+
         trackListRecycler.adapter = queryAdapter
 
-        if (searchContentEditText.text.isNotEmpty()) {
-            itunesService.findTrack(searchContentEditText.text.toString()).enqueue(object :
-                Callback<TracksResponse> {
-                override fun onResponse(
-                    call: Call<TracksResponse>,
-                    response: Response<TracksResponse>
-                ) {
-                    if (response.code() == 200) {
-                        queryTracksList.clear()
-                        if (response.body()?.results?.isNotEmpty() == true) {
-                            hideQueryPlaceholder()
-                            queryTracksList.addAll(response.body()?.results!!)
-                            trackListRecycler.adapter!!.notifyDataSetChanged()
-                            trackListRecycler.visibility = View.VISIBLE
-                        } else {
-                            showQueryPlaceholder(
-                                R.drawable.no_any_content,
-                                R.string.search_request_status_text_if_no_results,
-                                false
-                            )
-                        }
-                    } else {
-                        showQueryPlaceholder(
-                            R.drawable.warning_icon,
-                            R.string.search_request_status_text_if_server_error,
-                            true
-                        )
-                    }
-                }
-
-                override fun onFailure(call: Call<TracksResponse>, t: Throwable) {
-                    showQueryPlaceholder(
-                        R.drawable.no_internet_connection,
-                        R.string.search_request_status_text_if_no_internet,
-                        true
-                    )
-                }
-
-            })
-        }
+        val searchQuery = SearchQuery()
+        searchQuery.addObserver(this@SearchActivity)
+        searchQuery.executeTracksQuery(searchContentEditText.text.toString())
     }
 
     private fun showHistory() {
@@ -253,7 +202,6 @@ class SearchActivity : AppCompatActivity() {
         trackListRecycler.adapter = historyAdapter
         trackListRecycler.adapter!!.notifyDataSetChanged()
         trackListRecycler.visibility = View.VISIBLE
-
     }
 
     private fun clearSearchingHistory() {
@@ -261,5 +209,19 @@ class SearchActivity : AppCompatActivity() {
         refreshButton.visibility = View.GONE
         trackListRecycler.visibility = View.GONE
         searchHistory.clearHistory()
+    }
+
+    override fun showQueryResults(trackList: ArrayList<Track>, error: ResponseHandle?) {
+        if (error != null) {
+            showQueryPlaceholder(error)
+            return
+        }
+
+        queryTracksList.clear()
+        queryTracksList.addAll(trackList)
+        trackListRecycler.adapter!!.notifyDataSetChanged()
+
+        hideQueryPlaceholder()
+        trackListRecycler.visibility = View.VISIBLE
     }
 }

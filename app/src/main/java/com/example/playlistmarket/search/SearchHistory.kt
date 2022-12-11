@@ -1,12 +1,14 @@
-package com.example.playlistmarket
+package com.example.playlistmarket.search
 
 import android.content.SharedPreferences
+import com.example.playlistmarket.HistoryObserver
+import com.example.playlistmarket.Track
 import com.google.gson.Gson
 
 class SearchHistory(
     private val file: SharedPreferences,
     private val key: String
-) : Observer {
+) : HistoryObserver {
 
     var recentTracksList = ArrayList<Track>()
         private set
@@ -43,4 +45,5 @@ class SearchHistory(
             .putString(key, json)
             .apply()
     }
+
 }
