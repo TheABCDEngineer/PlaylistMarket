@@ -8,8 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchQuery : QueryStatusObservable {
-    private val context = App.appContext
-    private val searchBaseUrl = context.getString(R.string.search_tracks_base_url)
+    private val searchBaseUrl = App.appContext.getString(R.string.search_tracks_base_url)
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(searchBaseUrl)

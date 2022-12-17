@@ -8,4 +8,8 @@
     <string name="dark_mode_status_key">dark_mode_status</string>
     <string name="recent_tracks_list_key">recent_tracks_list</string>
     <string name="search_tracks_base_url">https://itunes.apple.com</string>
+    <string name="track_in_player_key">track_in_player</string>
+    <string name="playlist_key">playlist</string>
+    <string name="favorites_list_key">favorites</string>
+    <string name="intent_extra_track_key">track</string>
 </resources>

@@ -2,12 +2,8 @@ package com.example.playlistmarket.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmarket.HistoryObservable
-import com.example.playlistmarket.HistoryObserver
-import com.example.playlistmarket.R
-import com.example.playlistmarket.Track
+import com.example.playlistmarket.*
 
 class SearchTrackAdapter(
     private val searchResultTrackList: List<Track>
@@ -24,12 +20,7 @@ class SearchTrackAdapter(
     override fun onBindViewHolder(holder: SearchTrackViewHolder, position: Int) {
         holder.bind(searchResultTrackList[position])
         holder.itemView.setOnClickListener {
-            Toast.makeText(
-                holder.itemView.context,
-                "Запустился плеер",
-                Toast.LENGTH_SHORT
-            ).show()
-
+            startPlayer(searchResultTrackList[position])
             searchHistory.addTrackToRecentList(searchResultTrackList[position])
         }
     }

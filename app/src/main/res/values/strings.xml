@@ -17,4 +17,9 @@
     <string name="no_track_time_from_response">нет данных</string>
     <string name="recent_tracks_list_title">Вы искали</string>
     <string name="clear_history_button">Очистить историю</string>
+    <string name="player_track_property_country">Страна</string>
+    <string name="player_track_property_style">Жанр</string>
+    <string name="player_track_property_release">Год</string>
+    <string name="player_track_property_album">Альбом</string>
+    <string name="player_track_property_length">Длительность</string>
 </resources>

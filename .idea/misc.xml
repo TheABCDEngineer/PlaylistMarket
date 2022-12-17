@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/drawable/arrow_back.xml" value="0.152" />
         <entry key="app/src/main/res/drawable/arrow_forward.xml" value="0.172" />
+        <entry key="app/src/main/res/drawable/default_album_image.xml" value="0.158" />
         <entry key="app/src/main/res/drawable/edit_text_clear_button.xml" value="0.172" />
         <entry key="app/src/main/res/drawable/emoji_doodle.xml" value="0.158" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.172" />
@@ -12,6 +13,12 @@
         <entry key="app/src/main/res/drawable/no_any_content.xml" value="0.172" />
         <entry key="app/src/main/res/drawable/no_internet_conection.xml" value="0.158" />
         <entry key="app/src/main/res/drawable/no_internet_connection.xml" value="0.158" />
+        <entry key="app/src/main/res/drawable/player_add_to_favorites_avaible.xml" value="0.158" />
+        <entry key="app/src/main/res/drawable/player_add_to_favorites_done.xml" value="0.158" />
+        <entry key="app/src/main/res/drawable/player_add_to_playlist_available.xml" value="0.158" />
+        <entry key="app/src/main/res/drawable/player_add_to_playlist_done.xml" value="0.158" />
+        <entry key="app/src/main/res/drawable/player_pause_icon.xml" value="0.158" />
+        <entry key="app/src/main/res/drawable/player_play_icon.xml" value="0.158" />
         <entry key="app/src/main/res/drawable/please_wait_icon.xml" value="0.158" />
         <entry key="app/src/main/res/drawable/search_icon.xml" value="0.172" />
         <entry key="app/src/main/res/drawable/settings_icon.xml" value="0.172" />
@@ -21,6 +28,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_media_library.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_player.xml" value="0.27928263346354165" />
         <entry key="app/src/main/res/layout/activity_search.xml" value="0.2869476318359375" />
         <entry key="app/src/main/res/layout/activity_search1.xml" value="0.2947916666666667" />
         <entry key="app/src/main/res/layout/activity_settings.xml" value="0.335" />

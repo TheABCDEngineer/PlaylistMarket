@@ -8,3 +8,7 @@ interface HistoryObservable {
 interface QueryStatusObservable {
     fun addObserver(observer: QueryStatusObserver)
 }
+
+interface NotifyAdapterObservable {
+    fun addObserver(observer: NotifyAdapterObserver)
+}
