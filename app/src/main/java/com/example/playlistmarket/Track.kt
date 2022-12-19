@@ -16,23 +16,14 @@ data class Track(
 ) {
     fun getCoverArtwork() = artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
 
-    fun formatTrackTimeFromMillis(): String {
-        if (trackTimeMillis != null) {
-            return SimpleDateFormat(
-                "mm:ss",
-                Locale.getDefault()
-            ).format(
-                trackTimeMillis.toInt()
-            )
-        }
+    fun formatTrackTimeFromMillis() = SimpleDateFormat(
+        "mm:ss", Locale.getDefault()
+    ).format(
+        trackTimeMillis?.toInt()
+    )
+        ?: App.appContext.getString(R.string.no_track_time_from_response)
 
-        return App.appContext.getString(R.string.no_track_time_from_response)
-    }
 
-    fun getYearFromReleaseDate(): String {
-        if (releaseDate != null) {
-            return releaseDate.substring(0,4)
-        }
-        return App.appContext.getString(R.string.no_track_time_from_response)
-    }
+    fun getYearFromReleaseDate() = releaseDate?.substring(0, 4)
+        ?: App.appContext.getString(R.string.no_track_time_from_response)
 }

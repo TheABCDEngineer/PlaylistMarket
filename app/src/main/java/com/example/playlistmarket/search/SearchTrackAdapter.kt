@@ -3,7 +3,11 @@ package com.example.playlistmarket.search
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmarket.*
+import com.example.playlistmarket.HistoryObservable
+import com.example.playlistmarket.HistoryObserver
+import com.example.playlistmarket.R
+import com.example.playlistmarket.Track
+import com.example.playlistmarket.startPlayer
 
 class SearchTrackAdapter(
     private val searchResultTrackList: List<Track>

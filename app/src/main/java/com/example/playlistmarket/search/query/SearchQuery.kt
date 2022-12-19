@@ -1,6 +1,10 @@
 package com.example.playlistmarket.search.query
 
-import com.example.playlistmarket.*
+import com.example.playlistmarket.App
+import com.example.playlistmarket.QueryStatusObservable
+import com.example.playlistmarket.QueryStatusObserver
+import com.example.playlistmarket.R
+import com.example.playlistmarket.Track
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

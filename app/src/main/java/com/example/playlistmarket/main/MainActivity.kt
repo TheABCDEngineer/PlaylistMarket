@@ -8,6 +8,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmarket.medialibrary.MediaLibraryActivity
 import com.example.playlistmarket.R
+import com.example.playlistmarket.getSharePreferences
 import com.example.playlistmarket.search.SearchActivity
 import com.example.playlistmarket.setDarkMode
 import com.example.playlistmarket.settings.SettingsActivity
@@ -16,10 +17,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var buttonSearch: Button
     private lateinit var buttonMediaLibrary: Button
     private lateinit var buttonSetting: Button
-
-    private lateinit var sharedPrefs: SharedPreferences
-    private lateinit var fileName: String
-    private lateinit var darkModeKey: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +27,10 @@ class MainActivity : AppCompatActivity() {
 
         setOnClickListenersAtViews()
 
+        val darkModeKey = getString(R.string.dark_mode_status_key)
+        val file = getSharePreferences()
         setDarkMode(
-            sharedPrefs.getBoolean(
+            file.getBoolean(
                 darkModeKey,
                 AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
             )
@@ -42,10 +41,6 @@ class MainActivity : AppCompatActivity() {
         buttonSearch = findViewById(R.id.main_SearchButton)
         buttonMediaLibrary = findViewById(R.id.main_MediaLibraryButton)
         buttonSetting = findViewById(R.id.main_SettingsButton)
-
-        fileName = getString(R.string.app_preference_file_name)
-        darkModeKey = getString(R.string.dark_mode_status_key)
-        sharedPrefs = getSharedPreferences(fileName, MODE_PRIVATE)
     }
 
     private fun setOnClickListenersAtViews() {

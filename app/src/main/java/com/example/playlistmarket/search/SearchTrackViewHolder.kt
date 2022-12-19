@@ -7,8 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.playlistmarket.R
 import com.example.playlistmarket.Track
-import java.text.SimpleDateFormat
-import java.util.*
 
 class SearchTrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val trackNameView: TextView = itemView.findViewById(R.id.search_cardview_track_title)

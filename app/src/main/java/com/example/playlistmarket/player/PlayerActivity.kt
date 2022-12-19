@@ -12,9 +12,15 @@ import com.google.gson.Gson
 
 class PlayerActivity : AppCompatActivity() {
     private lateinit var goBackButton: ImageButton
+
     private lateinit var playButton: ImageButton
+    private var isTrackPlaying = false
+
     private lateinit var addToPlaylistButton: ImageButton
+    private var isTrackAtPlaylist = false
+
     private lateinit var addToFavoritesButton: ImageButton
+    private var isTrackAtFavorites = false
 
     private lateinit var playerTrackArtwork: ImageView
     private lateinit var playerTrackName: TextView
@@ -27,7 +33,7 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var infoTrackGenre: TextView
     private lateinit var infoTrackCountry: TextView
 
-    private lateinit var trackHandle: TrackHandle
+    private lateinit var track: Track
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,9 +64,11 @@ class PlayerActivity : AppCompatActivity() {
         infoTrackGenre = findViewById(R.id.player_track_value_genre)
         infoTrackCountry = findViewById(R.id.player_track_value_country)
 
-        trackHandle = TrackHandle(
-            Gson().fromJson(intent.getStringExtra(getString(R.string.intent_extra_track_key)), Track::class.java)
-        )
+        track =
+            Gson().fromJson(
+                intent.getStringExtra(getString(R.string.intent_extra_track_key)),
+                Track::class.java
+            )
     }
 
     private fun setOnClickListenersAtViews() {
@@ -69,18 +77,18 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         addToPlaylistButton.setOnClickListener {
-            trackHandle.isTrackAtPlaylist = !trackHandle.isTrackAtPlaylist
-            setViewOnTrackAtPlaylistStatus(trackHandle.isTrackAtPlaylist)
+            isTrackAtPlaylist = !isTrackAtPlaylist
+            setViewOnTrackAtPlaylistStatus(isTrackAtPlaylist)
         }
 
         addToFavoritesButton.setOnClickListener {
-            trackHandle.isTrackAtFavorites = !trackHandle.isTrackAtFavorites
-            setViewOnTrackAtFavoritesStatus(trackHandle.isTrackAtFavorites)
+            isTrackAtFavorites = !isTrackAtFavorites
+            setViewOnTrackAtFavoritesStatus(isTrackAtFavorites)
         }
 
         playButton.setOnClickListener {
-            trackHandle.isTrackPlaying = !trackHandle.isTrackPlaying
-            setViewOnTrackPlayingStatus(trackHandle.isTrackPlaying)
+            isTrackPlaying = !isTrackPlaying
+            setViewOnTrackPlayingStatus(isTrackPlaying)
         }
     }
 
@@ -109,8 +117,6 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun showTrackProperties() {
-        val track = trackHandle.track
-
         Glide.with(applicationContext)
             .load(track.getCoverArtwork())
             .centerCrop()
@@ -127,5 +133,4 @@ class PlayerActivity : AppCompatActivity() {
         infoTrackGenre.text = track.primaryGenreName
         infoTrackCountry.text = track.country
     }
-
 }

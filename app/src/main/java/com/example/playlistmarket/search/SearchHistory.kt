@@ -1,12 +1,15 @@
 package com.example.playlistmarket.search
 
-import android.content.SharedPreferences
-import com.example.playlistmarket.*
+import com.example.playlistmarket.App
+import com.example.playlistmarket.HistoryObserver
+import com.example.playlistmarket.NotifyAdapterObservable
+import com.example.playlistmarket.NotifyAdapterObserver
+import com.example.playlistmarket.R
+import com.example.playlistmarket.Track
+import com.example.playlistmarket.getSharePreferences
 import com.google.gson.Gson
 
-class SearchHistory(
-
-) : HistoryObserver, NotifyAdapterObservable {
+class SearchHistory : HistoryObserver, NotifyAdapterObservable {
     private val file = getSharePreferences()
     private val key = App.appContext.getString(R.string.recent_tracks_list_key)
     var recentTracksList = ArrayList<Track>()
