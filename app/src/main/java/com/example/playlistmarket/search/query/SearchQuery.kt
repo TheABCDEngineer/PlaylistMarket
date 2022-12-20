@@ -1,6 +1,10 @@
 package com.example.playlistmarket.search.query
 
-import com.example.playlistmarket.*
+import com.example.playlistmarket.App
+import com.example.playlistmarket.QueryStatusObservable
+import com.example.playlistmarket.QueryStatusObserver
+import com.example.playlistmarket.R
+import com.example.playlistmarket.Track
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -8,8 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchQuery : QueryStatusObservable {
-    private val context = App.appContext
-    private val searchBaseUrl = context.getString(R.string.search_tracks_base_url)
+    private val searchBaseUrl = App.appContext.getString(R.string.search_tracks_base_url)
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(searchBaseUrl)

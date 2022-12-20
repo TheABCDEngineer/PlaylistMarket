@@ -1,17 +1,25 @@
 package com.example.playlistmarket.search
 
-import android.content.SharedPreferences
+import com.example.playlistmarket.App
 import com.example.playlistmarket.HistoryObserver
+import com.example.playlistmarket.NotifyAdapterObservable
+import com.example.playlistmarket.NotifyAdapterObserver
+import com.example.playlistmarket.R
 import com.example.playlistmarket.Track
+import com.example.playlistmarket.getSharePreferences
 import com.google.gson.Gson
 
-class SearchHistory(
-    private val file: SharedPreferences,
-    private val key: String
-) : HistoryObserver {
-
+class SearchHistory : HistoryObserver, NotifyAdapterObservable {
+    private val file = getSharePreferences()
+    private val key = App.appContext.getString(R.string.recent_tracks_list_key)
     var recentTracksList = ArrayList<Track>()
         private set
+
+    private lateinit var adapterOwner: NotifyAdapterObserver
+
+    init {
+        loadFromFile()
+    }
 
     override fun addTrackToRecentList(track: Track) {
         for (i in recentTracksList) {
@@ -27,6 +35,8 @@ class SearchHistory(
         if (recentTracksList.size > 10) {
             recentTracksList.removeAt(10)
         }
+
+        adapterOwner.notifyAdapterDataSetChange()
     }
 
     fun clearHistory() {
@@ -34,7 +44,7 @@ class SearchHistory(
         saveToFile()
     }
 
-    fun loadFromFile() {
+    private fun loadFromFile() {
         val json: String = file.getString(key, null) ?: return
         recentTracksList.addAll(Gson().fromJson(json, Array<Track>::class.java))
     }
@@ -44,6 +54,10 @@ class SearchHistory(
         file.edit()
             .putString(key, json)
             .apply()
+    }
+
+    override fun addObserver(observer: NotifyAdapterObserver) {
+        adapterOwner = observer
     }
 
 }

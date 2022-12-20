@@ -81,4 +81,31 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:textFontWeight">500</item>
     </style>
+
+    <style name="PlayerTrackPropertyTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/player_track_properties_margin</item>
+        <item name="android:layout_marginLeft">@dimen/player_track_properties_margin</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="android:textColor">@color/theme_soft_text_color</item>
+        <item name="android:textSize">@dimen/player_track_properties_textSize</item>
+        <item name="fontFamily">@font/ys_display_regular</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="PlayerTrackPropertyValue">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="android:layout_marginEnd">@dimen/player_track_properties_margin</item>
+        <item name="android:textColor">@color/theme_hard_text_color</item>
+        <item name="android:textSize">@dimen/player_track_properties_textSize</item>
+        <item name="fontFamily">@font/ys_display_regular</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:gravity">end</item>
+        <item name="android:layout_marginStart">12dp</item>
+    </style>
 </resources>

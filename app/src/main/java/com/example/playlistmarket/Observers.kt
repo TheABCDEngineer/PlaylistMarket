@@ -9,3 +9,7 @@ interface HistoryObserver {
 interface QueryStatusObserver {
     fun showQueryResults(trackList: ArrayList<Track>, error: ResponseHandle?)
 }
+
+interface NotifyAdapterObserver {
+    fun notifyAdapterDataSetChange()
+}

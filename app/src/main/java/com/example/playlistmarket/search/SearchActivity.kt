@@ -1,7 +1,6 @@
 package com.example.playlistmarket.search
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,14 +9,16 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmarket.NotifyAdapterObserver
 import com.example.playlistmarket.QueryStatusObserver
 import com.example.playlistmarket.R
 import com.example.playlistmarket.Track
 import com.example.playlistmarket.search.query.ResponseHandle
 import com.example.playlistmarket.search.query.SearchQuery
 
-class SearchActivity : AppCompatActivity(), QueryStatusObserver {
+class SearchActivity : AppCompatActivity(), QueryStatusObserver, NotifyAdapterObserver {
     private lateinit var searchContentEditText: EditText
     private lateinit var searchContentClearButton: ImageView
     private lateinit var goBackButton: ImageView
@@ -101,11 +102,8 @@ class SearchActivity : AppCompatActivity(), QueryStatusObserver {
         recentTitle = findViewById(R.id.recent_tracks_title)
         recyclerLayout = findViewById(R.id.recycler_layout)
 
-        val fileName = getString(R.string.app_preference_file_name)
-        val recentTracksListKey = getString(R.string.recent_tracks_list_key)
-        val sharedPrefs = getSharedPreferences(fileName, MODE_PRIVATE)
-        searchHistory = SearchHistory(sharedPrefs, recentTracksListKey)
-        searchHistory.loadFromFile()
+        searchHistory = SearchHistory()
+        searchHistory.addObserver(this@SearchActivity)
 
         queryAdapter.addObserver(searchHistory)
         historyAdapter = SearchTrackAdapter(searchHistory.recentTracksList)
@@ -223,5 +221,9 @@ class SearchActivity : AppCompatActivity(), QueryStatusObserver {
 
         hideQueryPlaceholder()
         trackListRecycler.visibility = View.VISIBLE
+    }
+
+    override fun notifyAdapterDataSetChange() {
+        trackListRecycler.adapter!!.notifyDataSetChanged()
     }
 }
