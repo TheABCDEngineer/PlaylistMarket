@@ -1,8 +1,11 @@
 package com.example.playlistmarket
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
 
+@Parcelize
 data class Track(
     val trackId: String,
     val trackName: String,
@@ -13,7 +16,7 @@ data class Track(
     val releaseDate: String?,
     val primaryGenreName: String?,
     val country: String?
-) {
+) : Parcelable {
     fun getCoverArtwork() = artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
 
     fun formatTrackTimeFromMillis() = SimpleDateFormat(
