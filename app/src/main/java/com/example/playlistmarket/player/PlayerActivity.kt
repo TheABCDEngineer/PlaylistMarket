@@ -64,11 +64,7 @@ class PlayerActivity : AppCompatActivity() {
         infoTrackGenre = findViewById(R.id.player_track_value_genre)
         infoTrackCountry = findViewById(R.id.player_track_value_country)
 
-        track =
-            Gson().fromJson(
-                intent.getStringExtra(getString(R.string.intent_extra_track_key)),
-                Track::class.java
-            )
+        track = intent.getParcelableExtra(getString(R.string.intent_extra_track_key))!!
     }
 
     private fun setOnClickListenersAtViews() {

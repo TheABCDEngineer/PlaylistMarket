@@ -19,11 +19,12 @@ class App : Application() {
     }
 }
 
-fun startPlayer(track: Track) {
+fun startPlayer(track: Track?) {
+    if (track == null) return
     val context = App.appContext
     val intent = Intent(context, PlayerActivity::class.java)
-    intent.putExtra(context.getString(R.string.intent_extra_track_key), Gson().toJson(track))
-    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    intent.putExtra(context.getString(R.string.intent_extra_track_key), track)
+    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
     context.startActivity(intent)
 }
 
