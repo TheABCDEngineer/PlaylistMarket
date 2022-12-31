@@ -1,14 +1,13 @@
 package com.example.playlistmarket.main
 
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.playlistmarket.App
 import com.example.playlistmarket.medialibrary.MediaLibraryActivity
 import com.example.playlistmarket.R
-import com.example.playlistmarket.getSharePreferences
 import com.example.playlistmarket.search.SearchActivity
 import com.example.playlistmarket.setDarkMode
 import com.example.playlistmarket.settings.SettingsActivity
@@ -27,11 +26,10 @@ class MainActivity : AppCompatActivity() {
 
         setOnClickListenersAtViews()
 
-        val darkModeKey = getString(R.string.dark_mode_status_key)
-        val file = getSharePreferences()
+        val file = App.sharedPref
         setDarkMode(
             file.getBoolean(
-                darkModeKey,
+                App.DARK_MODE_STATUS_KEY,
                 AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
             )
         )

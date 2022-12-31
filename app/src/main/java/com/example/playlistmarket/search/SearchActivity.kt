@@ -11,14 +11,17 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmarket.NotifyAdapterObserver
-import com.example.playlistmarket.QueryStatusObserver
+import com.example.playlistmarket.App
+import com.example.playlistmarket.Observer
 import com.example.playlistmarket.R
 import com.example.playlistmarket.Track
+import com.example.playlistmarket.TrackListHandler
+import com.example.playlistmarket.search.query.ItunesApi
 import com.example.playlistmarket.search.query.ResponseHandle
 import com.example.playlistmarket.search.query.SearchQuery
+import com.example.playlistmarket.search.recycler.SearchTrackAdapter
 
-class SearchActivity : AppCompatActivity(), QueryStatusObserver, NotifyAdapterObserver {
+class SearchActivity : AppCompatActivity(), Observer {
     private lateinit var searchContentEditText: EditText
     private lateinit var searchContentClearButton: ImageView
     private lateinit var goBackButton: ImageView
@@ -30,7 +33,7 @@ class SearchActivity : AppCompatActivity(), QueryStatusObserver, NotifyAdapterOb
     private lateinit var recyclerLayout: LinearLayout
 
     private lateinit var historyAdapter: SearchTrackAdapter
-    private lateinit var searchHistory: SearchHistory
+    private lateinit var searchHistory: TrackListHandler
 
     private var queryTracksList = ArrayList<Track>()
     private val queryAdapter = SearchTrackAdapter(queryTracksList)
@@ -38,7 +41,7 @@ class SearchActivity : AppCompatActivity(), QueryStatusObserver, NotifyAdapterOb
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(
-            getString(R.string.search_content_edit_text_key),
+            App.SEARCH_CONTENT_EDIT_TEXT_KEY,
             searchContentEditText.text.toString()
         )
     }
@@ -54,18 +57,19 @@ class SearchActivity : AppCompatActivity(), QueryStatusObserver, NotifyAdapterOb
 
         setOnClickListenersAtViews()
 
-        if (savedInstanceState != null) {
-            searchContentEditText.setText(
-                savedInstanceState.getString(
-                    getString(R.string.search_content_edit_text_key),
-                    ""
-                )
-            )
-        }
+        showStartScreen(savedInstanceState)
+    }
 
-        if (searchHistory.recentTracksList.size > 0) {
-            showHistory()
-        }
+    private fun initializeVariables() {
+        searchContentEditText = findViewById(R.id.search_EditText)
+        searchContentClearButton = findViewById(R.id.search_ClearButton)
+        goBackButton = findViewById(R.id.search_goBack)
+        requestStatusImage = findViewById(R.id.search_request_status_image)
+        requestStatusMessage = findViewById(R.id.search_request_status_text)
+        refreshButton = findViewById(R.id.search_refresh_button)
+        trackListRecycler = findViewById(R.id.search_track_list)
+        recentTitle = findViewById(R.id.recent_tracks_title)
+        recyclerLayout = findViewById(R.id.recycler_layout)
 
         val searchContentEditTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -84,29 +88,11 @@ class SearchActivity : AppCompatActivity(), QueryStatusObserver, NotifyAdapterOb
         }
 
         searchContentEditText.addTextChangedListener(searchContentEditTextWatcher)
-    }
 
-    override fun onStop() {
-        super.onStop()
-        searchHistory.saveToFile()
-    }
-
-    private fun initializeVariables() {
-        searchContentEditText = findViewById(R.id.search_EditText)
-        searchContentClearButton = findViewById(R.id.search_ClearButton)
-        goBackButton = findViewById(R.id.search_goBack)
-        requestStatusImage = findViewById(R.id.search_request_status_image)
-        requestStatusMessage = findViewById(R.id.search_request_status_text)
-        refreshButton = findViewById(R.id.search_refresh_button)
-        trackListRecycler = findViewById(R.id.search_track_list)
-        recentTitle = findViewById(R.id.recent_tracks_title)
-        recyclerLayout = findViewById(R.id.recycler_layout)
-
-        searchHistory = SearchHistory()
-        searchHistory.addObserver(this@SearchActivity)
+        searchHistory = TrackListHandler(App.sharedPref, App.RECENT_TRACKS_LIST_KEY, 10)
 
         queryAdapter.addObserver(searchHistory)
-        historyAdapter = SearchTrackAdapter(searchHistory.recentTracksList)
+        historyAdapter = SearchTrackAdapter(searchHistory.items)
         historyAdapter.addObserver(searchHistory)
 
         recentTitle.visibility = View.GONE
@@ -126,6 +112,7 @@ class SearchActivity : AppCompatActivity(), QueryStatusObserver, NotifyAdapterOb
             searchContentEditText.setText("")
             searchContentClearButton.visibility = View.GONE
             trackListRecycler.visibility = View.GONE
+            App.itunesSearchQuery = null
             hideQueryPlaceholder()
             hideKeyboard()
             showHistory()
@@ -183,9 +170,9 @@ class SearchActivity : AppCompatActivity(), QueryStatusObserver, NotifyAdapterOb
 
         trackListRecycler.adapter = queryAdapter
 
-        val searchQuery = SearchQuery()
-        searchQuery.addObserver(this@SearchActivity)
-        searchQuery.executeTracksQuery(searchContentEditText.text.toString())
+        App.itunesSearchQuery = SearchQuery(App.SEARCH_TRACKS_BASE_URL, ItunesApi::class.java)
+        App.itunesSearchQuery!!.addObserver(this@SearchActivity)
+        App.itunesSearchQuery!!.executeTracksQuery(searchContentEditText.text.toString())
     }
 
     private fun showHistory() {
@@ -206,15 +193,14 @@ class SearchActivity : AppCompatActivity(), QueryStatusObserver, NotifyAdapterOb
         recentTitle.visibility = View.GONE
         refreshButton.visibility = View.GONE
         trackListRecycler.visibility = View.GONE
-        searchHistory.clearHistory()
+        searchHistory.clear()
     }
 
-    override fun showQueryResults(trackList: ArrayList<Track>, error: ResponseHandle?) {
+    private fun showQueryResults(trackList: ArrayList<Track>, error: ResponseHandle?) {
         if (error != null) {
             showQueryPlaceholder(error)
             return
         }
-
         queryTracksList.clear()
         queryTracksList.addAll(trackList)
         trackListRecycler.adapter!!.notifyDataSetChanged()
@@ -223,7 +209,48 @@ class SearchActivity : AppCompatActivity(), QueryStatusObserver, NotifyAdapterOb
         trackListRecycler.visibility = View.VISIBLE
     }
 
-    override fun notifyAdapterDataSetChange() {
-        trackListRecycler.adapter!!.notifyDataSetChanged()
+    override fun <S, T> notifyObserver(event: S?, data: T) {
+        showQueryResults(
+            data as ArrayList<Track>,
+            event as ResponseHandle?
+        )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (trackListRecycler.adapter == historyAdapter) {
+            trackListRecycler.adapter!!.notifyDataSetChanged()
+        }
+    }
+
+    private fun showStartScreen(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            searchContentEditText.setText(
+                savedInstanceState.getString(
+                    App.SEARCH_CONTENT_EDIT_TEXT_KEY,
+                    ""
+                )
+            )
+        }
+        if (App.itunesSearchQuery != null) {
+            App.itunesSearchQuery!!.addObserver(this@SearchActivity)
+
+            if (App.itunesSearchQuery!!.isQueryExecuted) {
+                trackListRecycler.adapter = queryAdapter
+                App.itunesSearchQuery!!.executeNotifyObserver()
+                return
+            }
+            showQueryPlaceholder(ResponseHandle.SEARCHING)
+            return
+        }
+
+        if (searchHistory.items.size > 0) {
+            showHistory()
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        App.itunesSearchQuery = null
     }
 }

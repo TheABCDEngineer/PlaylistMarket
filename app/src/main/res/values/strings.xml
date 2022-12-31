@@ -14,7 +14,8 @@
     <string name="search_request_status_text_if_no_internet">Проблемы со связью\n\nЗагрузка не удалась. Проверьте\nподключение к интернету</string>
     <string name="search_request_status_text_if_server_error">Что-то пошло не так…\nОшибка сервера</string>
     <string name="search_status_please_wait">Поиск…</string>
-    <string name="no_track_time_from_response">нет данных</string>
+    <string name="no_data">нет данных</string>
+    <string name="no_title">Без названия</string>
     <string name="recent_tracks_list_title">Вы искали</string>
     <string name="clear_history_button">Очистить историю</string>
     <string name="player_track_property_country">Страна</string>
