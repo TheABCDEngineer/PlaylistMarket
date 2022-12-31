@@ -34,6 +34,7 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var infoTrackCountry: TextView
 
     private lateinit var track: Track
+    //private lateinit var track2: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,19 +115,19 @@ class PlayerActivity : AppCompatActivity() {
 
     private fun showTrackProperties() {
         Glide.with(applicationContext)
-            .load(track.getCoverArtwork())
+            .load(track.getArtwork(512))
             .centerCrop()
             .placeholder(R.drawable.default_album_image)
             .into(playerTrackArtwork)
 
-        playerTrackName.text = track.trackName
-        playerArtistName.text = track.artistName
-        playerTimer.text = track.formatTrackTimeFromMillis()
+        playerTrackName.text = track.getTrackName()
+        playerArtistName.text = track.getArtistName()
+        playerTimer.text = track.getTrackTime("mm:ss")
 
-        infoTrackLenght.text = track.formatTrackTimeFromMillis()
-        infoTrackAlbum.text = track.collectionName
+        infoTrackLenght.text = track.getTrackTime("mm:ss")
+        infoTrackAlbum.text = track.getCollectionName()
         infoTrackRelease.text = track.getYearFromReleaseDate()
-        infoTrackGenre.text = track.primaryGenreName
-        infoTrackCountry.text = track.country
+        infoTrackGenre.text = track.getGenre()
+        infoTrackCountry.text = track.getCountry()
     }
 }

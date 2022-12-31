@@ -1,9 +1,7 @@
 package com.example.playlistmarket.search.query
 
-import com.example.playlistmarket.App
-import com.example.playlistmarket.QueryStatusObservable
-import com.example.playlistmarket.QueryStatusObserver
-import com.example.playlistmarket.R
+import com.example.playlistmarket.Observable
+import com.example.playlistmarket.Observer
 import com.example.playlistmarket.Track
 import retrofit2.Call
 import retrofit2.Callback
@@ -11,28 +9,32 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class SearchQuery : QueryStatusObservable {
-    private val searchBaseUrl = App.appContext.getString(R.string.search_tracks_base_url)
+class SearchQuery<T>(
+    baseUrl: String,
+    api: Class<T>
+) : Observable where T : ItunesApi {
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(searchBaseUrl)
+    private val apiService = Retrofit.Builder()
+        .baseUrl(baseUrl)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+        .create(api)
 
-    private val itunesService = retrofit.create(ItunesApi::class.java)
-
-    private lateinit var queryAuthor: QueryStatusObserver
+    private lateinit var queryAuthor: Observer
     private val resultList = ArrayList<Track>()
-    var errorStatus: ResponseHandle? = null
+    private var errorStatus: ResponseHandle? = null
 
-    override fun addObserver(observer: QueryStatusObserver) {
+    var isQueryExecuted = false
+        private set
+
+    override fun addObserver(observer: Observer) {
         queryAuthor = observer
     }
 
     fun executeTracksQuery(sample: String?) {
         if (sample == null) return
 
-        itunesService.findTrack(sample).enqueue(object :
+        apiService.findTrack(sample).enqueue(object :
             Callback<TracksResponse> {
             override fun onResponse(
                 call: Call<TracksResponse>,
@@ -48,13 +50,21 @@ class SearchQuery : QueryStatusObservable {
                 } else {
                     ResponseHandle.SOMETHING_WENT_WRONG
                 }
-                queryAuthor.showQueryResults(resultList, errorStatus)
+                isQueryExecuted = true
+                executeNotifyObserver()
             }
 
             override fun onFailure(call: Call<TracksResponse>, t: Throwable) {
                 errorStatus = ResponseHandle.NO_INTERNET_CONNECTION
-                queryAuthor.showQueryResults(resultList, errorStatus)
+                isQueryExecuted = true
+                executeNotifyObserver()
             }
         })
+
+    }
+
+    fun executeNotifyObserver() {
+        if (!isQueryExecuted) return
+        queryAuthor.notifyObserver(errorStatus, resultList)
     }
 }

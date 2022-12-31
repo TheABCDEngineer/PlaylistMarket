@@ -1,4 +1,4 @@
-package com.example.playlistmarket.search
+package com.example.playlistmarket.search.recycler
 
 import android.view.View
 import android.widget.ImageView
@@ -15,12 +15,12 @@ class SearchTrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
     private val artworkView: ImageView = itemView.findViewById(R.id.search_cardview_track_picture)
 
     fun bind(trackData: Track) {
-        trackNameView.text = trackData.trackName
-        artistNameView.text = trackData.artistName
-        trackTimeView.text = trackData.formatTrackTimeFromMillis()
+        trackNameView.text = trackData.getTrackName()
+        artistNameView.text = trackData.getArtistName()
+        trackTimeView.text = trackData.getTrackTime("mm:ss")
 
         Glide.with(itemView)
-            .load(trackData.artworkUrl100)
+            .load(trackData.getArtwork(100))
             .centerCrop()
             .placeholder(R.drawable.default_album_image)
             .into(artworkView)

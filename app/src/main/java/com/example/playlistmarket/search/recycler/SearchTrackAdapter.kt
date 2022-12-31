@@ -1,19 +1,20 @@
-package com.example.playlistmarket.search
+package com.example.playlistmarket.search.recycler
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmarket.HistoryObservable
-import com.example.playlistmarket.HistoryObserver
+import com.example.playlistmarket.App
+import com.example.playlistmarket.Observable
+import com.example.playlistmarket.Observer
 import com.example.playlistmarket.R
 import com.example.playlistmarket.Track
 import com.example.playlistmarket.startPlayer
 
 class SearchTrackAdapter(
     private val searchResultTrackList: List<Track>
-) : RecyclerView.Adapter<SearchTrackViewHolder>(), HistoryObservable {
+) : RecyclerView.Adapter<SearchTrackViewHolder>(), Observable {
 
-    private lateinit var searchHistory: HistoryObserver
+    private lateinit var listOwner: Observer
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchTrackViewHolder {
         val view =
@@ -25,7 +26,7 @@ class SearchTrackAdapter(
         holder.bind(searchResultTrackList[position])
         holder.itemView.setOnClickListener {
             startPlayer(searchResultTrackList[position])
-            searchHistory.addTrackToRecentList(searchResultTrackList[position])
+            listOwner.notifyObserver(App.TRACK_ADD,searchResultTrackList[position])
         }
     }
 
@@ -33,7 +34,7 @@ class SearchTrackAdapter(
         return searchResultTrackList.size
     }
 
-    override fun addObserver(observer: HistoryObserver) {
-        searchHistory = observer
+    override fun addObserver(observer: Observer) {
+        listOwner = observer
     }
 }
