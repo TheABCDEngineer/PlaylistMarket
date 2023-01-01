@@ -27,7 +27,7 @@ class App : Application() {
         lateinit var appContext: Context
         lateinit var sharedPref: SharedPreferences
 
-        var itunesSearchQuery: SearchQuery<ItunesApi>? = null
+        var searchQuery: SearchQuery<ItunesApi>? = null
     }
 
 }
