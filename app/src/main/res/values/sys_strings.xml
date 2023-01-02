@@ -3,13 +3,4 @@
     <string name="settings_share_object">https://practicum.yandex.ru/profile/android-developer/</string>
     <string name="settings_mailto_addressee">avtor103@yandex.ru</string>
     <string name="settings_user_terms_link">https://yandex.ru/legal/practicum_offer/</string>
-    <string name="search_content_edit_text_key">searchContentEditText</string>
-    <string name="app_preference_file_name">MP_preferences</string>
-    <string name="dark_mode_status_key">dark_mode_status</string>
-    <string name="recent_tracks_list_key">recent_tracks_list</string>
-    <string name="search_tracks_base_url">https://itunes.apple.com</string>
-    <string name="track_in_player_key">track_in_player</string>
-    <string name="playlist_key">playlist</string>
-    <string name="favorites_list_key">favorites</string>
-    <string name="intent_extra_track_key">track</string>
 </resources>

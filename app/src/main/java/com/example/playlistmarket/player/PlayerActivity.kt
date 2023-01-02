@@ -6,6 +6,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.example.playlistmarket.App
 import com.example.playlistmarket.R
 import com.example.playlistmarket.Track
 import com.google.gson.Gson
@@ -65,7 +66,7 @@ class PlayerActivity : AppCompatActivity() {
         infoTrackGenre = findViewById(R.id.player_track_value_genre)
         infoTrackCountry = findViewById(R.id.player_track_value_country)
 
-        track = intent.getParcelableExtra(getString(R.string.intent_extra_track_key))!!
+        track = intent.getParcelableExtra(App.TRACK_KEY)!!
     }
 
     private fun setOnClickListenersAtViews() {
