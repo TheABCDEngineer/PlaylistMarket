@@ -1,7 +1,6 @@
 package com.example.playlistmarket.settings
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +8,7 @@ import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.playlistmarket.App
 import com.example.playlistmarket.R
 import com.example.playlistmarket.setDarkMode
 
@@ -19,10 +19,6 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var mailButton: TextView
     private lateinit var userTermsButton: TextView
 
-    private lateinit var sharedPrefs: SharedPreferences
-    private lateinit var fileName: String
-    private lateinit var darkModeKey: String
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -32,8 +28,8 @@ class SettingsActivity : AppCompatActivity() {
 
         setOnClickListenersAtViews()
 
-        themeSwitcher.isChecked = sharedPrefs.getBoolean(
-            darkModeKey,
+        themeSwitcher.isChecked = App.sharedPref.getBoolean(
+            App.DARK_MODE_STATUS_KEY,
             AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
         )
     }
@@ -44,10 +40,6 @@ class SettingsActivity : AppCompatActivity() {
         shareButton = findViewById(R.id.settings_Share)
         mailButton = findViewById(R.id.settings_MailToSupport)
         userTermsButton = findViewById(R.id.settings_UserTerms)
-
-        fileName = getString(R.string.app_preference_file_name)
-        darkModeKey = getString(R.string.dark_mode_status_key)
-        sharedPrefs = getSharedPreferences(fileName, MODE_PRIVATE)
     }
 
     private fun setOnClickListenersAtViews() {
@@ -57,8 +49,8 @@ class SettingsActivity : AppCompatActivity() {
 
         themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
             setDarkMode(isChecked)
-            sharedPrefs.edit()
-                .putBoolean(darkModeKey, isChecked)
+            App.sharedPref.edit()
+                .putBoolean(App.DARK_MODE_STATUS_KEY, isChecked)
                 .apply()
         }
 
