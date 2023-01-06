@@ -1,6 +1,8 @@
-package com.example.playlistmarket
+package com.example.playlistmarket.medialibrary
 
 import android.os.Parcelable
+import com.example.playlistmarket.App
+import com.example.playlistmarket.R
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -19,17 +21,7 @@ data class Track(
 
     fun getTrackId(): String {
         if (trackId != null) return trackId
-
-        var sample = ""
-        if (trackName != null) sample += trackName
-        if (artistName != null) sample += artistName
-        if (trackTimeMillis != null) sample += trackTimeMillis
-        if (collectionName != null) sample += collectionName
-        if (releaseDate != null) sample += releaseDate
-        if (primaryGenreName != null) sample += primaryGenreName
-        if (country != null) sample += country
-
-        return sample.hashCode().toString()
+        return this.hashCode().toString()
     }
 
     fun getTrackName() = trackName ?: App.appContext.getString(R.string.no_title)
@@ -60,7 +52,7 @@ data class Track(
 
     fun getCollectionName() = collectionName ?: App.appContext.getString(R.string.no_title)
 
-    fun getYearFromReleaseDate() = releaseDate?.substring(0, 4) ?: App.appContext.getString(R.string.no_data)
+    fun getReleaseYear() = releaseDate?.substring(0, 4) ?: App.appContext.getString(R.string.no_data)
 
     fun getGenre() = primaryGenreName ?: App.appContext.getString(R.string.no_data)
 

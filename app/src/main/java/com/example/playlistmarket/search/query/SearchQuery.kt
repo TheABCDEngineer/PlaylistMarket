@@ -2,7 +2,7 @@ package com.example.playlistmarket.search.query
 
 import com.example.playlistmarket.Observable
 import com.example.playlistmarket.Observer
-import com.example.playlistmarket.Track
+import com.example.playlistmarket.medialibrary.Track
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.playlistmarket.App
 import com.example.playlistmarket.Observer
 import com.example.playlistmarket.R
-import com.example.playlistmarket.Track
+import com.example.playlistmarket.medialibrary.Track
 import com.example.playlistmarket.search.query.ResponseHandle
 import com.example.playlistmarket.search.widgets.QueryStatus
 import com.example.playlistmarket.search.widgets.QueryStatusWidget
@@ -48,6 +48,7 @@ class SearchActivity : AppCompatActivity(), Observer {
         goBackButton = findViewById(R.id.search_goBack)
 
         recyclerWidget = RecyclerViewWidget(
+            App.sharedPref,
             this@SearchActivity,
             R.id.search_track_list,
             R.id.recycler_layout,

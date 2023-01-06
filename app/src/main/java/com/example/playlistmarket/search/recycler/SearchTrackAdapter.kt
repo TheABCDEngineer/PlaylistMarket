@@ -7,7 +7,7 @@ import com.example.playlistmarket.App
 import com.example.playlistmarket.Observable
 import com.example.playlistmarket.Observer
 import com.example.playlistmarket.R
-import com.example.playlistmarket.Track
+import com.example.playlistmarket.medialibrary.Track
 import com.example.playlistmarket.startPlayer
 
 class SearchTrackAdapter(

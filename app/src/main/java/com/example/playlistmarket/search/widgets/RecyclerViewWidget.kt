@@ -1,18 +1,19 @@
 package com.example.playlistmarket.search.widgets
 
 import android.app.Activity
+import android.content.SharedPreferences
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmarket.App
-import com.example.playlistmarket.Track
-import com.example.playlistmarket.TrackListHandler
-import com.example.playlistmarket.search.SearchActivity
+import com.example.playlistmarket.medialibrary.Track
+import com.example.playlistmarket.medialibrary.Playlist
 import com.example.playlistmarket.search.recycler.SearchTrackAdapter
 
 class RecyclerViewWidget(
+    file: SharedPreferences,
     activity: Activity,
     recyclerId: Int,
     recyclerLayoutId: Int,
@@ -20,10 +21,10 @@ class RecyclerViewWidget(
 ) {
     val recycler: RecyclerView = activity.findViewById(recyclerId)
     private val recyclerLayout: LinearLayout = activity.findViewById(recyclerLayoutId)
-    val title: TextView = activity.findViewById(recyclerTitle)
+    private val title: TextView = activity.findViewById(recyclerTitle)
 
     private val queryTrackList = ArrayList<Track>()
-    val searchHistory = TrackListHandler(App.sharedPref, App.RECENT_TRACKS_LIST_KEY, 10)
+    val searchHistory = Playlist(file, App.RECENT_TRACKS_LIST_KEY, 10)
 
     val queryAdapter = SearchTrackAdapter(queryTrackList)
     private val historyAdapter = SearchTrackAdapter(searchHistory.items)
