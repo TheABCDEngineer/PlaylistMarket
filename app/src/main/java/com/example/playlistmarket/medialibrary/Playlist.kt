@@ -1,11 +1,16 @@
-package com.example.playlistmarket
+package com.example.playlistmarket.medialibrary
 
 import android.content.SharedPreferences
+import com.example.playlistmarket.App
+import com.example.playlistmarket.Observer
+import com.example.playlistmarket.deleteFromFileOnKey
+import com.example.playlistmarket.loadTrackListFromFileOnKey
+import com.example.playlistmarket.saveListToFileOnKey
 import com.google.gson.Gson
 
-class TrackListHandler(
+class Playlist(
     private val file: SharedPreferences,
-    private val key: String,
+    var title: String,
     listSizeLimit: Int?
 ) : Observer {
 
@@ -14,13 +19,15 @@ class TrackListHandler(
     var items = ArrayList<Track>()
         private set
 
-    private lateinit var adapterOwner: Observer
-
     init {
         if (listSizeLimit != null) {
             limit = if (listSizeLimit < 1) 1 else listSizeLimit
         }
-        loadFromFile()
+        if (file.getString(title,null) == null) {
+            saveListToFileOnKey(file,title,items)
+        } else {
+            items.addAll(loadTrackListFromFileOnKey(file,title))
+        }
     }
 
     fun addTrack(track: Track) {
@@ -30,18 +37,18 @@ class TrackListHandler(
         if ((limit != null) && (items.size > limit!!)) {
             items.removeAt(limit!!)
         }
-        saveToFile()
+        saveListToFileOnKey(file,title,items)
     }
 
     fun clear() {
         items.clear()
-        saveToFile()
+        saveListToFileOnKey(file,title,items)
     }
 
     fun deleteTrack(track: Track) {
         if (!checkTrackAtList(track)) return
         items.remove(track)
-        saveToFile()
+        saveListToFileOnKey(file,title,items)
     }
 
     fun checkTrackAtList(track: Track): Boolean {
@@ -53,16 +60,22 @@ class TrackListHandler(
         return false
     }
 
-    private fun loadFromFile() {
-        val json: String = file.getString(key, null) ?: return
-        items.addAll(Gson().fromJson(json, Array<Track>::class.java))
+    fun renameTitle(newTitle: String) {
+        if (newTitle == "") return
+        deletePlaylist()
+        title = newTitle
+        saveListToFileOnKey(file,title,items)
     }
 
-    private fun saveToFile() {
-        val json = Gson().toJson(items)
-        file.edit()
-            .putString(key, json)
-            .apply()
+    fun deletePlaylist() {
+        deleteFromFileOnKey(file,title)
+    }
+
+
+    private fun loadFromFile(): Boolean {
+        val json: String = file.getString(title, null) ?: return false
+        items.addAll(Gson().fromJson(json, Array<Track>::class.java))
+        return true
     }
 
     override fun <S, T> notifyObserver(event: S?, data: T) {

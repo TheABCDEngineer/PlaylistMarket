@@ -11,6 +11,7 @@ class App : Application() {
         super.onCreate()
         appContext = applicationContext
         sharedPref = getSharedPreferences(FILE_NAME, MODE_PRIVATE)
+        favoritesFile = getSharedPreferences(FAVORITES_LIST_KEY, MODE_PRIVATE)
     }
 
     companion object {
@@ -19,6 +20,7 @@ class App : Application() {
         const val DARK_MODE_STATUS_KEY = "dark_mode_status"
         const val RECENT_TRACKS_LIST_KEY = "recent_tracks_list"
         const val FAVORITES_LIST_KEY = "favorites"
+        const val PLAYLIST_TITLES= "playlists"
         const val SEARCH_TRACKS_BASE_URL = "https://itunes.apple.com"
         const val TRACK_KEY = "track"
         const val TRACK_ADD = "add_track"
@@ -26,6 +28,7 @@ class App : Application() {
 
         lateinit var appContext: Context
         lateinit var sharedPref: SharedPreferences
+        lateinit var favoritesFile: SharedPreferences
 
         var searchQuery: SearchQuery<ItunesApi>? = null
     }
