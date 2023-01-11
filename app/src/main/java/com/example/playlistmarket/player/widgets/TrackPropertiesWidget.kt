@@ -38,7 +38,7 @@ class TrackPropertiesWidget(
 
         trackName.text = track.getTrackName()
         artistName.text = track.getArtistName()
-        lenght.text = track.getTrackTime("mm:ss")
+        lenght.text = track.getFormattedTrackTime(true)
         album.text = track.getCollectionName()
         release.text = track.getReleaseYear()
         genre.text = track.getGenre()

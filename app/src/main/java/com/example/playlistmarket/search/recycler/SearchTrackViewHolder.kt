@@ -17,7 +17,7 @@ class SearchTrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
     fun bind(trackData: Track) {
         trackNameView.text = trackData.getTrackName()
         artistNameView.text = trackData.getArtistName()
-        trackTimeView.text = trackData.getTrackTime("mm:ss")
+        trackTimeView.text = trackData.getFormattedTrackTime(true)
 
         Glide.with(itemView)
             .load(trackData.getArtwork(100))

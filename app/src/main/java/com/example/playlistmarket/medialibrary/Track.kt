@@ -3,8 +3,7 @@ package com.example.playlistmarket.medialibrary
 import android.os.Parcelable
 import com.example.playlistmarket.App
 import com.example.playlistmarket.R
-import java.text.SimpleDateFormat
-import java.util.*
+import com.example.playlistmarket.convertMSecToClockFormat
 
 @kotlinx.parcelize.Parcelize
 data class Track(
@@ -28,17 +27,19 @@ data class Track(
 
     fun getArtistName() = artistName ?: App.appContext.getString(R.string.no_title)
 
-    fun getTrackTime(format: String): String {
+    fun getFormattedTrackTime(isFormatted: Boolean): String {
         if (trackTimeMillis == null) return App.appContext.getString(R.string.no_data)
-        return try {
-            SimpleDateFormat(
-                format, Locale.getDefault()
-            ).format(
-                trackTimeMillis.toInt()
-            )
-        } catch (e: IllegalArgumentException) {
-            App.appContext.getString(R.string.no_data)
+
+        if (!isFormatted) {
+            return try {
+                trackTimeMillis
+            } catch (e: NumberFormatException) {
+                "0"
+            }
         }
+
+        val result = convertMSecToClockFormat(trackTimeMillis)
+        return if (result == "0") App.appContext.getString(R.string.no_data) else result
     }
 
     fun getArtwork(frame: Int): String {
@@ -47,7 +48,7 @@ data class Track(
             512 -> 512
             else -> 100
         }
-        return artworkUrl100!!.replaceAfterLast('/', "${size}x${size}bb.jpg")
+        return artworkUrl100.replaceAfterLast('/', "${size}x${size}bb.jpg")
     }
 
     fun getCollectionName() = collectionName ?: App.appContext.getString(R.string.no_title)

@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmarket.medialibrary.Track
 import com.example.playlistmarket.player.PlayerActivity
 import com.google.gson.Gson
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 fun startPlayer(track: Track?) {
     if (track == null) return
@@ -68,4 +71,22 @@ fun deleteFromFileOnKey(
     file.edit()
         .remove(key)
         .apply()
+}
+
+fun convertMSecToClockFormat(value: String): String {
+    val format = try {
+        if ((value.toLong()/3600000) > 0) "hh:mm:ss" else "mm:ss"
+    } catch (e: NumberFormatException) {
+        null
+    } ?: return "0"
+
+    return try {
+        SimpleDateFormat(
+            format, Locale.getDefault()
+        ).format(
+            value.toLong()
+        )
+    } catch (e: IllegalArgumentException) {
+        "0"
+    }
 }

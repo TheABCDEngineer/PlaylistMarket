@@ -6,22 +6,18 @@ import com.example.playlistmarket.Observer
 import com.example.playlistmarket.deleteFromFileOnKey
 import com.example.playlistmarket.loadTrackListFromFileOnKey
 import com.example.playlistmarket.saveListToFileOnKey
-import com.google.gson.Gson
 
 class Playlist(
     private val file: SharedPreferences,
     var title: String,
-    listSizeLimit: Int?
-) : Observer {
-
     private var limit: Int? = null
-
+) : Observer {
     var items = ArrayList<Track>()
         private set
 
     init {
-        if (listSizeLimit != null) {
-            limit = if (listSizeLimit < 1) 1 else listSizeLimit
+        if (limit != null) {
+            limit = if (limit!! < 1) 1 else limit
         }
         if (file.getString(title,null) == null) {
             saveListToFileOnKey(file,title,items)
@@ -69,13 +65,6 @@ class Playlist(
 
     fun deletePlaylist() {
         deleteFromFileOnKey(file,title)
-    }
-
-
-    private fun loadFromFile(): Boolean {
-        val json: String = file.getString(title, null) ?: return false
-        items.addAll(Gson().fromJson(json, Array<Track>::class.java))
-        return true
     }
 
     override fun <S, T> notifyObserver(event: S?, data: T) {
