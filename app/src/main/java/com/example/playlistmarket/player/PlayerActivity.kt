@@ -29,7 +29,6 @@ class PlayerActivity : AppCompatActivity() {
 
         setOnClickListenersAtViews()
 
-        trackHandleWidget.setTrackTimer()
         trackPropertiesWidget.showTrackProperties()
     }
 
@@ -39,7 +38,6 @@ class PlayerActivity : AppCompatActivity() {
         track = intent.getParcelableExtra(App.TRACK_KEY)!!
 
         trackHandleWidget = TrackHandleWidget(
-            //App.sharedPref,
             track,
             this@PlayerActivity,
             R.id.player_play_button,

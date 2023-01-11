@@ -21,7 +21,7 @@ class TrackHandle(
     }
 
     private fun checkTrackInFavorites(): Boolean {
-        val favorites = Playlist(favoritesFile,App.FAVORITES_LIST_KEY,null)
+        val favorites = Playlist(favoritesFile,App.FAVORITES_LIST_KEY)
         if (favorites.items.size == 0) return false
         return favorites.checkTrackAtList(track)
     }
@@ -33,7 +33,7 @@ class TrackHandle(
         if (playlistTitles.size == 0) return false
 
         for (title in playlistTitles) {
-            val playlist = Playlist(file,title,null)
+            val playlist = Playlist(file,title)
             if (playlist.checkTrackAtList(track)) return true
         }
         return false
@@ -57,9 +57,9 @@ class TrackHandle(
 
     private fun manageTrackOfList(list: String?, event: String) {
         val playlist = if (list == null) {
-            Playlist(favoritesFile,App.FAVORITES_LIST_KEY,null)
+            Playlist(favoritesFile,App.FAVORITES_LIST_KEY)
         } else {
-            Playlist(file,list,null)
+            Playlist(file,list)
         }
 
         playlist.notifyObserver(event,track)
