@@ -8,11 +8,14 @@ import com.example.playlistmarket.R
 enum class ResponseHandle(
     val image: Drawable?,
     val message: String,
-    val isRefreshButton: Boolean = false
+    val isRefreshButton: Boolean = false,
+    val isProgressBar: Boolean = false
 ) {
     SEARCHING(
-        AppCompatResources.getDrawable(App.appContext, R.drawable.please_wait_icon),
-        App.appContext.getString(R.string.search_status_please_wait)
+        null,
+        App.appContext.getString(R.string.search_status_please_wait),
+        false,
+        true
     ),
     NO_RESULTS(
         AppCompatResources.getDrawable(App.appContext, R.drawable.no_any_content),

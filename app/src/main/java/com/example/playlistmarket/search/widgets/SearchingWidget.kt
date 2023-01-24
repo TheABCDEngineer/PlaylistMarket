@@ -7,44 +7,43 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.core.view.isVisible
 import com.example.playlistmarket.App
 import com.example.playlistmarket.R
 import com.example.playlistmarket.search.SearchActivity
 import com.example.playlistmarket.search.query.ItunesApi
+import com.example.playlistmarket.search.query.ResponseHandle
 import com.example.playlistmarket.search.query.SearchQuery
 
 class SearchingWidget(
-    activity: SearchActivity,
-    editTextId: Int,
-    contentClearButton: Int,
+    private val activity: SearchActivity,
+    val editText: EditText,
+    val clearButton: ImageView,
     savedInstanceState: Bundle?
 ) {
-    val editText: EditText = activity.findViewById(editTextId)
-    val clearButton: ImageView = activity.findViewById(contentClearButton)
+    companion object {
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+    }
+
+    private val searchRunnable = Runnable { initializeQuery() }
 
     init {
-        val searchContentEditTextWatcher = object : TextWatcher {
+        editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.isNullOrEmpty()) {
-                    clearButton.visibility = View.GONE
-                } else {
-                    clearButton.visibility = View.VISIBLE
-                }
+                clearButton.isVisible = !s.isNullOrEmpty()
+                searchDebounce()
             }
+
             override fun afterTextChanged(s: Editable?) {
             }
-        }
-
-        editText.addTextChangedListener(searchContentEditTextWatcher)
+        })
 
         editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                if (editText.text.isNotEmpty()) {
-                    activity.startTracksSearchingOnQuery()
-                }
+                activity.hideKeyboard()
             }
             false
         }
@@ -69,7 +68,14 @@ class SearchingWidget(
         }
     }
 
-    fun initializeQuery(activity: SearchActivity) {
+    private fun searchDebounce() {
+        App.mainHandler.removeCallbacks(searchRunnable)
+        if (editText.text.isNullOrEmpty()) return
+        App.mainHandler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+    }
+
+    fun initializeQuery() {
+        activity.showQueryPlaceholder(ResponseHandle.SEARCHING)
         App.searchQuery = SearchQuery(App.SEARCH_TRACKS_BASE_URL, ItunesApi::class.java)
         App.searchQuery!!.addObserver(activity)
         App.searchQuery!!.executeTracksQuery(editText.text.toString())
@@ -79,7 +85,7 @@ class SearchingWidget(
         App.searchQuery = null
     }
 
-    fun resumeQuery(activity: SearchActivity): QueryStatus {
+    fun resumeQuery(): QueryStatus {
         if (App.searchQuery != null) {
             App.searchQuery!!.addObserver(activity)
 

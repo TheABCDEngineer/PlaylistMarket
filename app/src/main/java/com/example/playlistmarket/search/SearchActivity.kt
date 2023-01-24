@@ -37,8 +37,6 @@ class SearchActivity : AppCompatActivity(), Observer {
 
         initializeVariables(savedInstanceState)
 
-        queryStatusWidget.hideQueryPlaceholder()
-
         setOnClickListenersAtViews()
 
         showStartScreen()
@@ -49,21 +47,21 @@ class SearchActivity : AppCompatActivity(), Observer {
 
         recyclerWidget = RecyclerViewWidget(
             App.sharedPref,
-            this@SearchActivity,
-            R.id.search_track_list,
-            R.id.recycler_layout,
-            R.id.recent_tracks_title
+            findViewById(R.id.search_track_list),
+            findViewById(R.id.recycler_layout),
+            findViewById(R.id.recent_tracks_title)
         )
         queryStatusWidget = QueryStatusWidget(
             this@SearchActivity,
-            R.id.search_request_status_image,
-            R.id.search_request_status_text,
-            R.id.search_refresh_button
+            findViewById(R.id.search_request_status_image),
+            findViewById(R.id.search_request_status_text),
+            findViewById(R.id.search_progressBar),
+            findViewById(R.id.search_refresh_button)
         )
         searchingWidget = SearchingWidget(
             this@SearchActivity,
-            R.id.search_EditText,
-            R.id.search_ClearButton,
+            findViewById(R.id.search_EditText),
+            findViewById(R.id.search_ClearButton),
             savedInstanceState
         )
     }
@@ -82,7 +80,7 @@ class SearchActivity : AppCompatActivity(), Observer {
         showHistory()
     }
 
-    private fun hideKeyboard() {
+    fun hideKeyboard() {
         this.currentFocus?.let { view ->
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
@@ -90,14 +88,14 @@ class SearchActivity : AppCompatActivity(), Observer {
         }
     }
 
-    private fun showQueryPlaceholder(status: ResponseHandle) {
+    fun showQueryPlaceholder(status: ResponseHandle) {
         recyclerWidget.prepareToShowQueryPlaceholder()
         queryStatusWidget.prepareToShowQueryPlaceholder(status)
     }
 
     fun startTracksSearchingOnQuery() {
         showQueryPlaceholder(ResponseHandle.SEARCHING)
-        searchingWidget.initializeQuery(this@SearchActivity)
+        searchingWidget.initializeQuery()
     }
 
     private fun showHistory() {
@@ -133,7 +131,7 @@ class SearchActivity : AppCompatActivity(), Observer {
     }
 
     private fun showStartScreen() {
-        when (searchingWidget.resumeQuery(this@SearchActivity)) {
+        when (searchingWidget.resumeQuery()) {
             QueryStatus.FALSE -> showHistory()
             QueryStatus.TRUE_NO_RESULTS -> showQueryPlaceholder(ResponseHandle.SEARCHING)
             QueryStatus.TRUE_RESULTS_EXIST -> {

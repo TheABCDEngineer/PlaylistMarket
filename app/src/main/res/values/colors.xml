@@ -19,5 +19,6 @@
     <color name="text_edit_fill_color">#E6E8EB</color>
     <color name="text_edit_icon_color">#AEAFB4</color>
     <color name="player_add_track_button_color">#401A1B22</color>
+    <color name="search_progressBar_color">#6200EE</color>
 
 </resources>

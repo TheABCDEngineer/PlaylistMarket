@@ -12,6 +12,8 @@ import kotlin.collections.ArrayList
 
 fun startPlayer(track: Track?) {
     if (track == null) return
+    if (!clickDebounce(App.playerAllowed) { App.playerAllowed = it }) return
+
     val context = App.appContext
     val intent = Intent(context, PlayerActivity::class.java)
     intent.putExtra(App.TRACK_KEY, track)
@@ -34,7 +36,7 @@ inline fun <reified T> loadListFromFileOnKey(
     return Gson().fromJson(json, Array<T>::class.java)
 }
  */
-// ЗНАЮ, ЧТО ТУПОБ ВЕДЬ СЛЕДУЮЩИЕ ДВА МЕТОДА ПО СУТИ ОТЛИЧАЮТСЯ ТОЛЬКО ТИПАМИ,
+// ЗНАЮ, ЧТО ТУПО ВЕДЬ СЛЕДУЮЩИЕ ДВА МЕТОДА ПО СУТИ ОТЛИЧАЮТСЯ ТОЛЬКО ТИПАМИ,
 // НО МОИХ НАЧАЛЬНЫХ НАВЫКОВ НЕ ХВАТАЕТ, ЧТО БЫ ДОПЕДРИТЬ, КАК ИСПОЛЬЗОВАТЬ ДЖЕНЕРИКИ В ЭТОМ СЛУЧАЕ
 // NEED HELP ОЧЕНЬ
 fun loadTrackListFromFileOnKey(
@@ -75,7 +77,7 @@ fun deleteFromFileOnKey(
 
 fun convertMSecToClockFormat(value: String): String {
     val format = try {
-        if ((value.toLong()/3600000) > 0) "hh:mm:ss" else "mm:ss"
+        if ((value.toLong() / 3600000) > 0) "hh:mm:ss" else "mm:ss"
     } catch (e: NumberFormatException) {
         null
     } ?: return "0"
@@ -89,4 +91,15 @@ fun convertMSecToClockFormat(value: String): String {
     } catch (e: IllegalArgumentException) {
         "0"
     }
+}
+
+fun clickDebounce(
+    isClickAllowed: Boolean,
+    changeClicker: (Boolean) -> Unit
+): Boolean {
+    if (isClickAllowed) {
+        changeClicker(false)
+        App.mainHandler.postDelayed({ changeClicker(true) }, 1000L)
+    }
+    return isClickAllowed
 }
