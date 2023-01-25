@@ -27,32 +27,14 @@ fun setDarkMode(status: Boolean) {
         false -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 }
-/*
+
 inline fun <reified T> loadListFromFileOnKey(
     file: SharedPreferences,
-    key: String
+    key: String,
+    clazz: Class<Array<T>>
 ): Array<T> {
     val json: String = file.getString(key, null) ?: return emptyArray()
-    return Gson().fromJson(json, Array<T>::class.java)
-}
- */
-// ЗНАЮ, ЧТО ТУПО ВЕДЬ СЛЕДУЮЩИЕ ДВА МЕТОДА ПО СУТИ ОТЛИЧАЮТСЯ ТОЛЬКО ТИПАМИ,
-// НО МОИХ НАЧАЛЬНЫХ НАВЫКОВ НЕ ХВАТАЕТ, ЧТО БЫ ДОПЕДРИТЬ, КАК ИСПОЛЬЗОВАТЬ ДЖЕНЕРИКИ В ЭТОМ СЛУЧАЕ
-// NEED HELP ОЧЕНЬ
-fun loadTrackListFromFileOnKey(
-    file: SharedPreferences,
-    key: String
-): Array<Track> {
-    val json: String = file.getString(key, null) ?: return emptyArray()
-    return Gson().fromJson(json, Array<Track>::class.java)
-}
-
-fun loadStringListFromFileOnKey(
-    file: SharedPreferences,
-    key: String
-): Array<String> {
-    val json: String = file.getString(key, null) ?: return emptyArray()
-    return Gson().fromJson(json, Array<String>::class.java)
+    return Gson().fromJson(json, clazz)
 }
 
 fun <T> saveListToFileOnKey(
