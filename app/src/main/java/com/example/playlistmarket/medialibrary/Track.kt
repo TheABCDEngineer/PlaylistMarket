@@ -15,7 +15,8 @@ data class Track(
     private val collectionName: String?,
     private val releaseDate: String?,
     private val primaryGenreName: String?,
-    private val country: String?
+    private val country: String?,
+    private val previewUrl: String?
 ) : Parcelable {
 
     fun getTrackId(): String {
@@ -58,5 +59,7 @@ data class Track(
     fun getGenre() = primaryGenreName ?: App.appContext.getString(R.string.no_data)
 
     fun getCountry() = country ?: App.appContext.getString(R.string.no_data)
+
+    fun getPreviewUrl() = previewUrl ?: ""
 
 }

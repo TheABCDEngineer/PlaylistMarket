@@ -91,6 +91,15 @@
             android:layout_marginTop="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+        <ProgressBar
+            android:id="@+id/search_progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="148dp"
+            android:indeterminateTint="@color/search_progressBar_color"
+            android:visibility="gone"/>
+
         <ImageView
             android:id="@+id/search_request_status_image"
             android:layout_width="wrap_content"

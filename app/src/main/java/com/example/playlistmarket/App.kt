@@ -3,6 +3,8 @@ package com.example.playlistmarket
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Handler
+import android.os.Looper
 import com.example.playlistmarket.search.query.ItunesApi
 import com.example.playlistmarket.search.query.SearchQuery
 
@@ -30,6 +32,8 @@ class App : Application() {
         lateinit var sharedPref: SharedPreferences
         lateinit var favoritesFile: SharedPreferences
 
+        val mainHandler = Handler(Looper.getMainLooper())
+        var playerAllowed = true
         var searchQuery: SearchQuery<ItunesApi>? = null
     }
 

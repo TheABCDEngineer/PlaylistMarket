@@ -1,49 +1,48 @@
 package com.example.playlistmarket.player.widgets
 
-import android.os.CountDownTimer
+import android.media.MediaPlayer
 import android.widget.ImageButton
+import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.view.isVisible
+import com.example.playlistmarket.App
 import com.example.playlistmarket.medialibrary.Track
 import com.example.playlistmarket.R
 import com.example.playlistmarket.convertMSecToClockFormat
-import com.example.playlistmarket.player.PlayerActivity
+import kotlinx.coroutines.Runnable
 
 class TrackHandleWidget(
     private val track: Track,
-    activity: PlayerActivity,
-    playButtonId: Int,
-    addToPlaylistButtonId: Int,
-    addToFavoritesButtonId: Int,
-    playerTimerId:Int
+    private val playButton: ImageButton,
+    private val addToPlaylistButton: ImageButton,
+    private val addToFavoritesButton: ImageButton,
+    private val playerTimerView: TextView,
+    private val progressBar: ProgressBar
 ) {
-    private val playButton: ImageButton = activity.findViewById(playButtonId)
-    private val addToPlaylistButton: ImageButton = activity.findViewById(addToPlaylistButtonId)
-    private val addToFavoritesButton: ImageButton = activity.findViewById(addToFavoritesButtonId)
-    private val playerTimer: TextView = activity.findViewById(playerTimerId)
+    lateinit var playerTimer: Runnable
+    val mediaPlayer = MediaPlayer()
 
     var isTrackAtFavorites = false
         set(value) {
             field = value
-            setViewOnTrackAtFavoritesStatus(value)
+            setOnTrackAtFavoritesStatus(value)
         }
 
     var isTrackAtPlaylist = false
         set(value) {
             field = value
-            setViewOnTrackAtPlaylistStatus(value)
+            setOnTrackAtPlaylistStatus(value)
         }
-    private var isTrackPlaying = false
+    var isTrackPlaying = false
         set(value) {
             field = value
-            setViewOnTrackPlayingStatus(value)
+            setOnTrackPlayingStatus(value)
         }
 
-    private lateinit var timer: CountDownTimer
-    private var timeCount = track.getFormattedTrackTime(false).toLong()
-
     init {
+        playButton.isEnabled = false
         setOnClickListenersAtViews()
-        playerTimer.text = track.getFormattedTrackTime(true)
+        preparePlayer()
     }
 
     private fun setOnClickListenersAtViews() {
@@ -60,7 +59,7 @@ class TrackHandleWidget(
         }
     }
 
-    private fun setViewOnTrackAtPlaylistStatus(isAtPlaylist: Boolean) {
+    private fun setOnTrackAtPlaylistStatus(isAtPlaylist: Boolean) {
         if (isAtPlaylist) {
             addToPlaylistButton.setImageResource(R.drawable.player_add_to_playlist_done)
         } else {
@@ -68,7 +67,7 @@ class TrackHandleWidget(
         }
     }
 
-    private fun setViewOnTrackAtFavoritesStatus(isAtFavorites: Boolean) {
+    private fun setOnTrackAtFavoritesStatus(isAtFavorites: Boolean) {
         if (isAtFavorites) {
             addToFavoritesButton.setImageResource(R.drawable.player_add_to_favorites_done)
         } else {
@@ -76,29 +75,44 @@ class TrackHandleWidget(
         }
     }
 
-    private fun setViewOnTrackPlayingStatus(isPlaying: Boolean) {
+    private fun setOnTrackPlayingStatus(isPlaying: Boolean) {
         if (isPlaying) {
             playButton.setImageResource(R.drawable.player_pause_icon)
-            setTrackTimer(timeCount)
-            if (track.getFormattedTrackTime(false).toLong() > 0) timer.start()
+            App.mainHandler.post(playerTimer)
+            mediaPlayer.start()
         } else {
             playButton.setImageResource(R.drawable.player_play_icon)
-            if (track.getFormattedTrackTime(false).toLong() > 0) timer.cancel()
+            App.mainHandler.removeCallbacks(playerTimer)
+            if (mediaPlayer.isPlaying) mediaPlayer.pause()
         }
     }
 
-    private fun setTrackTimer(timeInMillis: Long) {
-        if (timeInMillis <= 0) return
-        timer = object : CountDownTimer(timeInMillis,1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                playerTimer.text =  convertMSecToClockFormat(millisUntilFinished.toString())
-                timeCount = millisUntilFinished
+    private fun setPlayerTimer(): Runnable {
+        return object : Runnable {
+            override fun run() {
+                if (mediaPlayer.currentPosition < mediaPlayer.duration) {
+                    playerTimerView.text = convertMSecToClockFormat(
+                        (mediaPlayer.duration - mediaPlayer.currentPosition).toString()
+                    )
+                    App.mainHandler.postDelayed(this, 1000L)
+                }
             }
-            override fun onFinish() {
-                isTrackPlaying = false
-                playerTimer.text = track.getFormattedTrackTime(true)
-                timeCount = track.getFormattedTrackTime(false).toLong()
-            }
+        }
+    }
+
+    private fun preparePlayer() {
+        mediaPlayer.setDataSource(track.getPreviewUrl())
+        mediaPlayer.prepareAsync()
+        mediaPlayer.setOnPreparedListener {
+            progressBar.isVisible = false
+            playerTimerView.text = convertMSecToClockFormat(mediaPlayer.duration.toString())
+            playerTimer = setPlayerTimer()
+            playButton.isEnabled = true
+        }
+        mediaPlayer.setOnCompletionListener {
+            App.mainHandler.removeCallbacks(playerTimer)
+            playerTimerView.text = convertMSecToClockFormat(mediaPlayer.duration.toString())
+            isTrackPlaying = false
         }
     }
 }

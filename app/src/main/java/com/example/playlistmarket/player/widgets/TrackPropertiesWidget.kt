@@ -8,29 +8,18 @@ import com.example.playlistmarket.medialibrary.Track
 import com.example.playlistmarket.player.PlayerActivity
 
 class TrackPropertiesWidget(
-    private val track: Track,
-    private val activity: PlayerActivity,
-    artworkId: Int,
-    trackNameId: Int,
-    artistNameId: Int,
-    lengthId: Int,
-    albumId: Int,
-    releaseId: Int,
-    genreId: Int,
-    countryId: Int
+    track: Track,
+    artwork: ImageView,
+    trackName: TextView,
+    artistName: TextView,
+    lenght: TextView,
+    album: TextView,
+    release: TextView,
+    genre: TextView,
+    country: TextView,
 ) {
-    private val artwork: ImageView = activity.findViewById(artworkId)
-    private val trackName: TextView = activity.findViewById(trackNameId)
-    private val artistName: TextView = activity.findViewById(artistNameId)
-
-    private val lenght: TextView = activity.findViewById(lengthId)
-    private val album: TextView = activity.findViewById(albumId)
-    private val release: TextView = activity.findViewById(releaseId)
-    private val genre: TextView = activity.findViewById(genreId)
-    private val country: TextView = activity.findViewById(countryId)
-
-    fun showTrackProperties() {
-        Glide.with(activity.applicationContext)
+    init {
+        Glide.with(artwork)
             .load(track.getArtwork(512))
             .centerCrop()
             .placeholder(R.drawable.default_album_image)

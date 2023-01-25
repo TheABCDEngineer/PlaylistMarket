@@ -8,14 +8,20 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmarket.App
 import com.example.playlistmarket.medialibrary.MediaLibraryActivity
 import com.example.playlistmarket.R
+import com.example.playlistmarket.clickDebounce
 import com.example.playlistmarket.search.SearchActivity
 import com.example.playlistmarket.setDarkMode
 import com.example.playlistmarket.settings.SettingsActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var buttonSearch: Button
+    private var isSearchAllowed = true
+
     private lateinit var buttonMediaLibrary: Button
+    private var isMediaLibraryAllowed = true
+
     private lateinit var buttonSetting: Button
+    private var isSettingAllowed = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,17 +50,23 @@ class MainActivity : AppCompatActivity() {
     private fun setOnClickListenersAtViews() {
         buttonSearch.setOnClickListener {
             val displayIntent = Intent(this, SearchActivity::class.java)
-            startActivity(displayIntent)
+            if (clickDebounce(isSearchAllowed) { isSearchAllowed = it }) {
+                startActivity(displayIntent)
+            }
         }
 
         buttonMediaLibrary.setOnClickListener {
             val displayIntent = Intent(this, MediaLibraryActivity::class.java)
-            startActivity(displayIntent)
+            if (clickDebounce(isMediaLibraryAllowed) { isMediaLibraryAllowed = it }) {
+                startActivity(displayIntent)
+            }
         }
 
         buttonSetting.setOnClickListener {
             val displayIntent = Intent(this, SettingsActivity::class.java)
-            startActivity(displayIntent)
+            if (clickDebounce(isSettingAllowed) { isSettingAllowed = it }) {
+                startActivity(displayIntent)
+            }
         }
     }
 }

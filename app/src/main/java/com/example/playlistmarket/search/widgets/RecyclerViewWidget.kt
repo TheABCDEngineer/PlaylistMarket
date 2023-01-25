@@ -1,6 +1,5 @@
 package com.example.playlistmarket.search.widgets
 
-import android.app.Activity
 import android.content.SharedPreferences
 import android.view.View
 import android.view.ViewGroup
@@ -14,15 +13,10 @@ import com.example.playlistmarket.search.recycler.SearchTrackAdapter
 
 class RecyclerViewWidget(
     file: SharedPreferences,
-    activity: Activity,
-    recyclerId: Int,
-    recyclerLayoutId: Int,
-    recyclerTitle: Int
+    val recycler: RecyclerView,
+    private val recyclerLayout: LinearLayout,
+    private val title: TextView,
 ) {
-    val recycler: RecyclerView = activity.findViewById(recyclerId)
-    private val recyclerLayout: LinearLayout = activity.findViewById(recyclerLayoutId)
-    private val title: TextView = activity.findViewById(recyclerTitle)
-
     private val queryTrackList = ArrayList<Track>()
     val searchHistory = Playlist(file, App.RECENT_TRACKS_LIST_KEY, 10)
 
