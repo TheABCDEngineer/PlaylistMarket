@@ -1,11 +1,11 @@
 package com.example.playlistmarket.domain.models
 
 import com.example.playlistmarket.creator.enums.PlaylistHandle
-import com.example.playlistmarket.creator.interactors.Observer
-import com.example.playlistmarket.data.interactors.storage.PlaylistStorageInteractor
+import com.example.playlistmarket.creator.observe.Observer
+import com.example.playlistmarket.data.repository.storage.PlaylistStorageRepository
 
 class Playlist(
-    private val playlistStorage: PlaylistStorageInteractor,
+    private val playlistStorage: PlaylistStorageRepository,
     var title: String,
     private var limit: Int? = null
 ) : Observer {
@@ -47,7 +47,7 @@ class Playlist(
 
     fun checkTrackAtList(track: Track): Boolean {
         for (i in items) {
-            if (i.getTrackId() == track.getTrackId()) {
+            if (i.trackId == track.trackId) {
                 return true
             }
         }

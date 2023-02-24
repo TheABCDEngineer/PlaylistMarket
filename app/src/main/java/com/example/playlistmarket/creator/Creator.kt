@@ -1,80 +1,79 @@
 package com.example.playlistmarket.creator
 
 import android.media.MediaPlayer
-import com.example.playlistmarket.controller.main.MainController
-import com.example.playlistmarket.controller.main.MainView
-import com.example.playlistmarket.controller.player.PlayerController
-import com.example.playlistmarket.controller.player.PlayerView
-import com.example.playlistmarket.controller.search.SearchController
-import com.example.playlistmarket.controller.search.SearchView
-import com.example.playlistmarket.controller.settings.SettingsController
-import com.example.playlistmarket.controller.settings.SettingsView
+import com.example.playlistmarket.App
+import com.example.playlistmarket.features.main.presenter.MainPresenter
+import com.example.playlistmarket.features.main.presenter.MainView
+import com.example.playlistmarket.features.player.presenter.PlayerPresenter
+import com.example.playlistmarket.features.player.presenter.PlayerView
+import com.example.playlistmarket.features.search.presenter.SearchPresenter
+import com.example.playlistmarket.features.search.presenter.SearchView
+import com.example.playlistmarket.features.setting.presenter.SettingsPresenter
+import com.example.playlistmarket.features.setting.presenter.SettingsView
 import com.example.playlistmarket.data.network.RetrofitClient
 import com.example.playlistmarket.data.network.ItunesApi
 import com.example.playlistmarket.data.sharedPreferences.PlaylistStorageImpSharedPreferences
 import com.example.playlistmarket.data.sharedPreferences.SettingsStorageImpSharedPreferences
 import com.example.playlistmarket.domain.models.Playlist
 import com.example.playlistmarket.domain.models.Track
-import com.example.playlistmarket.domain.player.PlaybackImpMediaPlayer
-import com.example.playlistmarket.domain.player.TrackHandleAct
-import com.example.playlistmarket.domain.player.TrackPropertiesAct
-import com.example.playlistmarket.domain.search.QueryImpRetrofit2
+import com.example.playlistmarket.features.player.domain.PlaybackImpMediaPlayer
+import com.example.playlistmarket.features.player.domain.TrackHandleAct
+import com.example.playlistmarket.features.search.domain.QueryImpRetrofit2
 
 object Creator {
-    var mainController: MainController? = null
-    var searchController: SearchController? = null
-    var settingsController: SettingsController? = null
-    var playerController: PlayerController? = null
+    var mainPresenter: MainPresenter? = null
+    var searchPresenter: SearchPresenter? = null
+    var settingsPresenter: SettingsPresenter? = null
+    var playerPresenter: PlayerPresenter? = null
 
-    fun createMainController(view: MainView) {
-        if (mainController != null) {
-            mainController!!.view = view
+    fun createMainPresenter(view: MainView) {
+        if (mainPresenter != null) {
+            mainPresenter!!.view = view
             return
         }
-        mainController = MainController(
+        mainPresenter = MainPresenter(
             view,
             SettingsStorageImpSharedPreferences(App.settingsFile)
         )
     }
 
-    fun createSearchController(view: SearchView) {
-        if (searchController != null) {
-            searchController!!.view = view
+    fun createSearchPresenter(view: SearchView) {
+        if (searchPresenter != null) {
+            searchPresenter!!.view = view
             return
         }
         App.serviceApi = RetrofitClient.getServiceApi(
             App.SEARCH_TRACKS_BASE_URL,
             ItunesApi::class.java
         )
-        searchController = SearchController(
+        searchPresenter = SearchPresenter(
             view,
             QueryImpRetrofit2(),
             createPlaylist(App.RECENT_TRACKS_LIST_KEY, 10)
         )
     }
 
-    fun createSettingsController(view: SettingsView) {
-        if (settingsController != null) {
-            settingsController!!.view = view
+    fun createSettingsPresenter(view: SettingsView) {
+        if (settingsPresenter != null) {
+            settingsPresenter!!.view = view
             return
         }
-        settingsController = SettingsController(
+        settingsPresenter = SettingsPresenter(
             view,
             SettingsStorageImpSharedPreferences(App.settingsFile)
         )
     }
 
-    fun createPlayerController(view: PlayerView, track: Track) {
-        if (playerController != null) {
-            playerController!!.view = view
+    fun createPlayerPresenter(view: PlayerView, track: Track) {
+        if (playerPresenter != null) {
+            playerPresenter!!.view = view
             return
         }
-        playerController = PlayerController(
+        playerPresenter = PlayerPresenter(
             view,
             track,
             PlaybackImpMediaPlayer(track, MediaPlayer()),
-            TrackHandleAct(PlaylistStorageImpSharedPreferences(App.playlistsFile)),
-            TrackPropertiesAct()
+            TrackHandleAct(PlaylistStorageImpSharedPreferences(App.playlistsFile))
         )
     }
 

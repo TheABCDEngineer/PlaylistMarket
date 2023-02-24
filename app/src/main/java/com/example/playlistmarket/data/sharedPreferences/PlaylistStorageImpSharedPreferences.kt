@@ -1,14 +1,14 @@
 package com.example.playlistmarket.data.sharedPreferences
 
 import android.content.SharedPreferences
-import com.example.playlistmarket.creator.App
+import com.example.playlistmarket.App
 import com.example.playlistmarket.creator.enums.PlaylistHandle
-import com.example.playlistmarket.data.interactors.storage.PlaylistStorageInteractor
+import com.example.playlistmarket.data.repository.storage.PlaylistStorageRepository
 import com.example.playlistmarket.domain.models.Track
 
 class PlaylistStorageImpSharedPreferences(
     private val file: SharedPreferences
-) : PlaylistStorageInteractor {
+) : PlaylistStorageRepository {
 
     override fun loadTitlesList(): Array<String> {
         return loadListFromFileOnKey(file, App.PLAYLIST_TITLES_KEY, Array<String>::class.java)

@@ -2,12 +2,12 @@ package com.example.playlistmarket.data.sharedPreferences
 
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.playlistmarket.creator.App
-import com.example.playlistmarket.data.interactors.storage.SettingsStorageInteractor
+import com.example.playlistmarket.App
+import com.example.playlistmarket.data.repository.storage.SettingsStorageRepository
 
 class SettingsStorageImpSharedPreferences(
     private val file: SharedPreferences
-) : SettingsStorageInteractor {
+) : SettingsStorageRepository {
 
     override fun getDarkModeStatusValue(): Boolean {
         return file.getBoolean(

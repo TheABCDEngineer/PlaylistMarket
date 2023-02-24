@@ -5,10 +5,9 @@ import android.content.Intent
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.playlistmarket.App
 import com.example.playlistmarket.domain.models.Track
-import com.example.playlistmarket.ui.player.PlayerActivity
-import java.text.SimpleDateFormat
-import java.util.*
+import com.example.playlistmarket.features.player.ui.PlayerActivity
 
 fun startPlayer(track: Track?) {
     if (track == null) return
@@ -27,7 +26,7 @@ fun setDarkMode(status: Boolean) {
         false -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 }
-
+/*
 fun convertMSecToClockFormat(value: String): String {
     val format = try {
         if ((value.toLong() / 3600000) > 0) "hh:mm:ss" else "mm:ss"
@@ -45,6 +44,8 @@ fun convertMSecToClockFormat(value: String): String {
         "0"
     }
 }
+
+ */
 
 fun clickDebounce(
     isClickAllowed: Boolean,
