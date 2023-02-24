@@ -17,21 +17,21 @@
         android:theme="@style/Theme.PlaylistMarket"
         tools:targetApi="31">
         <activity
-            android:name=".player.PlayerActivity"
+            android:name=".features.player.ui.PlayerActivity"
             android:exported="false" />
         <activity
-            android:name=".settings.SettingsActivity"
+            android:name=".features.setting.ui.SettingsActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".search.SearchActivity"
+            android:name=".features.search.ui.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".medialibrary.MediaLibraryActivity"
+            android:name=".features.medialibrary.ui.MediaLibraryActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".main.MainActivity"
+            android:name=".features.main.ui.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
