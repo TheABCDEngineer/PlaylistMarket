@@ -21,19 +21,16 @@
             android:exported="false" />
         <activity
             android:name=".features.setting.ui.SettingsActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:exported="false" />
         <activity
             android:name=".features.search.ui.SearchActivity"
             android:exported="false" />
         <activity
             android:name=".features.medialibrary.ui.MediaLibraryActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:exported="false" />
         <activity
             android:name=".features.main.ui.MainActivity"
-            android:exported="true"
-            android:screenOrientation="portrait">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
