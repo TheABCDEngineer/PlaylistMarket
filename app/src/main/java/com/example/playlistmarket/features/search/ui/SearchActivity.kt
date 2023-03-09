@@ -2,23 +2,24 @@ package com.example.playlistmarket.features.search.ui
 
 import android.os.Bundle
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmarket.R
-import com.example.playlistmarket.features.search.presenter.SearchPresenter
-import com.example.playlistmarket.features.search.presenter.SearchView
-import com.example.playlistmarket.features.search.presenter.enums.SearchScreenState
-import com.example.playlistmarket.creator.Creator
+import com.example.playlistmarket.features.search.viewModel.SearchViewModel
+import com.example.playlistmarket.features.search.viewModel.enums.SearchScreenState
 import com.example.playlistmarket.features.search.ui.recycler.SearchTrackAdapter
 import com.example.playlistmarket.creator.hideKeyboard
-import com.example.playlistmarket.creator.ActivityByPresenter
 import com.example.playlistmarket.features.search.ui.widgets.ScreenStateWidget
 import com.example.playlistmarket.features.search.ui.widgets.SearchingWidget
 
-
-class SearchActivity : ActivityByPresenter(), SearchView {
+class SearchActivity : AppCompatActivity() {
     private val goBackButton: ImageView by lazy { findViewById(R.id.search_goBack) }
     private val searchingWidget: SearchingWidget by lazy { SearchingWidget(this) }
     private val screenStateWidget: ScreenStateWidget by lazy { ScreenStateWidget(this) }
-    override val presenter: SearchPresenter by lazy { Creator.searchPresenter!! }
+
+    private val viewModel: SearchViewModel by lazy {
+        ViewModelProvider(this, SearchViewModel.getViewModelFactory())[SearchViewModel::class.java]
+    }
 
     companion object {
         private const val SEARCH_CONTENT_EDIT_TEXT_KEY = "searching_edit_text"
@@ -37,7 +38,12 @@ class SearchActivity : ActivityByPresenter(), SearchView {
         setContentView(R.layout.activity_search)
         supportActionBar?.hide()
 
-        createPresenter()
+        viewModel.observeScreenState().observe(this) {
+            updateScreenState(it)
+        }
+        viewModel.observeTrackFeedState().observe(this) {
+            updateTrackFeed(it)
+        }
 
         val initialText = savedInstanceState?.getString(
             SEARCH_CONTENT_EDIT_TEXT_KEY, ""
@@ -45,11 +51,10 @@ class SearchActivity : ActivityByPresenter(), SearchView {
 
         searchingWidget.apply {
             onUserRequestTextChange = { value ->
-                presenter.onUserRequestTextChange(value)
+                viewModel.onUserRequestTextChange(value)
             }
             clearSearchingConditions = {
-                presenter.currentScreenState = null
-                presenter.onViewResume()
+                viewModel.setStartScreen()
             }
             hideSearchingKeyboard = {
                 hideKeyboard(this@SearchActivity)
@@ -59,10 +64,7 @@ class SearchActivity : ActivityByPresenter(), SearchView {
 
         screenStateWidget.apply {
             onFunctionalButtonClick = { mode ->
-                presenter.onFunctionalButtonPressed(mode)
-            }
-            setCurrentScreenState = { state ->
-                presenter.currentScreenState = state
+                viewModel.onFunctionalButtonPressed(mode)
             }
         }
 
@@ -71,15 +73,16 @@ class SearchActivity : ActivityByPresenter(), SearchView {
         }
     }
 
-    override fun createPresenter() {
-        Creator.createSearchPresenter(this)
-    }
-
-    override fun updateScreenState(state: SearchScreenState) {
+    private fun updateScreenState(state: SearchScreenState) {
         screenStateWidget.setScreenState(state)
     }
 
-    override fun updateTrackFeed(adapter: SearchTrackAdapter) {
+    private fun updateTrackFeed(adapter: SearchTrackAdapter) {
         screenStateWidget.setTrackFeed(adapter)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.updateHistoryState()
     }
 }

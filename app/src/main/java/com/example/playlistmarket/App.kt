@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Handler
 import android.os.Looper
-import com.example.playlistmarket.data.network.ItunesApi
+import com.example.playlistmarket.features.search.data.network.ItunesApi
 
 class App : Application() {
     override fun onCreate() {

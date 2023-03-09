@@ -6,7 +6,7 @@ import com.bumptech.glide.Glide
 import com.example.playlistmarket.R
 import com.example.playlistmarket.App
 import com.example.playlistmarket.domain.dataConverter.TrackConverter
-import com.example.playlistmarket.domain.models.Track
+import com.example.playlistmarket.domain.model.Track
 import com.example.playlistmarket.features.player.ui.PlayerActivity
 
 class TrackPropertiesWidget(

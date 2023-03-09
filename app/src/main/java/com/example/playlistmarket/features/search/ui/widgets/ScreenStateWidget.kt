@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmarket.R
-import com.example.playlistmarket.features.search.presenter.enums.FunctionalButtonMode
-import com.example.playlistmarket.features.search.presenter.enums.SearchScreenState
+import com.example.playlistmarket.features.search.viewModel.enums.FunctionalButtonMode
+import com.example.playlistmarket.features.search.viewModel.enums.SearchScreenState
 import com.example.playlistmarket.features.search.ui.recycler.SearchTrackAdapter
 import com.example.playlistmarket.features.search.ui.SearchActivity
 
@@ -28,7 +28,6 @@ class ScreenStateWidget(
     private val title: TextView = activity.findViewById(R.id.recent_tracks_title)
     private lateinit var functionalButtonMode: FunctionalButtonMode
 
-    lateinit var setCurrentScreenState: (SearchScreenState) -> Unit
     lateinit var onFunctionalButtonClick: (FunctionalButtonMode) -> Unit
 
     init {
@@ -55,8 +54,6 @@ class ScreenStateWidget(
         recyclerLayout.layoutParams.apply {
             (this as LinearLayout.LayoutParams).weight = state.functionalButton.layoutWeight
         }
-
-        setCurrentScreenState.invoke(state)
     }
 
     fun setTrackFeed(adapter: SearchTrackAdapter) {

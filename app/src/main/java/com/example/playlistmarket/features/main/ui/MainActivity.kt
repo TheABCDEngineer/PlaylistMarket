@@ -2,44 +2,42 @@ package com.example.playlistmarket.features.main.ui
 
 import android.os.Bundle
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmarket.R
-import com.example.playlistmarket.features.main.presenter.MainPresenter
-import com.example.playlistmarket.features.main.presenter.MainView
-import com.example.playlistmarket.creator.Creator
+import com.example.playlistmarket.features.main.viewModel.MainViewModel
 import com.example.playlistmarket.creator.setDarkMode
-import com.example.playlistmarket.creator.ActivityByPresenter
 
-class MainActivity : ActivityByPresenter(), MainView {
+class MainActivity : AppCompatActivity() {
     private val searchButton: Button by lazy { findViewById(R.id.main_SearchButton) }
     private val mediaLibraryButton: Button by lazy { findViewById(R.id.main_MediaLibraryButton) }
     private val settingsButton: Button by lazy { findViewById(R.id.main_SettingsButton) }
-    override val presenter: MainPresenter by lazy { Creator.mainPresenter!! }
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProvider(this, MainViewModel.getViewModelFactory())[MainViewModel::class.java] }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
 
-        createPresenter()
+        viewModel.darkThemeObserve().observe(this){
+            setDarkTheme(it)
+        }
 
         searchButton.setOnClickListener {
-            presenter.startSearchScreen()
+            viewModel.startSearchScreen()
         }
 
         mediaLibraryButton.setOnClickListener {
-            presenter.startMediaLibraryScreen()
+            viewModel.startMediaLibraryScreen()
         }
 
         settingsButton.setOnClickListener {
-            presenter.startSettingsScreen()
+            viewModel.startSettingsScreen()
         }
     }
 
-    override fun createPresenter() {
-        Creator.createMainPresenter(this)
-    }
-
-    override fun setDarkTheme(isDarkTheme: Boolean) {
+    private fun setDarkTheme(isDarkTheme: Boolean) {
         setDarkMode(isDarkTheme)
     }
 }

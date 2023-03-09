@@ -1,15 +1,15 @@
 package com.example.playlistmarket.features.player.domain
 
-import com.example.playlistmarket.domain.models.Track
-import com.example.playlistmarket.features.player.presenter.interactors.TrackHandleInteractor
+import com.example.playlistmarket.domain.model.Track
+import com.example.playlistmarket.features.player.viewModel.interactors.TrackHandleInteractor
 import com.example.playlistmarket.App
 import com.example.playlistmarket.creator.Creator
 import com.example.playlistmarket.creator.enums.PlaylistHandle
-import com.example.playlistmarket.data.repository.storage.PlaylistStorageRepository
+import com.example.playlistmarket.data.repository.PlaylistRepository
 
 
 class TrackHandleAct(
-    private val playlistFile: PlaylistStorageRepository
+    private val playlistFile: PlaylistRepository
 ) : TrackHandleInteractor {
 
     override fun getTrackInFavoritesStatus(track: Track): Boolean {

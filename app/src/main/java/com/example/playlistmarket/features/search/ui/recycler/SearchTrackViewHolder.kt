@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.playlistmarket.R
 import com.example.playlistmarket.domain.dataConverter.TrackConverter
-import com.example.playlistmarket.domain.models.Track
+import com.example.playlistmarket.domain.model.Track
 
 class SearchTrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val trackNameView: TextView = itemView.findViewById(R.id.search_cardview_track_title)

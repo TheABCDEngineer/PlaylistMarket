@@ -2,8 +2,8 @@ package com.example.playlistmarket.domain.dataConverter
 
 import com.example.playlistmarket.R
 import com.example.playlistmarket.App
-import com.example.playlistmarket.data.dto.TrackDto
-import com.example.playlistmarket.domain.models.Track
+import com.example.playlistmarket.features.search.data.dto.TrackDto
+import com.example.playlistmarket.domain.model.Track
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList

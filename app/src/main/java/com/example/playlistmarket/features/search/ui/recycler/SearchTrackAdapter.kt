@@ -7,7 +7,7 @@ import com.example.playlistmarket.creator.observe.Observable
 import com.example.playlistmarket.R
 import com.example.playlistmarket.creator.enums.PlaylistHandle
 import com.example.playlistmarket.creator.observe.Observer
-import com.example.playlistmarket.domain.models.Track
+import com.example.playlistmarket.domain.model.Track
 import com.example.playlistmarket.creator.startPlayer
 
 class SearchTrackAdapter(
