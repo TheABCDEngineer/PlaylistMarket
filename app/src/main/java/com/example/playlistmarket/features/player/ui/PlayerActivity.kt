@@ -22,11 +22,9 @@ class PlayerActivity : AppCompatActivity() {
     private val playerTimer: TextView by lazy { findViewById(R.id.player_track_timer) }
     private val progressBar: ProgressBar by lazy { findViewById(R.id.player_progressBar) }
     private val trackPropertiesWidget: TrackPropertiesWidget by lazy { TrackPropertiesWidget(this@PlayerActivity) }
-    private val viewModel: PlayerViewModel by lazy {
-        ViewModelProvider(this, PlayerViewModel.getViewModelFactory(track))[PlayerViewModel::class.java] }
 
-    companion object {
-        private const val PLAYBACK_TIMER_VALUE = "playback_timer_value"
+    private val viewModel: PlayerViewModel by lazy {
+        ViewModelProvider(this, PlayerViewModel.getViewModelFactory(track))[PlayerViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,11 +36,11 @@ class PlayerActivity : AppCompatActivity() {
             trackPlayingStatusObserve().observe(this@PlayerActivity) {
                 updateTrackPlayingStatus(it)
             }
-            playbackTimerObserve().observe(this@PlayerActivity) {
+            playbackTimerActionObserve().observe(this@PlayerActivity) {
                 updatePlaybackTimer(it)
             }
             playerPrepareStatusObserve().observe(this@PlayerActivity) {
-                updateProgressOnPrepare(it)
+                updateViewOnPlayerPrepared(it)
             }
             trackInFavoritesStatusObserve().observe(this@PlayerActivity) {
                 updateTrackInFavoritesStatus(it)
@@ -51,7 +49,6 @@ class PlayerActivity : AppCompatActivity() {
                 updateTrackInPlaylistsStatus(it)
             }
         }
-
 
         goBackButton.setOnClickListener {
             onBackPressed()
@@ -65,10 +62,9 @@ class PlayerActivity : AppCompatActivity() {
         addToPlaylistButton.setOnClickListener {
             viewModel.changeTrackInPlaylistState()
         }
-        trackPropertiesWidget.showTrackProperties(track)
-        playerTimer.text = savedInstanceState?.getString(PLAYBACK_TIMER_VALUE)
-    }
 
+        trackPropertiesWidget.showTrackProperties(track)
+    }
 
     private fun updateTrackPlayingStatus(isPlaying: Boolean) {
         when (isPlaying) {
@@ -81,7 +77,7 @@ class PlayerActivity : AppCompatActivity() {
         playerTimer.text = time
     }
 
-    private fun updateProgressOnPrepare(isPrepared: Boolean) {
+    private fun updateViewOnPlayerPrepared(isPrepared: Boolean) {
         progressBar.isVisible = !isPrepared
         playButton.isEnabled = isPrepared
     }
@@ -98,11 +94,6 @@ class PlayerActivity : AppCompatActivity() {
             true -> addToPlaylistButton.setImageResource(R.drawable.player_add_to_playlist_done)
             false -> addToPlaylistButton.setImageResource(R.drawable.player_add_to_playlist_available)
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(PLAYBACK_TIMER_VALUE, playerTimer.text.toString())
     }
 
     override fun onPause() {

@@ -1,5 +1,5 @@
 package com.example.playlistmarket.features.player.viewModel.enums
 
 enum class PlayerPlayback {
-    IS_PREPARED, PLAYBACK_TIMER, PLAYBACK_FINISHED
+    IS_PREPARED, TIMER_ACTION, IS_FINISHED
 }

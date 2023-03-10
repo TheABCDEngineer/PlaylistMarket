@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.playlistmarket.features.player.viewModel.enums.PlayerPlayback
-import com.example.playlistmarket.features.player.viewModel.interactors.PlaybackInteractor
+import com.example.playlistmarket.features.player.viewModel.interactors.PlaybackControlInteractor
 import com.example.playlistmarket.features.player.viewModel.interactors.TrackHandleInteractor
 import com.example.playlistmarket.App
 import com.example.playlistmarket.creator.Creator
@@ -16,7 +16,7 @@ import com.example.playlistmarket.domain.model.Track
 
 class PlayerViewModel(
     private val track: Track,
-    private val playback: PlaybackInteractor,
+    private val playbackControl: PlaybackControlInteractor,
     private val trackHandle: TrackHandleInteractor
 ) : ViewModel(), Observer {
 
@@ -29,8 +29,8 @@ class PlayerViewModel(
     private val trackPlayingStatusLiveData = MutableLiveData<Boolean>()
     fun trackPlayingStatusObserve(): LiveData<Boolean> = trackPlayingStatusLiveData
 
-    private val playbackTimerLiveData = MutableLiveData<String>()
-    fun playbackTimerObserve(): LiveData<String> = playbackTimerLiveData
+    private val playbackTimerActionLiveData = MutableLiveData<String>()
+    fun playbackTimerActionObserve(): LiveData<String> = playbackTimerActionLiveData
 
     private val playerPrepareStatusLiveData = MutableLiveData<Boolean>()
     fun playerPrepareStatusObserve(): LiveData<Boolean> = playerPrepareStatusLiveData
@@ -42,17 +42,20 @@ class PlayerViewModel(
     fun trackInPlaylistStatusObserve(): LiveData<Boolean> = trackInPlaylistStatusLiveData
 
     init {
-        playback.addObserver(this)
-        playback.preparePlayer()
+        playbackControl.addObserver(this)
         trackPlayingStatusLiveData.postValue(false)
         trackInFavoritesStatusLiveData.postValue(trackHandle.getTrackInFavoritesStatus(track))
         trackInPlaylistStatusLiveData.postValue(trackHandle.getTrackInPlaylistsStatus(track))
     }
 
     fun changePlaybackState() {
-        val isTrackPlaying = !trackPlayingStatusLiveData.value!!
-        trackPlayingStatusLiveData.postValue(isTrackPlaying)
-        startPlayback(isTrackPlaying)
+        val isTrackPlaying = trackPlayingStatusLiveData.value!!
+        if (isTrackPlaying) {
+            playbackControl.paused()
+        } else {
+            playbackControl.start()
+        }
+        trackPlayingStatusLiveData.postValue(!isTrackPlaying)
     }
 
     fun changeTrackInFavoritesState() {
@@ -63,47 +66,46 @@ class PlayerViewModel(
         trackInPlaylistStatusLiveData.postValue(!trackInPlaylistStatusLiveData.value!!)
     }
 
-    private fun startPlayback(isPlayback: Boolean) {
-        playback.executePlayback(isPlayback)
-    }
-
-    fun onResume() {
-        if (playback.getPrepareStatus()) {
-            playerPrepareStatusLiveData.postValue(true)
-        } else {
-            playerPrepareStatusLiveData.postValue(false)
-        }
-    }
-
     fun onPaused() {
-        if (trackInFavoritesStatusLiveData.value!!) {
-            if (!trackHandle.getTrackInFavoritesStatus(track)) {
-                trackHandle.addTrackToPlaylist(track, App.FAVORITES_LIST_KEY)
+        val isFavoritesFlagChecked = trackInFavoritesStatusLiveData.value!!
+        val isTrackAlreadyInFavorites = trackHandle.getTrackInFavoritesStatus(track)
+
+        when (isFavoritesFlagChecked) {
+            true -> {
+                if (!isTrackAlreadyInFavorites) trackHandle.addTrackToPlaylist(
+                    track,
+                    App.FAVORITES_LIST_KEY
+                )
             }
-        } else {
-            if (!trackHandle.getTrackInFavoritesStatus(track)) {
-                trackHandle.deleteTrackFromPlaylist(track, App.FAVORITES_LIST_KEY)
+            false -> {
+                if (isTrackAlreadyInFavorites) trackHandle.deleteTrackFromPlaylist(
+                    track,
+                    App.FAVORITES_LIST_KEY
+                )
             }
         }
+
         if (trackPlayingStatusLiveData.value!!) changePlaybackState()
     }
 
     override fun onCleared() {
-        playback.destroyPlayer()
+        playbackControl.releaseResources()
         super.onCleared()
     }
 
     override fun <S, T> notifyObserver(event: S?, data: T?) {
         when (event) {
             PlayerPlayback.IS_PREPARED -> {
-                playerPrepareStatusLiveData.postValue(data as Boolean)
-                if (data) playbackTimerLiveData.postValue(playback.getPlaybackDuration())
+                playerPrepareStatusLiveData.postValue(true)
+                playbackTimerActionLiveData.postValue(data as String)
             }
-            PlayerPlayback.PLAYBACK_FINISHED -> {
-                trackPlayingStatusLiveData.postValue(data as Boolean)
-                playbackTimerLiveData.postValue(playback.getPlaybackDuration())
+            PlayerPlayback.IS_FINISHED -> {
+                trackPlayingStatusLiveData.postValue(false)
+                playbackTimerActionLiveData.postValue(data as String)
             }
-            PlayerPlayback.PLAYBACK_TIMER -> playbackTimerLiveData.postValue(data as String)
+            PlayerPlayback.TIMER_ACTION -> {
+                playbackTimerActionLiveData.postValue(data as String)
+            }
         }
     }
 }

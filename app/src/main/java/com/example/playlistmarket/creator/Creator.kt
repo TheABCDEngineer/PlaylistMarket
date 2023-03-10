@@ -1,6 +1,5 @@
 package com.example.playlistmarket.creator
 
-import android.media.MediaPlayer
 import com.example.playlistmarket.App
 import com.example.playlistmarket.features.main.viewModel.MainViewModel
 import com.example.playlistmarket.features.player.viewModel.PlayerViewModel
@@ -12,7 +11,8 @@ import com.example.playlistmarket.data.sharedPreferences.PlaylistRepositoryImpSh
 import com.example.playlistmarket.data.sharedPreferences.SettingsRepositoryImpSharedPreferences
 import com.example.playlistmarket.domain.entity.Playlist
 import com.example.playlistmarket.domain.model.Track
-import com.example.playlistmarket.features.player.domain.PlaybackImpMediaPlayer
+import com.example.playlistmarket.features.player.data.UrlTrackPlayerImpMediaPlayer
+import com.example.playlistmarket.features.player.domain.TrackPlaybackControl
 import com.example.playlistmarket.features.player.domain.TrackHandleAct
 import com.example.playlistmarket.features.search.data.network.NetworkClientImpRetrofit
 import com.example.playlistmarket.features.search.domain.QueryExecutor
@@ -45,7 +45,7 @@ object Creator {
     fun createPlayerViewModel(track: Track): PlayerViewModel {
         return PlayerViewModel(
             track,
-            PlaybackImpMediaPlayer(track, MediaPlayer()),
+            TrackPlaybackControl(track.previewUrl, UrlTrackPlayerImpMediaPlayer()),
             TrackHandleAct(PlaylistRepositoryImpSharedPreferences(App.playlistsFile))
         )
     }
