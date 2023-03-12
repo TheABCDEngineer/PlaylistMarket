@@ -1,11 +1,11 @@
 package com.example.playlistmarket.features.player.domain
 
-import com.example.playlistmarket.features.player.viewModel.enums.PlayerPlayback
-import com.example.playlistmarket.features.player.viewModel.interactors.PlaybackControlInteractor
+import com.example.playlistmarket.features.player.domain.enums.PlayerPlayback
+import com.example.playlistmarket.features.player.domain.interactors.PlaybackControlInteractor
 import com.example.playlistmarket.App
 import com.example.playlistmarket.creator.observe.Observer
-import com.example.playlistmarket.domain.dataConverter.TrackConverter
-import com.example.playlistmarket.features.player.data.repo.UrlTrackPlayerRepository
+import com.example.playlistmarket.features.main.domain.dataConverter.TrackConverter
+import com.example.playlistmarket.features.player.domain.repository.UrlTrackPlayerRepository
 
 class TrackPlaybackControl(
     trackUrl: String,

@@ -1,16 +1,16 @@
 package com.example.playlistmarket.creator
 
 import com.example.playlistmarket.App
-import com.example.playlistmarket.features.main.viewModel.MainViewModel
-import com.example.playlistmarket.features.player.viewModel.PlayerViewModel
-import com.example.playlistmarket.features.search.viewModel.SearchViewModel
-import com.example.playlistmarket.features.setting.viewModel.SettingsViewModel
+import com.example.playlistmarket.features.main.presentation.viewModel.MainViewModel
+import com.example.playlistmarket.features.player.presentation.viewModel.PlayerViewModel
+import com.example.playlistmarket.features.search.presentation.viewModel.SearchViewModel
+import com.example.playlistmarket.features.setting.presentation.viewModel.SettingsViewModel
 import com.example.playlistmarket.features.search.data.network.RetrofitClient
 import com.example.playlistmarket.features.search.data.network.ItunesApi
-import com.example.playlistmarket.data.sharedPreferences.PlaylistRepositoryImpSharedPreferences
-import com.example.playlistmarket.data.sharedPreferences.SettingsRepositoryImpSharedPreferences
-import com.example.playlistmarket.domain.entity.Playlist
-import com.example.playlistmarket.domain.model.Track
+import com.example.playlistmarket.features.main.data.sharedPreferences.PlaylistRepositoryImpSharedPreferences
+import com.example.playlistmarket.features.main.data.sharedPreferences.SettingsRepositoryImpSharedPreferences
+import com.example.playlistmarket.features.main.domain.entity.Playlist
+import com.example.playlistmarket.features.main.domain.model.Track
 import com.example.playlistmarket.features.player.data.UrlTrackPlayerImpMediaPlayer
 import com.example.playlistmarket.features.player.domain.TrackPlaybackControl
 import com.example.playlistmarket.features.player.domain.TrackHandleAct

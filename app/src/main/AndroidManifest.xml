@@ -17,19 +17,19 @@
         android:theme="@style/Theme.PlaylistMarket"
         tools:targetApi="31">
         <activity
-            android:name=".features.player.ui.PlayerActivity"
+            android:name="com.example.playlistmarket.features.player.presentation.ui.PlayerActivity"
             android:exported="false" />
         <activity
-            android:name=".features.setting.ui.SettingsActivity"
+            android:name="com.example.playlistmarket.features.setting.presentation.ui.SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".features.search.ui.SearchActivity"
+            android:name="com.example.playlistmarket.features.search.presentation.ui.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".features.medialibrary.ui.MediaLibraryActivity"
+            android:name="com.example.playlistmarket.features.medialibrary.presentation.ui.MediaLibraryActivity"
             android:exported="false" />
         <activity
-            android:name=".features.main.ui.MainActivity"
+            android:name="com.example.playlistmarket.features.main.presentation.ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

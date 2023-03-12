@@ -1,17 +1,17 @@
 package com.example.playlistmarket.features.search.domain
 
-import com.example.playlistmarket.features.search.viewModel.enums.QueryError
-import com.example.playlistmarket.features.search.viewModel.interactors.QueryInteractor
+import com.example.playlistmarket.features.search.domain.enums.QueryError
+import com.example.playlistmarket.features.search.domain.interactors.QueryInteractor
 import com.example.playlistmarket.creator.observe.Observer
 import com.example.playlistmarket.features.search.data.dto.TracksResponse
-import com.example.playlistmarket.domain.dataConverter.TrackConverter
-import com.example.playlistmarket.domain.model.Track
+import com.example.playlistmarket.features.main.domain.dataConverter.TrackConverter
+import com.example.playlistmarket.features.main.domain.model.Track
 import com.example.playlistmarket.features.search.data.dto.TracksRequest
-import com.example.playlistmarket.features.search.data.network.NetworkClient
+import com.example.playlistmarket.features.search.domain.repository.NetworkClientRepository
 import com.example.playlistmarket.features.search.data.dto.Response
 
 class QueryExecutor(
-    private val networkClient: NetworkClient
+    private val networkClient: NetworkClientRepository
 ) : QueryInteractor {
 
     private lateinit var observer: Observer

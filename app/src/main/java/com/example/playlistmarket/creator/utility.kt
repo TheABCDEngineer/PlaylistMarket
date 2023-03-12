@@ -6,8 +6,8 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmarket.App
-import com.example.playlistmarket.domain.model.Track
-import com.example.playlistmarket.features.player.ui.PlayerActivity
+import com.example.playlistmarket.features.main.domain.model.Track
+import com.example.playlistmarket.features.player.presentation.ui.PlayerActivity
 
 fun startPlayer(track: Track?) {
     if (track == null) return

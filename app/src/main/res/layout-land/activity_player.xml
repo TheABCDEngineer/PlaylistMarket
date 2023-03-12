@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".features.player.ui.PlayerActivity">
+    tools:context=".features.player.presentation.ui.PlayerActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/player_left_guideline"

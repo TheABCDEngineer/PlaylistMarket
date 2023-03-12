@@ -4,10 +4,11 @@ import com.example.playlistmarket.App
 import com.example.playlistmarket.features.search.data.dto.Response
 import com.example.playlistmarket.features.search.data.dto.TracksRequest
 import com.example.playlistmarket.features.search.data.dto.TracksResponse
+import com.example.playlistmarket.features.search.domain.repository.NetworkClientRepository
 import retrofit2.Call
 import retrofit2.Callback
 
-class NetworkClientImpRetrofit : NetworkClient {
+class NetworkClientImpRetrofit : NetworkClientRepository {
     override lateinit var callback: (Response) -> Unit
 
     override fun executeRequest(request: TracksRequest) {
