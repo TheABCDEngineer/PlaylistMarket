@@ -1,6 +1,6 @@
-package com.example.playlistmarket.features.player.domain.repository
+package com.example.playlistmarket.features.player.domain
 
-interface UrlTrackPlayerRepository {
+interface UrlTrackPlayer {
     var playerReadyToUse: () -> Unit
     var playbackIsFinished: () -> Unit
 

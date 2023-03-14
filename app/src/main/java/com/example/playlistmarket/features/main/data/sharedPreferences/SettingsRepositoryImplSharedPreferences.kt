@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmarket.App
 import com.example.playlistmarket.features.main.domain.repository.SettingsRepository
 
-class SettingsRepositoryImpSharedPreferences(
+class SettingsRepositoryImplSharedPreferences(
     private val file: SharedPreferences
 ) : SettingsRepository {
 

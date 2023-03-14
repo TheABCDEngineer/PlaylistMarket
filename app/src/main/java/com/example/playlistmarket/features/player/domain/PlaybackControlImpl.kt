@@ -4,12 +4,11 @@ import com.example.playlistmarket.features.player.domain.enums.PlayerPlayback
 import com.example.playlistmarket.features.player.domain.interactors.PlaybackControlInteractor
 import com.example.playlistmarket.App
 import com.example.playlistmarket.creator.observe.Observer
-import com.example.playlistmarket.features.main.domain.dataConverter.TrackConverter
-import com.example.playlistmarket.features.player.domain.repository.UrlTrackPlayerRepository
+import com.example.playlistmarket.features.main.data.dataConverter.TrackConverter
 
-class TrackPlaybackControl(
+class PlaybackControlImpl(
     trackUrl: String,
-    private val player: UrlTrackPlayerRepository
+    private val player: UrlTrackPlayer
 ) : PlaybackControlInteractor {
 
     private val playerTimerAction: Runnable by lazy { createPlayerTimerAction() }

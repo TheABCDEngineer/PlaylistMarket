@@ -1,4 +1,4 @@
-package com.example.playlistmarket.features.main.domain.dataConverter
+package com.example.playlistmarket.features.main.data.dataConverter
 
 import com.example.playlistmarket.R
 import com.example.playlistmarket.App
@@ -27,7 +27,7 @@ object TrackConverter {
 
     fun convertDtoToTrackModel(listDto: ArrayList<TrackDto>): ArrayList<Track> {
         val result = ArrayList<Track>()
-        for (i in listDto) result.add(convertDtoToTrackModel(i))
+        for (dto in listDto) result.add(convertDtoToTrackModel(dto))
         return result
     }
 

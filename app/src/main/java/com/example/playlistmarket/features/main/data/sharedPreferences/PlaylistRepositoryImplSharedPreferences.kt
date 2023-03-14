@@ -6,7 +6,7 @@ import com.example.playlistmarket.creator.enums.PlaylistHandle
 import com.example.playlistmarket.features.main.domain.repository.PlaylistRepository
 import com.example.playlistmarket.features.main.domain.model.Track
 
-class PlaylistRepositoryImpSharedPreferences(
+class PlaylistRepositoryImplSharedPreferences(
     private val file: SharedPreferences
 ) : PlaylistRepository {
 

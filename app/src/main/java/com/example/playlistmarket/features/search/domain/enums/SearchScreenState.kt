@@ -6,83 +6,47 @@ import com.example.playlistmarket.R
 import com.example.playlistmarket.App
 
 enum class SearchScreenState(
-    val title: String?,
-    val image: Drawable?,
-    val message: String?,
-    val functionalButton: FunctionalButtonMode,
-    val isTitle: Boolean,
-    val isFeed: Boolean,
-    val isFunctionalButton: Boolean,
-    val isProgressBar: Boolean
+    val title: String? = null,
+    val image: Drawable? = null,
+    val message: String?= null,
+    val functionalButton: FunctionalButtonMode = FunctionalButtonMode.REFRESH,
+    val isTitle: Boolean = false,
+    val isFeed: Boolean = false,
+    val isFunctionalButton: Boolean = false,
+    val isProgressBar: Boolean = false
 ) {
-    NEWBORN(
-        null,
-        null,
-        null,
-        FunctionalButtonMode.REFRESH,
-        false,
-        false,
-        false,
-        false
-    ),
+    NEWBORN(),
+
     HISTORY(
-        App.appContext.getString(R.string.recent_tracks_list_title),
-        null,
-        null,
-        FunctionalButtonMode.CLEAR_HISTORY,
-        true,
-        true,
-        true,
-        false
+        title= App.appContext.getString(R.string.recent_tracks_list_title),
+        functionalButton = FunctionalButtonMode.CLEAR_HISTORY,
+        isTitle = true,
+        isFeed = true,
+        isFunctionalButton = true,
     ),
+
     QUERY_RESULTS(
-        null,
-        null,
-        null,
-        FunctionalButtonMode.REFRESH,
-        false,
-        true,
-        false,
-        false
+        isFeed = true,
     ),
+
     SEARCHING(
-        null,
-        null,
-        null,
-        FunctionalButtonMode.REFRESH,
-        false,
-        false,
-        false,
-        true
+        isProgressBar = true
     ),
+
     NO_RESULTS(
-        null,
-        AppCompatResources.getDrawable(App.appContext, R.drawable.no_any_content),
-        App.appContext.getString(R.string.search_request_status_text_if_no_results),
-        FunctionalButtonMode.REFRESH,
-        false,
-        false,
-        false,
-        false
+        image = AppCompatResources.getDrawable(App.appContext, R.drawable.no_any_content),
+        message = App.appContext.getString(R.string.search_request_status_text_if_no_results),
     ),
+
     SOMETHING_WENT_WRONG(
-        null,
-        AppCompatResources.getDrawable(App.appContext, R.drawable.warning_icon),
-        App.appContext.getString(R.string.search_request_status_text_if_server_error),
-        FunctionalButtonMode.REFRESH,
-        false,
-        false,
-        true,
-        false
+        image = AppCompatResources.getDrawable(App.appContext, R.drawable.warning_icon),
+        message = App.appContext.getString(R.string.search_request_status_text_if_server_error),
+        isFunctionalButton = true,
     ),
+
     NO_INTERNET_CONNECTION(
-        null,
-        AppCompatResources.getDrawable(App.appContext, R.drawable.no_internet_connection),
-        App.appContext.getString(R.string.search_request_status_text_if_no_internet),
-        FunctionalButtonMode.REFRESH,
-        false,
-        false,
-        true,
-        false
+        image = AppCompatResources.getDrawable(App.appContext, R.drawable.no_internet_connection),
+        message = App.appContext.getString(R.string.search_request_status_text_if_no_internet),
+        isFunctionalButton = true,
     )
 }

@@ -8,7 +8,7 @@ import com.example.playlistmarket.creator.enums.PlaylistHandle
 import com.example.playlistmarket.features.main.domain.repository.PlaylistRepository
 
 
-class TrackHandleAct(
+class TrackHandleImpl(
     private val playlistFile: PlaylistRepository
 ) : TrackHandleInteractor {
 
