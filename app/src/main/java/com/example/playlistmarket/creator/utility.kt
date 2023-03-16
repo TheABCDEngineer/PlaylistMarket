@@ -6,8 +6,8 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmarket.App
-import com.example.playlistmarket.domain.models.Track
-import com.example.playlistmarket.features.player.ui.PlayerActivity
+import com.example.playlistmarket.features.main.domain.model.Track
+import com.example.playlistmarket.features.player.presentation.ui.PlayerActivity
 
 fun startPlayer(track: Track?) {
     if (track == null) return
@@ -26,26 +26,6 @@ fun setDarkMode(status: Boolean) {
         false -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 }
-/*
-fun convertMSecToClockFormat(value: String): String {
-    val format = try {
-        if ((value.toLong() / 3600000) > 0) "hh:mm:ss" else "mm:ss"
-    } catch (e: NumberFormatException) {
-        null
-    } ?: return "0"
-
-    return try {
-        SimpleDateFormat(
-            format, Locale.getDefault()
-        ).format(
-            value.toLong()
-        )
-    } catch (e: IllegalArgumentException) {
-        "0"
-    }
-}
-
- */
 
 fun clickDebounce(
     isClickAllowed: Boolean,
