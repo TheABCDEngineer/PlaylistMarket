@@ -15,7 +15,7 @@ import com.example.playlistmarket.features.player.data.UrlTrackPlayerImplMediaPl
 import com.example.playlistmarket.features.player.domain.PlaybackControlImpl
 import com.example.playlistmarket.features.player.domain.TrackHandleImpl
 import com.example.playlistmarket.features.search.data.network.NetworkClientImpIRetrofit
-import com.example.playlistmarket.features.search.domain.QueryExecutor
+import com.example.playlistmarket.features.search.domain.QueryInteractorImpl
 
 object Creator {
 
@@ -31,7 +31,7 @@ object Creator {
             ItunesApi::class.java
         )
         return SearchViewModel(
-            QueryExecutor(NetworkClientImpIRetrofit()),
+            QueryInteractorImpl(NetworkClientImpIRetrofit()),
             createPlaylist(App.RECENT_TRACKS_LIST_KEY, 10)
         )
     }

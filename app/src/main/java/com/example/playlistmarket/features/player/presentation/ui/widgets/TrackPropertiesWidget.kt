@@ -5,8 +5,9 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.playlistmarket.R
 import com.example.playlistmarket.App
-import com.example.playlistmarket.features.main.data.dataConverter.TrackConverter
 import com.example.playlistmarket.features.main.domain.model.Track
+import com.example.playlistmarket.features.main.domain.utilities.getArtwork
+import com.example.playlistmarket.features.main.domain.utilities.getFormattedTrackTime
 import com.example.playlistmarket.features.player.presentation.ui.PlayerActivity
 
 class TrackPropertiesWidget(
@@ -23,14 +24,14 @@ class TrackPropertiesWidget(
 
     fun showTrackProperties(track: Track) {
         Glide.with(artwork)
-            .load(TrackConverter.getArtwork(track.artworkUrl100, 512))
+            .load(getArtwork(track.artworkUrl100, 512))
             .centerCrop()
             .placeholder(App.appContext.getDrawable(R.drawable.default_album_image))
             .into(artwork)
 
         trackName.text = track.trackName
         artistName.text = track.artist
-        length.text = TrackConverter.getFormattedTrackTime(track.trackTimeMillis)
+        length.text = getFormattedTrackTime(track.trackTimeMillis)
         album.text = track.collection
         release.text = track.releaseYear
         genre.text = track.genre

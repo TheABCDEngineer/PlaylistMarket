@@ -1,4 +1,4 @@
-package com.example.playlistmarket.features.player.domain
+package com.example.playlistmarket.features.player.domain.drivers
 
 interface UrlTrackPlayer {
     var playerReadyToUse: () -> Unit

@@ -6,8 +6,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.playlistmarket.R
-import com.example.playlistmarket.features.main.data.dataConverter.TrackConverter
 import com.example.playlistmarket.features.main.domain.model.Track
+import com.example.playlistmarket.features.main.domain.utilities.getFormattedTrackTime
 
 class SearchTrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val trackNameView: TextView = itemView.findViewById(R.id.search_cardview_track_title)
@@ -18,7 +18,7 @@ class SearchTrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
     fun bind(trackData: Track) {
         trackNameView.text = trackData.trackName
         artistNameView.text = trackData.artist
-        trackTimeView.text = TrackConverter.getFormattedTrackTime(trackData.trackTimeMillis)
+        trackTimeView.text = getFormattedTrackTime(trackData.trackTimeMillis)
 
         Glide.with(itemView)
             .load(trackData.artworkUrl100)
