@@ -1,7 +1,7 @@
 package com.example.playlistmarket.features.player.data
 
 import android.media.MediaPlayer
-import com.example.playlistmarket.features.player.domain.UrlTrackPlayer
+import com.example.playlistmarket.features.player.domain.drivers.UrlTrackPlayer
 
 class UrlTrackPlayerImplMediaPlayer : UrlTrackPlayer {
     private val player = MediaPlayer()

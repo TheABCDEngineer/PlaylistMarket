@@ -5,10 +5,10 @@ import com.example.playlistmarket.features.main.domain.model.Track
 import com.example.playlistmarket.features.search.data.dto.Response
 import com.example.playlistmarket.features.search.data.dto.TracksResponse
 import com.example.playlistmarket.features.search.domain.enums.QueryError
-import com.example.playlistmarket.features.search.domain.model.ResponseContainer
+import com.example.playlistmarket.features.search.domain.model.ResponseModel
 
 object ResponseConverter {
-    fun convertResponseToSearchModel(response: Response): ResponseContainer {
+    fun convertToDomain(response: Response): ResponseModel {
         var errorStatus = when (response.responseCode) {
             in 200..299 -> QueryError.NO_ERRORS
             in 400..499 -> QueryError.NO_INTERNET_CONNECTION
@@ -21,7 +21,7 @@ object ResponseConverter {
             if (resultList.isEmpty()) errorStatus = QueryError.NO_RESULTS
         }
 
-        return ResponseContainer(
+        return ResponseModel(
             errorStatus,
             resultList
         )

@@ -1,8 +1,8 @@
 package com.example.playlistmarket.features.search.domain.repository
 
-import com.example.playlistmarket.features.search.domain.model.ResponseContainer
+import com.example.playlistmarket.features.search.domain.model.ResponseModel
 
 interface NetworkClientRepository {
-    var callback: (ResponseContainer) -> Unit
+    var callback: (ResponseModel) -> Unit
     fun executeRequest(queryValue: String)
 }

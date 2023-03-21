@@ -4,7 +4,8 @@ import com.example.playlistmarket.features.player.domain.enums.PlayerPlayback
 import com.example.playlistmarket.features.player.domain.interactors.PlaybackControlInteractor
 import com.example.playlistmarket.App
 import com.example.playlistmarket.creator.observe.Observer
-import com.example.playlistmarket.features.main.data.dataConverter.TrackConverter
+import com.example.playlistmarket.features.main.domain.utilities.convertMSecToClockFormat
+import com.example.playlistmarket.features.player.domain.drivers.UrlTrackPlayer
 
 class PlaybackControlImpl(
     trackUrl: String,
@@ -22,14 +23,14 @@ class PlaybackControlImpl(
         player.playerReadyToUse = {
             observer.notifyObserver(
                 PlayerPlayback.IS_PREPARED,
-                TrackConverter.convertMSecToClockFormat(player.getTrackDuration())
+                convertMSecToClockFormat(player.getTrackDuration())
             )
         }
         player.playbackIsFinished = {
             App.mainHandler.removeCallbacks(playerTimerAction)
             observer.notifyObserver(
                 PlayerPlayback.IS_FINISHED,
-                TrackConverter.convertMSecToClockFormat(player.getTrackDuration())
+                convertMSecToClockFormat(player.getTrackDuration())
             )
         }
         player.setTrackUrl(trackUrl)
@@ -42,7 +43,7 @@ class PlaybackControlImpl(
                 if (timeRemainedToFinished > 0) {
                     observer.notifyObserver(
                         PlayerPlayback.TIMER_ACTION,
-                        TrackConverter.convertMSecToClockFormat(timeRemainedToFinished)
+                        convertMSecToClockFormat(timeRemainedToFinished)
                     )
                     App.mainHandler.postDelayed(this, 1000L)
                 }

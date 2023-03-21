@@ -4,7 +4,7 @@ import com.example.playlistmarket.features.search.domain.interactors.QueryIntera
 import com.example.playlistmarket.creator.observe.Observer
 import com.example.playlistmarket.features.search.domain.repository.NetworkClientRepository
 
-class QueryExecutor(
+class QueryInteractorImpl(
     private val networkClient: NetworkClientRepository
 ) : QueryInteractor {
 
