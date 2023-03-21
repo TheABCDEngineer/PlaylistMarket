@@ -105,7 +105,6 @@ class SearchViewModel(
 
     override fun onCleared() {
         App.mainHandler.removeCallbacks(searchRunnable)
-        App.serviceApi = null
         super.onCleared()
     }
 

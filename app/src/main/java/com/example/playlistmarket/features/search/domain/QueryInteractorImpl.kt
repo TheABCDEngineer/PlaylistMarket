@@ -2,10 +2,10 @@ package com.example.playlistmarket.features.search.domain
 
 import com.example.playlistmarket.features.search.domain.interactors.QueryInteractor
 import com.example.playlistmarket.creator.observe.Observer
-import com.example.playlistmarket.features.search.domain.repository.NetworkClientRepository
+import com.example.playlistmarket.features.search.domain.repository.QueryRepository
 
 class QueryInteractorImpl(
-    private val networkClient: NetworkClientRepository
+    private val networkClient: QueryRepository
 ) : QueryInteractor {
 
     private lateinit var observer: Observer

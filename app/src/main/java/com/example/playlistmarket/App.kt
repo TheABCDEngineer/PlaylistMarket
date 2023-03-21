@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Handler
 import android.os.Looper
-import com.example.playlistmarket.features.search.data.network.ItunesApi
 
 class App : Application() {
     override fun onCreate() {
@@ -29,7 +28,6 @@ class App : Application() {
         lateinit var settingsFile: SharedPreferences
         lateinit var playlistsFile: SharedPreferences
 
-        var serviceApi: ItunesApi? = null
         val mainHandler = Handler(Looper.getMainLooper())
         var playerAllowed = true
     }
