@@ -14,12 +14,12 @@ import com.example.playlistmarket.features.search.presentation.ui.recycler.Searc
 import com.example.playlistmarket.App
 import com.example.playlistmarket.creator.Creator
 import com.example.playlistmarket.creator.observe.Observer
-import com.example.playlistmarket.features.main.domain.entity.Playlist
+import com.example.playlistmarket.features.main.domain.PlaylistCreator
 import com.example.playlistmarket.features.main.domain.model.Track
 
 class SearchViewModel(
     private val queryExecutor: QueryInteractor,
-    private val historyPlaylist: Playlist
+    private val playlistCreator: PlaylistCreator
 ) : ViewModel(), Observer {
 
     companion object {
@@ -36,6 +36,7 @@ class SearchViewModel(
     private val trackFeedLiveData = MutableLiveData<SearchTrackAdapter>()
     fun observeTrackFeedState(): LiveData<SearchTrackAdapter> = trackFeedLiveData
 
+    private val historyPlaylist = playlistCreator.createPlaylist(App.RECENT_TRACKS_LIST_KEY, 10)
     private val queryTrackList = ArrayList<Track>()
     private val queryAdapter = SearchTrackAdapter(queryTrackList)
     private val historyAdapter = SearchTrackAdapter(historyPlaylist.items)
