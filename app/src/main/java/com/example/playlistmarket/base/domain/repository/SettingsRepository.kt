@@ -1,4 +1,4 @@
-package com.example.playlistmarket.features.main.domain.repository
+package com.example.playlistmarket.base.domain.repository
 
 interface SettingsRepository {
     fun getDarkModeStatusValue(): Boolean

@@ -1,9 +1,9 @@
-package com.example.playlistmarket.features.main.domain.entity
+package com.example.playlistmarket.base.domain.entity
 
-import com.example.playlistmarket.creator.enums.PlaylistHandle
-import com.example.playlistmarket.creator.observe.Observer
-import com.example.playlistmarket.features.main.domain.repository.PlaylistRepository
-import com.example.playlistmarket.features.main.domain.model.Track
+import com.example.playlistmarket.base.domain.model.enums.PlaylistHandle
+import com.example.playlistmarket.base.observe.Observer
+import com.example.playlistmarket.base.domain.repository.PlaylistRepository
+import com.example.playlistmarket.base.domain.model.Track
 
 class Playlist(
     private val playlistStorage: PlaylistRepository,

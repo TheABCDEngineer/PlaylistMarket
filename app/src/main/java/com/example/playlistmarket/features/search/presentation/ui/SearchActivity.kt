@@ -3,23 +3,20 @@ package com.example.playlistmarket.features.search.presentation.ui
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmarket.R
 import com.example.playlistmarket.features.search.presentation.viewModel.SearchViewModel
 import com.example.playlistmarket.features.search.domain.enums.SearchScreenState
 import com.example.playlistmarket.features.search.presentation.ui.recycler.SearchTrackAdapter
-import com.example.playlistmarket.creator.hideKeyboard
+import com.example.playlistmarket.base.hideKeyboard
 import com.example.playlistmarket.features.search.presentation.ui.widgets.ScreenStateWidget
 import com.example.playlistmarket.features.search.presentation.ui.widgets.SearchingWidget
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchActivity : AppCompatActivity() {
     private val goBackButton: ImageView by lazy { findViewById(R.id.search_goBack) }
     private val searchingWidget: SearchingWidget by lazy { SearchingWidget(this) }
     private val screenStateWidget: ScreenStateWidget by lazy { ScreenStateWidget(this) }
-
-    private val viewModel: SearchViewModel by lazy {
-        ViewModelProvider(this, SearchViewModel.getViewModelFactory())[SearchViewModel::class.java]
-    }
+    private val viewModel by viewModel<SearchViewModel>()
 
     companion object {
         private const val SEARCH_CONTENT_EDIT_TEXT_KEY = "searching_edit_text"

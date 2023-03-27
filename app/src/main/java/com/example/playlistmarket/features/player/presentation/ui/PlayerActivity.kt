@@ -6,12 +6,13 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmarket.App
 import com.example.playlistmarket.R
 import com.example.playlistmarket.features.player.presentation.viewModel.PlayerViewModel
-import com.example.playlistmarket.features.main.domain.model.Track
+import com.example.playlistmarket.base.domain.model.Track
 import com.example.playlistmarket.features.player.presentation.ui.widgets.TrackPropertiesWidget
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class PlayerActivity : AppCompatActivity() {
     private val track: Track by lazy { intent.getParcelableExtra(App.TRACK_KEY)!! }
@@ -23,8 +24,8 @@ class PlayerActivity : AppCompatActivity() {
     private val progressBar: ProgressBar by lazy { findViewById(R.id.player_progressBar) }
     private val trackPropertiesWidget: TrackPropertiesWidget by lazy { TrackPropertiesWidget(this@PlayerActivity) }
 
-    private val viewModel: PlayerViewModel by lazy {
-        ViewModelProvider(this, PlayerViewModel.getViewModelFactory(track))[PlayerViewModel::class.java]
+    private val viewModel by viewModel<PlayerViewModel> {
+        parametersOf(track)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

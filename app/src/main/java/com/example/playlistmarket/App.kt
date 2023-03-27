@@ -2,16 +2,26 @@ package com.example.playlistmarket
 
 import android.app.Application
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Handler
 import android.os.Looper
+import com.example.playlistmarket.di.networkModule
+import com.example.playlistmarket.di.playerModule
+import com.example.playlistmarket.di.baseModule
+import com.example.playlistmarket.di.mainModule
+import com.example.playlistmarket.di.searchModule
+import com.example.playlistmarket.di.settingsModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
         appContext = applicationContext
-        settingsFile = getSharedPreferences(SETTINGS_FILE_NAME, MODE_PRIVATE)
-        playlistsFile = getSharedPreferences(PLAYLISTS_FILE_NAME, MODE_PRIVATE)
+
+        startKoin {
+            androidContext(this@App)
+            modules(networkModule, mainModule, baseModule, playerModule, searchModule, settingsModule)
+        }
     }
 
     companion object {
@@ -25,11 +35,15 @@ class App : Application() {
         const val TRACK_KEY = "track"
 
         lateinit var appContext: Context
-        lateinit var settingsFile: SharedPreferences
-        lateinit var playlistsFile: SharedPreferences
-
         val mainHandler = Handler(Looper.getMainLooper())
         var playerAllowed = true
     }
 
 }
+
+
+
+
+
+
+

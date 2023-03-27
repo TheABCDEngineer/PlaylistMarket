@@ -1,6 +1,6 @@
-package com.example.playlistmarket.features.main.domain.repository
+package com.example.playlistmarket.base.domain.repository
 
-import com.example.playlistmarket.features.main.domain.model.Track
+import com.example.playlistmarket.base.domain.model.Track
 
 interface PlaylistRepository {
     fun loadTitlesList(): Array<String>

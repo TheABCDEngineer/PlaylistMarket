@@ -1,4 +1,4 @@
-package com.example.playlistmarket.creator
+package com.example.playlistmarket.base
 
 import android.content.Context
 import android.content.Intent
@@ -6,7 +6,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmarket.App
-import com.example.playlistmarket.features.main.domain.model.Track
+import com.example.playlistmarket.base.domain.model.Track
 import com.example.playlistmarket.features.player.presentation.ui.PlayerActivity
 
 fun startPlayer(track: Track?) {

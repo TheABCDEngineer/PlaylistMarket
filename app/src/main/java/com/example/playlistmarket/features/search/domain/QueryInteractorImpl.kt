@@ -1,7 +1,7 @@
 package com.example.playlistmarket.features.search.domain
 
 import com.example.playlistmarket.features.search.domain.interactors.QueryInteractor
-import com.example.playlistmarket.creator.observe.Observer
+import com.example.playlistmarket.base.observe.Observer
 import com.example.playlistmarket.features.search.domain.repository.QueryRepository
 
 class QueryInteractorImpl(

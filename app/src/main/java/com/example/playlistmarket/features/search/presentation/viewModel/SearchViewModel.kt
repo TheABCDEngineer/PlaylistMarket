@@ -3,19 +3,15 @@ package com.example.playlistmarket.features.search.presentation.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.playlistmarket.features.search.domain.enums.FunctionalButtonMode
 import com.example.playlistmarket.features.search.domain.enums.QueryError
 import com.example.playlistmarket.features.search.domain.enums.SearchScreenState
 import com.example.playlistmarket.features.search.domain.interactors.QueryInteractor
 import com.example.playlistmarket.features.search.presentation.ui.recycler.SearchTrackAdapter
 import com.example.playlistmarket.App
-import com.example.playlistmarket.creator.Creator
-import com.example.playlistmarket.creator.observe.Observer
-import com.example.playlistmarket.features.main.domain.PlaylistCreator
-import com.example.playlistmarket.features.main.domain.model.Track
+import com.example.playlistmarket.base.observe.Observer
+import com.example.playlistmarket.base.domain.PlaylistCreator
+import com.example.playlistmarket.base.domain.model.Track
 
 class SearchViewModel(
     private val queryExecutor: QueryInteractor,
@@ -24,10 +20,6 @@ class SearchViewModel(
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
-
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer { Creator.createSearchViewModel() }
-        }
     }
 
     private val screenStateLiveData = MutableLiveData<SearchScreenState>()

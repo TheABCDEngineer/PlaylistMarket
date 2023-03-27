@@ -5,25 +5,15 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.playlistmarket.R
 import com.example.playlistmarket.App
-import com.example.playlistmarket.creator.Creator
-import com.example.playlistmarket.creator.clickDebounce
-import com.example.playlistmarket.creator.setDarkMode
-import com.example.playlistmarket.features.main.domain.repository.SettingsRepository
+import com.example.playlistmarket.base.clickDebounce
+import com.example.playlistmarket.base.setDarkMode
+import com.example.playlistmarket.base.domain.repository.SettingsRepository
 
 class SettingsViewModel(
     private val settingsStorage: SettingsRepository
 ) : ViewModel() {
-
-    companion object {
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer { Creator.createSettingsViewModel() }
-        }
-    }
 
     private val darkThemeLiveData = MutableLiveData<Boolean>()
     fun darkThemeObserve(): LiveData<Boolean> = darkThemeLiveData

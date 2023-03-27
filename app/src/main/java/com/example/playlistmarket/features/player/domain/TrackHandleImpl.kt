@@ -1,10 +1,10 @@
 package com.example.playlistmarket.features.player.domain
 
-import com.example.playlistmarket.features.main.domain.model.Track
+import com.example.playlistmarket.base.domain.model.Track
 import com.example.playlistmarket.features.player.domain.interactors.TrackHandleInteractor
 import com.example.playlistmarket.App
-import com.example.playlistmarket.creator.enums.PlaylistHandle
-import com.example.playlistmarket.features.main.domain.PlaylistCreator
+import com.example.playlistmarket.base.domain.model.enums.PlaylistHandle
+import com.example.playlistmarket.base.domain.PlaylistCreator
 
 
 class TrackHandleImpl(
