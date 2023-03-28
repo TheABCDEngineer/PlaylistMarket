@@ -14,7 +14,7 @@ import org.koin.dsl.module
 
 val playerModule = module {
 
-    single<PlaybackControlInteractor> { (trackUrl: String) ->
+    factory<PlaybackControlInteractor> { (trackUrl: String) ->
         PlaybackControlImpl(trackUrl,get())
     }
 
@@ -22,7 +22,7 @@ val playerModule = module {
         TrackHandleImpl(get())
     }
 
-    single<UrlTrackPlayer> {
+    factory<UrlTrackPlayer> {
         UrlTrackPlayerImplMediaPlayer()
     }
 
