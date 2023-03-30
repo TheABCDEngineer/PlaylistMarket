@@ -4,13 +4,9 @@ import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.playlistmarket.App
-import com.example.playlistmarket.creator.Creator
-import com.example.playlistmarket.creator.clickDebounce
-import com.example.playlistmarket.features.main.domain.repository.SettingsRepository
+import com.example.playlistmarket.base.clickDebounce
+import com.example.playlistmarket.base.domain.repository.SettingsRepository
 import com.example.playlistmarket.features.medialibrary.presentation.ui.MediaLibraryActivity
 import com.example.playlistmarket.features.search.presentation.ui.SearchActivity
 import com.example.playlistmarket.features.setting.presentation.ui.SettingsActivity
@@ -18,12 +14,6 @@ import com.example.playlistmarket.features.setting.presentation.ui.SettingsActiv
 class MainViewModel(
     private val settingsStorage: SettingsRepository
 ) : ViewModel() {
-
-    companion object {
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer { Creator.createMainViewModel() }
-        }
-    }
 
     private var isSearchAllowed = true
     private var isMediaLibraryAllowed = true

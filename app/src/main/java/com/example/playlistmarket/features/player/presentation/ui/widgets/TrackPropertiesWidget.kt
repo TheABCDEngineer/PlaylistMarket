@@ -5,9 +5,9 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.example.playlistmarket.R
 import com.example.playlistmarket.App
-import com.example.playlistmarket.features.main.domain.model.Track
-import com.example.playlistmarket.features.main.domain.utilities.getArtwork
-import com.example.playlistmarket.features.main.domain.utilities.getFormattedTrackTime
+import com.example.playlistmarket.base.domain.model.Track
+import com.example.playlistmarket.base.domain.util.getArtwork
+import com.example.playlistmarket.base.domain.util.getFormattedTrackTime
 import com.example.playlistmarket.features.player.presentation.ui.PlayerActivity
 
 class TrackPropertiesWidget(

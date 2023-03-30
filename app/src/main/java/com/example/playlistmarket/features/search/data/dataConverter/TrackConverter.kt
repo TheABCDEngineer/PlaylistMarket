@@ -1,9 +1,9 @@
-package com.example.playlistmarket.features.main.data.dataConverter
+package com.example.playlistmarket.features.search.data.dataConverter
 
 import com.example.playlistmarket.R
 import com.example.playlistmarket.App
 import com.example.playlistmarket.features.search.data.dto.TrackDto
-import com.example.playlistmarket.features.main.domain.model.Track
+import com.example.playlistmarket.base.domain.model.Track
 import kotlin.collections.ArrayList
 
 object TrackConverter {

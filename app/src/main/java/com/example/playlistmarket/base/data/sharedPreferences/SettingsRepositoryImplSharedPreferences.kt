@@ -1,9 +1,9 @@
-package com.example.playlistmarket.features.main.data.sharedPreferences
+package com.example.playlistmarket.base.data.sharedPreferences
 
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmarket.App
-import com.example.playlistmarket.features.main.domain.repository.SettingsRepository
+import com.example.playlistmarket.base.domain.repository.SettingsRepository
 
 class SettingsRepositoryImplSharedPreferences(
     private val file: SharedPreferences

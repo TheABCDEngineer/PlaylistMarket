@@ -3,28 +3,18 @@ package com.example.playlistmarket.features.player.presentation.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.playlistmarket.features.player.domain.enums.PlayerPlayback
 import com.example.playlistmarket.features.player.domain.interactors.PlaybackControlInteractor
 import com.example.playlistmarket.features.player.domain.interactors.TrackHandleInteractor
 import com.example.playlistmarket.App
-import com.example.playlistmarket.creator.Creator
-import com.example.playlistmarket.creator.observe.Observer
-import com.example.playlistmarket.features.main.domain.model.Track
+import com.example.playlistmarket.base.observe.Observer
+import com.example.playlistmarket.base.domain.model.Track
 
 class PlayerViewModel(
     private val track: Track,
     private val playbackControl: PlaybackControlInteractor,
     private val trackHandle: TrackHandleInteractor
 ) : ViewModel(), Observer {
-
-    companion object {
-        fun getViewModelFactory(track: Track): ViewModelProvider.Factory = viewModelFactory {
-            initializer { Creator.createPlayerViewModel(track) }
-        }
-    }
 
     private val trackPlayingStatusLiveData = MutableLiveData<Boolean>()
     fun trackPlayingStatusObserve(): LiveData<Boolean> = trackPlayingStatusLiveData

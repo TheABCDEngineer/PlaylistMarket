@@ -5,9 +5,9 @@ import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmarket.R
 import com.example.playlistmarket.features.setting.presentation.viewModel.SettingsViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsActivity : AppCompatActivity() {
     private val goBackButton: ImageView by lazy { findViewById(R.id.settings_goBack) }
@@ -15,9 +15,7 @@ class SettingsActivity : AppCompatActivity() {
     private val shareButton: TextView by lazy { findViewById(R.id.settings_Share) }
     private val mailButton: TextView by lazy { findViewById(R.id.settings_MailToSupport) }
     private val userTermsButton: TextView by lazy { findViewById(R.id.settings_UserTerms) }
-    private val viewModel: SettingsViewModel by lazy {
-        ViewModelProvider(this, SettingsViewModel.getViewModelFactory())[SettingsViewModel::class.java]
-    }
+    private val viewModel by viewModel<SettingsViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

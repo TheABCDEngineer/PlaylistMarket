@@ -1,4 +1,4 @@
-package com.example.playlistmarket.features.main.domain.model
+package com.example.playlistmarket.base.domain.model
 
 import android.os.Parcelable
 
