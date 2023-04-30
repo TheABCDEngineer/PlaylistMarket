@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmarket.R
 import com.example.playlistmarket.features.search.domain.enums.FunctionalButtonMode
 import com.example.playlistmarket.features.search.domain.enums.SearchScreenState
-import com.example.playlistmarket.features.search.presentation.ui.recycler.SearchTrackAdapter
+import com.example.playlistmarket.features.search.presentation.ui.recyclerView.SearchTrackAdapter
 import com.example.playlistmarket.features.search.presentation.ui.SearchActivity
 
 

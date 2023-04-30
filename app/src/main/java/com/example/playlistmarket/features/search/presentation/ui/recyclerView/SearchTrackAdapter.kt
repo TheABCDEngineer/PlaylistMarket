@@ -1,4 +1,4 @@
-package com.example.playlistmarket.features.search.presentation.ui.recycler
+package com.example.playlistmarket.features.search.presentation.ui.recyclerView
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,7 +14,7 @@ class SearchTrackAdapter(
     private val trackList: List<Track>
 ) : RecyclerView.Adapter<SearchTrackViewHolder>(), Observable {
 
-    private lateinit var historyPlaylist: Observer
+    private var historyPlaylist: Observer? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchTrackViewHolder {
         val view =
@@ -26,7 +26,11 @@ class SearchTrackAdapter(
         holder.bind(trackList[position])
         holder.itemView.setOnClickListener {
             startPlayer(trackList[position])
-            historyPlaylist.notifyObserver(PlaylistHandle.ADD_TRACK, trackList[position])
+
+            if (historyPlaylist != null) {
+                historyPlaylist!!.notifyObserver(PlaylistHandle.ADD_TRACK, trackList[position])
+            }
+
         }
     }
 

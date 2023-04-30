@@ -7,7 +7,7 @@ import com.example.playlistmarket.features.search.domain.enums.FunctionalButtonM
 import com.example.playlistmarket.features.search.domain.enums.QueryError
 import com.example.playlistmarket.features.search.domain.enums.SearchScreenState
 import com.example.playlistmarket.features.search.domain.interactors.QueryInteractor
-import com.example.playlistmarket.features.search.presentation.ui.recycler.SearchTrackAdapter
+import com.example.playlistmarket.features.search.presentation.ui.recyclerView.SearchTrackAdapter
 import com.example.playlistmarket.App
 import com.example.playlistmarket.base.observe.Observer
 import com.example.playlistmarket.base.domain.PlaylistCreator

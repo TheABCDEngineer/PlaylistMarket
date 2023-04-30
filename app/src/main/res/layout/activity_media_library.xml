@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".features.medialibrary.presentation.ui.MediaLibraryActivity"
     android:orientation="vertical">
 
@@ -18,4 +19,18 @@
         <TextView style="@style/ActionBarTitle"
             android:text="@string/media_library" />
     </LinearLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        app:tabTextAppearance="@style/TabTextAppearance"
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabTextColor="@color/theme_hard_text_color"
+        app:tabIndicatorColor="@color/theme_hard_text_color"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </LinearLayout>

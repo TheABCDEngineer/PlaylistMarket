@@ -8,6 +8,7 @@ import com.example.playlistmarket.di.networkModule
 import com.example.playlistmarket.di.playerModule
 import com.example.playlistmarket.di.baseModule
 import com.example.playlistmarket.di.mainModule
+import com.example.playlistmarket.di.mediaLibraryModule
 import com.example.playlistmarket.di.searchModule
 import com.example.playlistmarket.di.settingsModule
 import org.koin.android.ext.koin.androidContext
@@ -20,7 +21,7 @@ class App : Application() {
 
         startKoin {
             androidContext(this@App)
-            modules(networkModule, mainModule, baseModule, playerModule, searchModule, settingsModule)
+            modules(networkModule, mainModule, baseModule, playerModule, searchModule, settingsModule, mediaLibraryModule)
         }
     }
 

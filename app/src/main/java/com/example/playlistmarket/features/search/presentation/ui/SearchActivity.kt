@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.playlistmarket.R
 import com.example.playlistmarket.features.search.presentation.viewModel.SearchViewModel
 import com.example.playlistmarket.features.search.domain.enums.SearchScreenState
-import com.example.playlistmarket.features.search.presentation.ui.recycler.SearchTrackAdapter
+import com.example.playlistmarket.features.search.presentation.ui.recyclerView.SearchTrackAdapter
 import com.example.playlistmarket.base.hideKeyboard
 import com.example.playlistmarket.features.search.presentation.ui.widgets.ScreenStateWidget
 import com.example.playlistmarket.features.search.presentation.ui.widgets.SearchingWidget
