@@ -4,17 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".features.medialibrary.presentation.ui.MediaLibraryActivity"
+    android:background="@color/background_color"
+    tools:context=".features.medialibrary.presentation.ui.MediaLibraryFragment"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:orientation="horizontal">
-
-        <ImageView style="@style/ActionBarButton"
-            android:id="@+id/media_library_goBack"
-            android:src="@drawable/arrow_back" />
 
         <TextView style="@style/ActionBarTitle"
             android:text="@string/media_library" />
@@ -25,6 +22,7 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/background_color"
         app:tabTextColor="@color/theme_hard_text_color"
         app:tabIndicatorColor="@color/theme_hard_text_color"/>
 

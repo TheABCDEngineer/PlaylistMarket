@@ -1,4 +1,4 @@
-package com.example.playlistmarket.features.medialibrary.presentation.ui.fragments
+package com.example.playlistmarket.features.medialibrary.presentation.ui.childFragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

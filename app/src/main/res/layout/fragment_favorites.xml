@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background_color"
     android:orientation="vertical"
-    tools:context=".features.medialibrary.presentation.ui.fragments.FavoritesFragment">
+    tools:context=".features.medialibrary.presentation.ui.childFragments.FavoritesFragment">
 
     <ImageView
         android:id="@+id/media_library_favorites_status_image"

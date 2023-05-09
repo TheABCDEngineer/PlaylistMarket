@@ -1,4 +1,4 @@
-package com.example.playlistmarket.features.medialibrary.presentation.ui.fragments
+package com.example.playlistmarket.features.medialibrary.presentation.ui.childFragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import com.example.playlistmarket.base.domain.model.Track
 import com.example.playlistmarket.databinding.FragmentFavoritesBinding
 import com.example.playlistmarket.features.medialibrary.presentation.viewModel.FavoritesViewModel
 import com.example.playlistmarket.features.search.presentation.ui.recyclerView.SearchTrackAdapter
@@ -17,6 +18,7 @@ class FavoritesFragment : Fragment() {
     }
     private val viewModel by viewModel<FavoritesViewModel>()
     private lateinit var binding: FragmentFavoritesBinding
+    private val adapter = SearchTrackAdapter(ArrayList())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,29 +26,23 @@ class FavoritesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        binding.mediaLibraryFavoritesList.adapter = adapter
 
-        viewModel.observeTrackFeedState().observe(viewLifecycleOwner) {
-            updateFavoritesFeed(it)
-        }
-
+        updateFavoritesFeed(
+            viewModel.getFavoritesList()
+        )
         return binding.root
     }
 
-    private fun updateFavoritesFeed(trackAdapter: SearchTrackAdapter?) {
-        if (trackAdapter == null) return
-
-        val listIsEmpty = trackAdapter.itemCount == 0
+    private fun updateFavoritesFeed(tracks: ArrayList<Track>) {
         binding.apply {
-            mediaLibraryFavoritesList.isVisible = !listIsEmpty
-            mediaLibraryFavoritesStatusText.isVisible = listIsEmpty
-            mediaLibraryFavoritesStatusImage.isVisible = listIsEmpty
+            mediaLibraryFavoritesList.isVisible = tracks.isNotEmpty()
+            mediaLibraryFavoritesStatusText.isVisible = tracks.isEmpty()
+            mediaLibraryFavoritesStatusImage.isVisible = tracks.isEmpty()
         }
-        if (listIsEmpty) return
+        if (tracks.isEmpty()) return
 
-        binding.mediaLibraryFavoritesList.apply {
-            adapter = trackAdapter
-            adapter!!.notifyDataSetChanged()
-        }
-
+        adapter.updateItems(tracks)
+        binding.mediaLibraryFavoritesList.adapter!!.notifyDataSetChanged()
     }
 }

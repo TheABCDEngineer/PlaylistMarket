@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import com.example.playlistmarket.base.domain.repository.SettingsRepository
 import com.example.playlistmarket.di.networkModule
 import com.example.playlistmarket.di.playerModule
 import com.example.playlistmarket.di.baseModule
@@ -36,6 +37,7 @@ class App : Application() {
         const val TRACK_KEY = "track"
 
         lateinit var appContext: Context
+        lateinit var settingsRepository: SettingsRepository
         val mainHandler = Handler(Looper.getMainLooper())
         var playerAllowed = true
     }

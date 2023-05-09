@@ -11,7 +11,7 @@ import com.example.playlistmarket.base.domain.model.Track
 import com.example.playlistmarket.base.startPlayer
 
 class SearchTrackAdapter(
-    private val trackList: List<Track>
+    private val trackList: ArrayList<Track>
 ) : RecyclerView.Adapter<SearchTrackViewHolder>(), Observable {
 
     private var historyPlaylist: Observer? = null
@@ -40,5 +40,10 @@ class SearchTrackAdapter(
 
     override fun addObserver(observer: Observer) {
         historyPlaylist = observer
+    }
+
+    fun updateItems(items: ArrayList<Track>) {
+        trackList.clear()
+        trackList.addAll(items)
     }
 }

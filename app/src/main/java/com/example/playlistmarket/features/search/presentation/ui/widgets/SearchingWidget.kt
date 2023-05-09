@@ -8,19 +8,18 @@ import android.widget.ImageView
 import androidx.core.view.isVisible
 import com.example.playlistmarket.R
 import com.example.playlistmarket.App
-import com.example.playlistmarket.features.search.presentation.ui.SearchActivity
+import com.example.playlistmarket.databinding.FragmentSearchBinding
 
 class SearchingWidget(
-    activity: SearchActivity
+    binding: FragmentSearchBinding
 ) {
-    private val editText: EditText = activity.findViewById(R.id.search_EditText)
-    private val clearButton: ImageView = activity.findViewById(R.id.search_ClearButton)
+    private val editText: EditText = binding.searchEditText
+    private val clearButton: ImageView = binding.searchClearButton
     lateinit var onUserRequestTextChange: (String) -> Unit
     lateinit var clearSearchingConditions: () -> Unit
     lateinit var hideSearchingKeyboard: () -> Unit
 
-    fun initializeSearchingSettings(initialText: String) {
-        editText.setText(initialText)
+    init {
         editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -55,7 +54,7 @@ class SearchingWidget(
         }
     }
 
-    fun getRequestTextValue(): String {
+    private fun getRequestTextValue(): String {
         return editText.text.toString()
     }
 }
