@@ -18,6 +18,10 @@ class SettingsViewModel(
     private var isSendMailToSupportAllowed = true
     private var isPresentUserTermsAllowed = true
 
+    fun getAppDarkModeValue(): Boolean {
+        return settingsStorage.getDarkModeStatusValue()
+    }
+
     fun activateDarkTheme(isDarkTheme: Boolean) {
         if (!clickDebounce(isActivateDarkThemeAllowed) { isActivateDarkThemeAllowed = it }) return
         setDarkMode(isDarkTheme)

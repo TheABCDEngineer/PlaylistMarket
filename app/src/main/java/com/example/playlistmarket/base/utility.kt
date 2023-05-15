@@ -1,25 +1,11 @@
 package com.example.playlistmarket.base
 
 import android.content.Context
-import android.content.Intent
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.example.playlistmarket.App
-import com.example.playlistmarket.base.domain.model.Track
-import com.example.playlistmarket.features.player.presentation.ui.PlayerActivity
-
-fun startPlayer(track: Track?) {
-    if (track == null) return
-    if (!clickDebounce(App.playerAllowed) { App.playerAllowed = it }) return
-
-    val context = App.appContext
-    val intent = Intent(context, PlayerActivity::class.java)
-    intent.putExtra(App.TRACK_KEY, track)
-    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-    context.startActivity(intent)
-}
 
 fun setDarkMode(status: Boolean) {
     when (status) {

@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/drawable/arrow_back.xml" value="0.152" />
         <entry key="app/src/main/res/drawable/arrow_forward.xml" value="0.172" />
+        <entry key="app/src/main/res/drawable/cursor_color.xml" value="0.1615" />
         <entry key="app/src/main/res/drawable/default_album_image.xml" value="0.158" />
         <entry key="app/src/main/res/drawable/edit_text_clear_button.xml" value="0.172" />
         <entry key="app/src/main/res/drawable/ellipse_track_time.xml" value="0.1615" />
@@ -21,6 +22,7 @@
         <entry key="app/src/main/res/drawable/player_pause_icon.xml" value="0.158" />
         <entry key="app/src/main/res/drawable/player_play_icon.xml" value="0.158" />
         <entry key="app/src/main/res/drawable/please_wait_icon.xml" value="0.158" />
+        <entry key="app/src/main/res/drawable/rounded_edittext.xml" value="0.1615" />
         <entry key="app/src/main/res/drawable/search_icon.xml" value="0.172" />
         <entry key="app/src/main/res/drawable/settings_icon.xml" value="0.172" />
         <entry key="app/src/main/res/drawable/share_icon.xml" value="0.172" />

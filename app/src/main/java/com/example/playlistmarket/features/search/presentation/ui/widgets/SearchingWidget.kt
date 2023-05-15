@@ -6,8 +6,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.core.view.isVisible
-import com.example.playlistmarket.R
-import com.example.playlistmarket.App
 import com.example.playlistmarket.databinding.FragmentSearchBinding
 
 class SearchingWidget(
@@ -42,14 +40,10 @@ class SearchingWidget(
             false
         }
 
-        editText.setOnFocusChangeListener { _, hasFocus ->
-            editText.hint =
-                if (hasFocus && editText.text.isEmpty()) App.appContext.getString(R.string.search) else ""
-        }
-
         clearButton.setOnClickListener {
             editText.setText("")
             clearButton.isVisible = false
+            hideSearchingKeyboard.invoke()
             clearSearchingConditions.invoke()
         }
     }

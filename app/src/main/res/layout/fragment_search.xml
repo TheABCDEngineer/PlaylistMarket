@@ -27,7 +27,7 @@
             android:id="@+id/search_EditText"
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:background="@color/text_edit_fill_color"
+            android:background="@drawable/rounded_edittext"
             android:imeOptions="actionDone"
             android:inputType="text"
             android:lines="1"
@@ -36,9 +36,9 @@
             android:singleLine="true"
             android:textColor="@color/text_color_single"
             android:textColorHint="@color/text_edit_icon_color"
+            android:textCursorDrawable="@drawable/cursor_color"
             android:textSize="@dimen/edit_text_dim"
-            app:cornerRadius="16dp"
-            tools:hint="@string/search" />
+            android:hint="@string/search" />
 
         <ImageView
             android:id="@+id/search_ClearButton"

@@ -7,10 +7,15 @@ import com.example.playlistmarket.base.data.sharedPreferences.SettingsRepository
 import com.example.playlistmarket.base.domain.PlaylistCreator
 import com.example.playlistmarket.base.domain.repository.PlaylistRepository
 import com.example.playlistmarket.base.domain.repository.SettingsRepository
+import com.example.playlistmarket.base.presentation.viewModel.RootViewModel
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val baseModule = module {
+val rootModule = module {
+    viewModel {
+        RootViewModel(get())
+    }
 
     single<PlaylistRepository> {
         PlaylistRepositoryImplSharedPreferences(

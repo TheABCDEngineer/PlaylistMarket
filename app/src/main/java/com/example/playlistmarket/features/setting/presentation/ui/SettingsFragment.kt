@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Switch
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.example.playlistmarket.App
 import com.example.playlistmarket.databinding.FragmentSettingsBinding
 import com.example.playlistmarket.features.setting.presentation.viewModel.SettingsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -32,7 +31,7 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        themeSwitcher.isChecked = App.settingsRepository.getDarkModeStatusValue()
+        themeSwitcher.isChecked = viewModel.getAppDarkModeValue()
 
         themeSwitcher.setOnCheckedChangeListener { _, isChecked ->
             viewModel.activateDarkTheme(isChecked)

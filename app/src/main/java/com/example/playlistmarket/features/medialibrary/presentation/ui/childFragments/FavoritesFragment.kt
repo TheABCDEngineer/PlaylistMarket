@@ -26,12 +26,20 @@ class FavoritesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.mediaLibraryFavoritesList.adapter = adapter
 
+    }
+
+    override fun onResume() {
+        super.onResume()
         updateFavoritesFeed(
             viewModel.getFavoritesList()
         )
-        return binding.root
     }
 
     private fun updateFavoritesFeed(tracks: ArrayList<Track>) {

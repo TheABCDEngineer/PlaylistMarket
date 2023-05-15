@@ -8,7 +8,7 @@ import com.example.playlistmarket.R
 import com.example.playlistmarket.base.domain.model.enums.PlaylistHandle
 import com.example.playlistmarket.base.observe.Observer
 import com.example.playlistmarket.base.domain.model.Track
-import com.example.playlistmarket.base.startPlayer
+import com.example.playlistmarket.features.player.presentation.Player
 
 class SearchTrackAdapter(
     private val trackList: ArrayList<Track>
@@ -25,12 +25,11 @@ class SearchTrackAdapter(
     override fun onBindViewHolder(holder: SearchTrackViewHolder, position: Int) {
         holder.bind(trackList[position])
         holder.itemView.setOnClickListener {
-            startPlayer(trackList[position])
+            Player.start(trackList[position])
 
             if (historyPlaylist != null) {
                 historyPlaylist!!.notifyObserver(PlaylistHandle.ADD_TRACK, trackList[position])
             }
-
         }
     }
 
