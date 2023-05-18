@@ -7,7 +7,7 @@ class RootViewModel(
     private val settingsStorage: SettingsRepository
 ) : ViewModel() {
 
-    fun getAppDarkModeValue(): Boolean {
-        return settingsStorage.getDarkModeStatusValue()
+    fun getAppDarkModeValue(): Int {
+        return settingsStorage.getThemeModeValue()
     }
 }

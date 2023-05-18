@@ -2,30 +2,29 @@ package com.example.playlistmarket.features.setting.presentation.viewModel
 
 import android.content.Intent
 import android.net.Uri
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
 import com.example.playlistmarket.R
 import com.example.playlistmarket.App
 import com.example.playlistmarket.base.clickDebounce
-import com.example.playlistmarket.base.setDarkMode
 import com.example.playlistmarket.base.domain.repository.SettingsRepository
 
 class SettingsViewModel(
     private val settingsStorage: SettingsRepository
 ) : ViewModel() {
 
-    private var isActivateDarkThemeAllowed = true
     private var isExecuteShareAllowed = true
     private var isSendMailToSupportAllowed = true
     private var isPresentUserTermsAllowed = true
 
-    fun getAppDarkModeValue(): Boolean {
-        return settingsStorage.getDarkModeStatusValue()
-    }
-
-    fun activateDarkTheme(isDarkTheme: Boolean) {
-        if (!clickDebounce(isActivateDarkThemeAllowed) { isActivateDarkThemeAllowed = it }) return
-        setDarkMode(isDarkTheme)
-        settingsStorage.putDarkModeStatusValue(isDarkTheme)
+    fun getThemeModeValue(): String {
+        return when(
+            settingsStorage.getThemeModeValue()
+        ) {
+            AppCompatDelegate.MODE_NIGHT_NO -> App.appContext.getString(R.string.light_theme)
+            AppCompatDelegate.MODE_NIGHT_YES -> App.appContext.getString(R.string.dark_theme)
+            else -> App.appContext.getString(R.string.default_theme)
+        }
     }
 
     fun executeShare() {

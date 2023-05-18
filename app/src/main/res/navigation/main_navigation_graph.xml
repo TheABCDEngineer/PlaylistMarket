@@ -18,5 +18,19 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.playlistmarket.features.setting.presentation.ui.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_themeFragment"
+            app:destination="@id/themeFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/dont_move"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/themeFragment"
+        android:name="com.example.playlistmarket.features.setting.presentation.ui.ThemeFragment"
+        android:label="fragment_theme_settings"
+        tools:layout="@layout/fragment_theme_settings" />
 </navigation>

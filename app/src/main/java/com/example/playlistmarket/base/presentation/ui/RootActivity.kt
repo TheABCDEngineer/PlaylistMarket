@@ -2,27 +2,47 @@ package com.example.playlistmarket.base.presentation.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.playlistmarket.R
 import com.example.playlistmarket.base.presentation.viewModel.RootViewModel
-import com.example.playlistmarket.base.setDarkMode
+import com.example.playlistmarket.databinding.AvtivityRootBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RootActivity : AppCompatActivity() {
-    private val navigationMenu: BottomNavigationView by lazy { findViewById(R.id.bottomNavigationView) }
+    private lateinit var binding: AvtivityRootBinding
+    private val navigationMenu: BottomNavigationView by lazy { binding.bottomNavigationView }
     private val viewModel by viewModel<RootViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.avtivity_root)
+        binding = AvtivityRootBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.hide()
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.container_view) as NavHostFragment
-        navigationMenu.setupWithNavController(navHostFragment.navController)
+        val navController = navHostFragment.navController
+        navigationMenu.setupWithNavController(navController)
 
-        val isDarkMode = viewModel.getAppDarkModeValue()
-        setDarkMode(isDarkMode)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.themeFragment -> {
+                    navigationMenu.isVisible= false
+                }
+                else -> {
+                    navigationMenu.isVisible= true
+                }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        AppCompatDelegate.setDefaultNightMode(
+            viewModel.getAppDarkModeValue()
+        )
     }
 }

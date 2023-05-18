@@ -3,7 +3,11 @@
     <string name="search">Поиск</string>
     <string name="media_library">Медиатека</string>
     <string name="settings">Настройки</string>
-    <string name="dark_theme">Темная тема</string>
+    <string name="theme">Тема</string>
+    <string name="default_theme">По умолчанию</string>
+    <string name="default_theme_hint">Будет использована тема, выбранная в системных настройках</string>
+    <string name="light_theme">Светлая</string>
+    <string name="dark_theme">Темная</string>
     <string name="share_app">Поделиться приложением</string>
     <string name="mail_to_support">Написать в поддержку</string>
     <string name="user_terms">Пользовательское соглашение</string>

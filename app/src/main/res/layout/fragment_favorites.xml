@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="112dp"
-        android:src="@drawable/no_any_content" />
+        android:src="@drawable/no_any_content"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/media_library_favorites_status_text"
@@ -26,7 +27,8 @@
         android:gravity="center"
         android:textColor="@color/theme_hard_text_color"
         android:textSize="@dimen/search_request_status_text"
-        android:text="@string/media_library_favorites_list_is_empty" />
+        android:text="@string/media_library_favorites_list_is_empty"
+        android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/media_library_favorites_list"

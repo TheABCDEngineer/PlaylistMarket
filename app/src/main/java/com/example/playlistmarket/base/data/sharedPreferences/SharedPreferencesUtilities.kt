@@ -12,12 +12,32 @@ inline fun <reified T> loadListFromFileOnKey(
     return Gson().fromJson(json, clazz)
 }
 
-fun <T> saveListToFileOnKey(
+fun <T> loadFromFileOnKey(
+    file: SharedPreferences,
+    key: String,
+    clazz: Class<T>
+): T? {
+    val json: String = file.getString(key, null) ?: return null
+    return Gson().fromJson(json, clazz)
+}
+
+fun <T> saveToFileOnKey(
     file: SharedPreferences,
     key: String,
     list: ArrayList<T>
 ) {
     val json = Gson().toJson(list)
+    file.edit()
+        .putString(key, json)
+        .apply()
+}
+
+fun <T> saveToFileOnKey(
+    file: SharedPreferences,
+    key: String,
+    value: T
+) {
+    val json = Gson().toJson(value)
     file.edit()
         .putString(key, json)
         .apply()

@@ -9,16 +9,16 @@ class SettingsRepositoryImplSharedPreferences(
     private val file: SharedPreferences
 ) : SettingsRepository {
 
-    override fun getDarkModeStatusValue(): Boolean {
-        return file.getBoolean(
-            App.DARK_MODE_STATUS_KEY,
-            AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+    override fun getThemeModeValue(): Int {
+        return file.getInt(
+            App.THEME_MODE_STATUS_KEY,
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
         )
     }
 
-    override fun putDarkModeStatusValue(value: Boolean) {
+    override fun putThemeModeValue(value: Int) {
         file.edit()
-            .putBoolean(App.DARK_MODE_STATUS_KEY, value)
+            .putInt(App.THEME_MODE_STATUS_KEY, value)
             .apply()
     }
 }
