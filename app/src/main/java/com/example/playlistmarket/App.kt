@@ -6,8 +6,8 @@ import android.os.Handler
 import android.os.Looper
 import com.example.playlistmarket.di.networkModule
 import com.example.playlistmarket.di.playerModule
-import com.example.playlistmarket.di.baseModule
-import com.example.playlistmarket.di.mainModule
+import com.example.playlistmarket.di.rootModule
+import com.example.playlistmarket.di.mediaLibraryModule
 import com.example.playlistmarket.di.searchModule
 import com.example.playlistmarket.di.settingsModule
 import org.koin.android.ext.koin.androidContext
@@ -20,14 +20,14 @@ class App : Application() {
 
         startKoin {
             androidContext(this@App)
-            modules(networkModule, mainModule, baseModule, playerModule, searchModule, settingsModule)
+            modules(networkModule, rootModule, playerModule, searchModule, settingsModule, mediaLibraryModule)
         }
     }
 
     companion object {
         const val SETTINGS_FILE_NAME = "APP_preferences"
         const val PLAYLISTS_FILE_NAME = "Playlists"
-        const val DARK_MODE_STATUS_KEY = "dark_mode_status"
+        const val THEME_MODE_STATUS_KEY = "theme_mode_status"
         const val RECENT_TRACKS_LIST_KEY = " recent_tracks_list "
         const val FAVORITES_LIST_KEY = " favorites "
         const val PLAYLIST_TITLES_KEY = " playlists "

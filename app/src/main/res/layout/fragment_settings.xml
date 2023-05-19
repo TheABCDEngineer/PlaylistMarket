@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/background_color"
+    tools:context=".features.setting.presentation.ui.SettingsFragment">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/left_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/setting_menu_titles_indent" />
+
+    <TextView style="@style/ActionBarTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        android:text="@string/settings" />
+
+    <LinearLayout
+        android:id="@+id/theme_changer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="100dp">
+
+        <TextView
+            style="@style/SettingMenuTextButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="0dp"
+            android:text="@string/theme" />
+
+        <TextView
+            android:id="@+id/theme_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginEnd="8dp"
+            android:text="@string/default_theme"/>
+
+        <ImageView
+            style="@style/SettingButtonImage"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/arrow_forward" />
+    </LinearLayout>
+
+    <TextView style="@style/SettingMenuTextButton"
+        android:id="@+id/settings_Share"
+        app:layout_constraintTop_toBottomOf="@id/theme_changer"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        android:text="@string/share_app" />
+
+    <ImageView style="@style/SettingButtonImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/settings_Share"
+        android:src="@drawable/share_icon" />
+
+    <TextView style="@style/SettingMenuTextButton"
+        android:id="@+id/settings_MailToSupport"
+        app:layout_constraintTop_toBottomOf="@id/settings_Share"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        android:text="@string/mail_to_support" />
+
+    <ImageView style="@style/SettingButtonImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/settings_MailToSupport"
+        android:src="@drawable/support_icon" />
+
+    <TextView style="@style/SettingMenuTextButton"
+        android:id="@+id/settings_UserTerms"
+        app:layout_constraintTop_toBottomOf="@id/settings_MailToSupport"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        android:text="@string/user_terms" />
+
+    <ImageView style="@style/SettingButtonImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/settings_UserTerms"
+        android:src="@drawable/arrow_forward" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

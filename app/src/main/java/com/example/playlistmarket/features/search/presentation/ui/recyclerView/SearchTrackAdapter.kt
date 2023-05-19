@@ -1,4 +1,4 @@
-package com.example.playlistmarket.features.search.presentation.ui.recycler
+package com.example.playlistmarket.features.search.presentation.ui.recyclerView
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,13 +8,13 @@ import com.example.playlistmarket.R
 import com.example.playlistmarket.base.domain.model.enums.PlaylistHandle
 import com.example.playlistmarket.base.observe.Observer
 import com.example.playlistmarket.base.domain.model.Track
-import com.example.playlistmarket.base.startPlayer
+import com.example.playlistmarket.features.player.presentation.Player
 
 class SearchTrackAdapter(
-    private val trackList: List<Track>
+    private val trackList: ArrayList<Track>
 ) : RecyclerView.Adapter<SearchTrackViewHolder>(), Observable {
 
-    private lateinit var historyPlaylist: Observer
+    private var historyPlaylist: Observer? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchTrackViewHolder {
         val view =
@@ -25,8 +25,11 @@ class SearchTrackAdapter(
     override fun onBindViewHolder(holder: SearchTrackViewHolder, position: Int) {
         holder.bind(trackList[position])
         holder.itemView.setOnClickListener {
-            startPlayer(trackList[position])
-            historyPlaylist.notifyObserver(PlaylistHandle.ADD_TRACK, trackList[position])
+            Player.start(trackList[position])
+
+            if (historyPlaylist != null) {
+                historyPlaylist!!.notifyObserver(PlaylistHandle.ADD_TRACK, trackList[position])
+            }
         }
     }
 
@@ -36,5 +39,10 @@ class SearchTrackAdapter(
 
     override fun addObserver(observer: Observer) {
         historyPlaylist = observer
+    }
+
+    fun updateItems(items: ArrayList<Track>) {
+        trackList.clear()
+        trackList.addAll(items)
     }
 }

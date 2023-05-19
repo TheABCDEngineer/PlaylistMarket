@@ -1,4 +1,4 @@
-package com.example.playlistmarket.features.search.presentation.ui.recycler
+package com.example.playlistmarket.features.search.presentation.ui.recyclerView
 
 import android.view.View
 import android.widget.ImageView

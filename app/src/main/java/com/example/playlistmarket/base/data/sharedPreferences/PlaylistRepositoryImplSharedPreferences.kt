@@ -45,7 +45,7 @@ class PlaylistRepositoryImplSharedPreferences(
     }
 
     override fun savePlaylist(playlistTitle: String, tracks: ArrayList<Track>) {
-        saveListToFileOnKey(file, playlistTitle, tracks)
+        saveToFileOnKey(file, playlistTitle, tracks)
         saveNewTitle(playlistTitle)
     }
 
@@ -59,6 +59,6 @@ class PlaylistRepositoryImplSharedPreferences(
         titles.addAll(loadTitlesList())
         if (event == PlaylistHandle.ADD_TRACK) titles.add(title)
         if (event == PlaylistHandle.DELETE_TRACK) titles.remove(title)
-        saveListToFileOnKey(file, App.PLAYLIST_TITLES_KEY, titles)
+        saveToFileOnKey(file, App.PLAYLIST_TITLES_KEY, titles)
     }
 }

@@ -1,33 +1,23 @@
 package com.example.playlistmarket.features.search.presentation.ui.widgets
 
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmarket.R
+import com.example.playlistmarket.databinding.FragmentSearchBinding
 import com.example.playlistmarket.features.search.domain.enums.FunctionalButtonMode
 import com.example.playlistmarket.features.search.domain.enums.SearchScreenState
-import com.example.playlistmarket.features.search.presentation.ui.recycler.SearchTrackAdapter
-import com.example.playlistmarket.features.search.presentation.ui.SearchActivity
-
+import com.example.playlistmarket.features.search.presentation.ui.recyclerView.SearchTrackAdapter
 
 class ScreenStateWidget(
-    activity: SearchActivity
+    binding: FragmentSearchBinding
 ) {
-    private val requestStatusImage: ImageView =
-        activity.findViewById(R.id.search_request_status_image)
-    private val requestStatusMessage: TextView =
-        activity.findViewById(R.id.search_request_status_text)
-    private val progressBar: ProgressBar = activity.findViewById(R.id.search_progressBar)
-    private val functionalButton: Button = activity.findViewById(R.id.search_refresh_button)
-    private val feed: RecyclerView = activity.findViewById(R.id.search_track_list)
-    private val recyclerLayout: LinearLayout = activity.findViewById(R.id.recycler_layout)
-    private val title: TextView = activity.findViewById(R.id.recent_tracks_title)
+    private val requestStatusImage = binding.requestStatusImage
+    private val requestStatusMessage = binding.requestStatusMessage
+    private val progressBar = binding.progressBar
+    private val functionalButton = binding.functionalButton
+    private val feed = binding.trackFeed
+    private val recyclerLayout = binding.recyclerLayout
+    private val title = binding.recentTracksTitle
     private lateinit var functionalButtonMode: FunctionalButtonMode
-
     lateinit var onFunctionalButtonClick: (FunctionalButtonMode) -> Unit
 
     init {

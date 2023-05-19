@@ -5,8 +5,10 @@
       <map>
         <entry key="app/src/main/res/drawable/arrow_back.xml" value="0.152" />
         <entry key="app/src/main/res/drawable/arrow_forward.xml" value="0.172" />
+        <entry key="app/src/main/res/drawable/cursor_color.xml" value="0.1615" />
         <entry key="app/src/main/res/drawable/default_album_image.xml" value="0.158" />
         <entry key="app/src/main/res/drawable/edit_text_clear_button.xml" value="0.172" />
+        <entry key="app/src/main/res/drawable/ellipse_track_time.xml" value="0.1615" />
         <entry key="app/src/main/res/drawable/emoji_doodle.xml" value="0.158" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.172" />
         <entry key="app/src/main/res/drawable/media_library_icon.xml" value="0.172" />
@@ -20,6 +22,7 @@
         <entry key="app/src/main/res/drawable/player_pause_icon.xml" value="0.158" />
         <entry key="app/src/main/res/drawable/player_play_icon.xml" value="0.158" />
         <entry key="app/src/main/res/drawable/please_wait_icon.xml" value="0.158" />
+        <entry key="app/src/main/res/drawable/rounded_edittext.xml" value="0.1615" />
         <entry key="app/src/main/res/drawable/search_icon.xml" value="0.172" />
         <entry key="app/src/main/res/drawable/settings_icon.xml" value="0.172" />
         <entry key="app/src/main/res/drawable/share_icon.xml" value="0.172" />
@@ -29,16 +32,28 @@
         <entry key="app/src/main/res/layout-land/activity_player.xml" value="0.27554677327473964" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/activity_media_library.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_media_library.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_player.xml" value="0.27928263346354165" />
         <entry key="app/src/main/res/layout/activity_search.xml" value="0.2869476318359375" />
         <entry key="app/src/main/res/layout/activity_search1.xml" value="0.2947916666666667" />
         <entry key="app/src/main/res/layout/activity_settings.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_settings2.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/avtivity_root.xml" value="0.30885416666666665" />
+        <entry key="app/src/main/res/layout/fragment_blank.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_favorites.xml" value="0.28192901611328125" />
+        <entry key="app/src/main/res/layout/fragment_favorites2.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_media_library.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_playlists.xml" value="0.30885416666666665" />
+        <entry key="app/src/main/res/layout/fragment_playlists2.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_search.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.30129375559398586" />
+        <entry key="app/src/main/res/layout/fragment_settings2.xml" value="0.30262451171875004" />
+        <entry key="app/src/main/res/layout/fragment_theme_settings.xml" value="0.22474365234375002" />
         <entry key="app/src/main/res/layout/search_track_item.xml" value="0.4192281087239584" />
         <entry key="app/src/main/res/layout/search_track_item_copy.xml" value="0.2947916666666667" />
         <entry key="app/src/main/res/layout/search_track_item_prev_vers.xml" value="0.2947916666666667" />
         <entry key="app/src/main/res/layout/treck_item.xml" value="0.335" />
+        <entry key="app/src/main/res/menu/root_navigation_menu.xml" value="0.3098958333333333" />
       </map>
     </option>
   </component>
