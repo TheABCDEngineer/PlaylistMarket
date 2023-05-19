@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.example.playlistmarket.databinding.FragmentThemeSettingsBinding
-import com.example.playlistmarket.features.setting.domain.ThemeRadioButton
-import com.example.playlistmarket.features.setting.domain.ThemeRadioGroup
+import com.example.playlistmarket.features.setting.presentation.ui.radioGroup.ThemeRadioButton
+import com.example.playlistmarket.features.setting.presentation.ui.radioGroup.ThemeRadioGroup
 import com.example.playlistmarket.features.setting.presentation.viewModel.ThemeViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
