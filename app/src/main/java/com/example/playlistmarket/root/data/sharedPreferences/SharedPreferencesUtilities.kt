@@ -1,4 +1,4 @@
-package com.example.playlistmarket.base.data.sharedPreferences
+package com.example.playlistmarket.root.data.sharedPreferences
 
 import android.content.SharedPreferences
 import com.google.gson.Gson

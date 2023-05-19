@@ -1,10 +1,10 @@
-package com.example.playlistmarket.base.data.sharedPreferences
+package com.example.playlistmarket.root.data.sharedPreferences
 
 import android.content.SharedPreferences
 import com.example.playlistmarket.App
-import com.example.playlistmarket.base.domain.model.enums.PlaylistHandle
-import com.example.playlistmarket.base.domain.repository.PlaylistRepository
-import com.example.playlistmarket.base.domain.model.Track
+import com.example.playlistmarket.root.domain.model.enums.PlaylistHandle
+import com.example.playlistmarket.root.domain.repository.PlaylistRepository
+import com.example.playlistmarket.root.domain.model.Track
 
 class PlaylistRepositoryImplSharedPreferences(
     private val file: SharedPreferences

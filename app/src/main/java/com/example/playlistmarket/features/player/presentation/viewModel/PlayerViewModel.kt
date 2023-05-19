@@ -7,8 +7,8 @@ import com.example.playlistmarket.features.player.domain.enums.PlayerPlayback
 import com.example.playlistmarket.features.player.domain.interactors.PlaybackControlInteractor
 import com.example.playlistmarket.features.player.domain.interactors.TrackHandleInteractor
 import com.example.playlistmarket.App
-import com.example.playlistmarket.base.observe.Observer
-import com.example.playlistmarket.base.domain.model.Track
+import com.example.playlistmarket.root.observe.Observer
+import com.example.playlistmarket.root.domain.model.Track
 
 class PlayerViewModel(
     private val track: Track,

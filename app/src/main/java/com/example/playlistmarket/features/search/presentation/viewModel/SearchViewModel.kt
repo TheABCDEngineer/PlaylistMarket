@@ -9,9 +9,9 @@ import com.example.playlistmarket.features.search.domain.enums.SearchScreenState
 import com.example.playlistmarket.features.search.domain.interactors.QueryInteractor
 import com.example.playlistmarket.features.search.presentation.ui.recyclerView.SearchTrackAdapter
 import com.example.playlistmarket.App
-import com.example.playlistmarket.base.observe.Observer
-import com.example.playlistmarket.base.domain.PlaylistCreator
-import com.example.playlistmarket.base.domain.model.Track
+import com.example.playlistmarket.root.observe.Observer
+import com.example.playlistmarket.root.domain.PlaylistCreator
+import com.example.playlistmarket.root.domain.model.Track
 
 class SearchViewModel(
     private val queryExecutor: QueryInteractor,

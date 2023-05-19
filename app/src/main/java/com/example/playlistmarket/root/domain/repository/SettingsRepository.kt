@@ -1,4 +1,4 @@
-package com.example.playlistmarket.base.domain.repository
+package com.example.playlistmarket.root.domain.repository
 
 interface SettingsRepository {
     fun getThemeModeValue(): Int

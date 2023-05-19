@@ -1,4 +1,4 @@
-package com.example.playlistmarket.base.presentation.ui
+package com.example.playlistmarket.root.presentation.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +7,7 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.playlistmarket.R
-import com.example.playlistmarket.base.presentation.viewModel.RootViewModel
+import com.example.playlistmarket.root.presentation.viewModel.RootViewModel
 import com.example.playlistmarket.databinding.AvtivityRootBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel

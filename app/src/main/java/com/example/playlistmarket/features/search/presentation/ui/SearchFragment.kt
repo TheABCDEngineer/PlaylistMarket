@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.playlistmarket.base.hideKeyboard
+import com.example.playlistmarket.root.hideKeyboard
 import com.example.playlistmarket.databinding.FragmentSearchBinding
 import com.example.playlistmarket.features.search.domain.enums.SearchScreenState
 import com.example.playlistmarket.features.search.presentation.ui.recyclerView.SearchTrackAdapter

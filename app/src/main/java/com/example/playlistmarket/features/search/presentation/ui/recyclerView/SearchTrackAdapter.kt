@@ -3,11 +3,11 @@ package com.example.playlistmarket.features.search.presentation.ui.recyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmarket.base.observe.Observable
+import com.example.playlistmarket.root.observe.Observable
 import com.example.playlistmarket.R
-import com.example.playlistmarket.base.domain.model.enums.PlaylistHandle
-import com.example.playlistmarket.base.observe.Observer
-import com.example.playlistmarket.base.domain.model.Track
+import com.example.playlistmarket.root.domain.model.enums.PlaylistHandle
+import com.example.playlistmarket.root.observe.Observer
+import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.features.player.presentation.Player
 
 class SearchTrackAdapter(
