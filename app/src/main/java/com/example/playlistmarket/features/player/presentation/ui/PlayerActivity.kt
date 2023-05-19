@@ -9,7 +9,7 @@ import androidx.core.view.isVisible
 import com.example.playlistmarket.App
 import com.example.playlistmarket.R
 import com.example.playlistmarket.features.player.presentation.viewModel.PlayerViewModel
-import com.example.playlistmarket.base.domain.model.Track
+import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.features.player.presentation.ui.widgets.TrackPropertiesWidget
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf

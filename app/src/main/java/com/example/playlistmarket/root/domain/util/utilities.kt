@@ -1,4 +1,4 @@
-package com.example.playlistmarket.base.domain.util
+package com.example.playlistmarket.root.domain.util
 
 import com.example.playlistmarket.App
 import com.example.playlistmarket.R

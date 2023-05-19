@@ -1,7 +1,7 @@
-package com.example.playlistmarket.base.domain
+package com.example.playlistmarket.root.domain
 
-import com.example.playlistmarket.base.domain.entity.Playlist
-import com.example.playlistmarket.base.domain.repository.PlaylistRepository
+import com.example.playlistmarket.root.domain.entity.Playlist
+import com.example.playlistmarket.root.domain.repository.PlaylistRepository
 
 class PlaylistCreator(
     val playlistStorage: PlaylistRepository

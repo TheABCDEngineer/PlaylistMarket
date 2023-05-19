@@ -1,7 +1,7 @@
-package com.example.playlistmarket.base.presentation.viewModel
+package com.example.playlistmarket.root.presentation.viewModel
 
 import androidx.lifecycle.ViewModel
-import com.example.playlistmarket.base.domain.repository.SettingsRepository
+import com.example.playlistmarket.root.domain.repository.SettingsRepository
 
 class RootViewModel(
     private val settingsStorage: SettingsRepository

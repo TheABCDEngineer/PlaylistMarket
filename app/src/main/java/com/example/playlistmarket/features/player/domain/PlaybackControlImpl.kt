@@ -3,8 +3,8 @@ package com.example.playlistmarket.features.player.domain
 import com.example.playlistmarket.features.player.domain.enums.PlayerPlayback
 import com.example.playlistmarket.features.player.domain.interactors.PlaybackControlInteractor
 import com.example.playlistmarket.App
-import com.example.playlistmarket.base.observe.Observer
-import com.example.playlistmarket.base.domain.util.convertMSecToClockFormat
+import com.example.playlistmarket.root.observe.Observer
+import com.example.playlistmarket.root.domain.util.convertMSecToClockFormat
 import com.example.playlistmarket.features.player.domain.drivers.UrlTrackPlayer
 
 class PlaybackControlImpl(

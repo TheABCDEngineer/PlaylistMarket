@@ -2,8 +2,8 @@ package com.example.playlistmarket.features.player.presentation
 
 import android.content.Intent
 import com.example.playlistmarket.App
-import com.example.playlistmarket.base.clickDebounce
-import com.example.playlistmarket.base.domain.model.Track
+import com.example.playlistmarket.root.clickDebounce
+import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.features.player.presentation.ui.PlayerActivity
 
 class Player {

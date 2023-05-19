@@ -1,6 +1,6 @@
 package com.example.playlistmarket.di
 
-import com.example.playlistmarket.base.domain.model.Track
+import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.features.player.data.UrlTrackPlayerImplMediaPlayer
 import com.example.playlistmarket.features.player.domain.PlaybackControlImpl
 import com.example.playlistmarket.features.player.domain.TrackHandleImpl

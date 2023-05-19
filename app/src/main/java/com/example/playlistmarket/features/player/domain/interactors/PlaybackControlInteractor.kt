@@ -1,6 +1,6 @@
 package com.example.playlistmarket.features.player.domain.interactors
 
-import com.example.playlistmarket.base.observe.Observable
+import com.example.playlistmarket.root.observe.Observable
 
 interface PlaybackControlInteractor : Observable {
     fun start()

@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
 import com.example.playlistmarket.R
 import com.example.playlistmarket.App
-import com.example.playlistmarket.base.clickDebounce
-import com.example.playlistmarket.base.domain.repository.SettingsRepository
+import com.example.playlistmarket.root.clickDebounce
+import com.example.playlistmarket.root.domain.repository.SettingsRepository
 
 class SettingsViewModel(
     private val settingsStorage: SettingsRepository

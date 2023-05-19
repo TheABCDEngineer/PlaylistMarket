@@ -1,7 +1,7 @@
 package com.example.playlistmarket.features.search.data.network
 
 import com.example.playlistmarket.features.search.data.dataConverter.TrackConverter
-import com.example.playlistmarket.base.domain.model.Track
+import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.features.search.data.dto.Response
 import com.example.playlistmarket.features.search.data.dto.TracksResponse
 import com.example.playlistmarket.features.search.domain.enums.QueryError
