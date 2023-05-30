@@ -67,6 +67,11 @@ class PlayerActivity : AppCompatActivity() {
         trackPropertiesWidget.showTrackProperties(track)
     }
 
+    override fun onPause() {
+        viewModel.onPaused()
+        super.onPause()
+    }
+
     private fun updateTrackPlayingStatus(isPlaying: Boolean) {
         when (isPlaying) {
             true -> playButton.setImageResource(R.drawable.player_pause_icon)
@@ -95,10 +100,5 @@ class PlayerActivity : AppCompatActivity() {
             true -> addToPlaylistButton.setImageResource(R.drawable.player_add_to_playlist_done)
             false -> addToPlaylistButton.setImageResource(R.drawable.player_add_to_playlist_available)
         }
-    }
-
-    override fun onPause() {
-        viewModel.onPaused()
-        super.onPause()
     }
 }

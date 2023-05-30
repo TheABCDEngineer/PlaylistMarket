@@ -3,18 +3,22 @@ package com.example.playlistmarket.features.player.presentation.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.playlistmarket.features.player.domain.enums.PlayerPlayback
-import com.example.playlistmarket.features.player.domain.interactors.PlaybackControlInteractor
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmarket.features.player.domain.interactors.TrackHandleInteractor
 import com.example.playlistmarket.App
-import com.example.playlistmarket.root.observe.Observer
+import com.example.playlistmarket.features.player.domain.drivers.UrlTrackPlayer
 import com.example.playlistmarket.root.domain.model.Track
+import com.example.playlistmarket.root.domain.util.convertMSecToClockFormat
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class PlayerViewModel(
     private val track: Track,
-    private val playbackControl: PlaybackControlInteractor,
+    private val player: UrlTrackPlayer,
     private val trackHandle: TrackHandleInteractor
-) : ViewModel(), Observer {
+) : ViewModel() {
+    private  var timerJob: Job? = null
 
     private val trackPlayingStatusLiveData = MutableLiveData<Boolean>()
     fun trackPlayingStatusObserve(): LiveData<Boolean> = trackPlayingStatusLiveData
@@ -32,18 +36,43 @@ class PlayerViewModel(
     fun trackInPlaylistStatusObserve(): LiveData<Boolean> = trackInPlaylistStatusLiveData
 
     init {
-        playbackControl.addObserver(this)
+        player.playerReadyToUse = {
+            playerPrepareStatusLiveData.postValue(true)
+            playbackTimerActionLiveData.postValue(
+                convertMSecToClockFormat(player.getTrackDuration())
+            )
+        }
+        player.playbackIsFinished = {
+            timerJob?.cancel()
+            trackPlayingStatusLiveData.postValue(false)
+            playbackTimerActionLiveData.postValue(
+                convertMSecToClockFormat(player.getTrackDuration())
+            )
+        }
+        player.setTrackUrl(track.previewUrl)
         trackPlayingStatusLiveData.postValue(false)
-        trackInFavoritesStatusLiveData.postValue(trackHandle.getTrackInFavoritesStatus(track))
-        trackInPlaylistStatusLiveData.postValue(trackHandle.getTrackInPlaylistsStatus(track))
+
+        trackInFavoritesStatusLiveData.postValue(
+            trackHandle.getTrackInFavoritesStatus(track)
+        )
+        trackInPlaylistStatusLiveData.postValue(
+            trackHandle.getTrackInPlaylistsStatus(track)
+        )
+    }
+
+    override fun onCleared() {
+        player.releasePlayerResources()
+        super.onCleared()
     }
 
     fun changePlaybackState() {
         val isTrackPlaying = trackPlayingStatusLiveData.value!!
         if (isTrackPlaying) {
-            playbackControl.paused()
+            player.stopPlayback()
+            timerJob?.cancel()
         } else {
-            playbackControl.start()
+            player.startPlayback()
+            startTimer()
         }
         trackPlayingStatusLiveData.postValue(!isTrackPlaying)
     }
@@ -74,27 +103,18 @@ class PlayerViewModel(
                 )
             }
         }
-
         if (trackPlayingStatusLiveData.value!!) changePlaybackState()
     }
 
-    override fun onCleared() {
-        playbackControl.releaseResources()
-        super.onCleared()
-    }
-
-    override fun <S, T> notifyObserver(event: S?, data: T?) {
-        when (event) {
-            PlayerPlayback.IS_PREPARED -> {
-                playerPrepareStatusLiveData.postValue(true)
-                playbackTimerActionLiveData.postValue(data as String)
-            }
-            PlayerPlayback.IS_FINISHED -> {
-                trackPlayingStatusLiveData.postValue(false)
-                playbackTimerActionLiveData.postValue(data as String)
-            }
-            PlayerPlayback.TIMER_ACTION -> {
-                playbackTimerActionLiveData.postValue(data as String)
+    private fun startTimer() {
+        timerJob = viewModelScope.launch {
+            while (player.isPlaying) {
+                delay(300L)
+                playbackTimerActionLiveData.postValue(
+                    convertMSecToClockFormat(
+                        player.getTrackDuration() - player.getPlaybackCurrentPosition()
+                    )
+                )
             }
         }
     }

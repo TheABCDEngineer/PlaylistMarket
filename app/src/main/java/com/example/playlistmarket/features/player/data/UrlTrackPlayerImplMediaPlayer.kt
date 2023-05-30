@@ -8,6 +8,9 @@ class UrlTrackPlayerImplMediaPlayer : UrlTrackPlayer {
 
     override lateinit var playerReadyToUse: () -> Unit
     override lateinit var playbackIsFinished: () -> Unit
+    override val isPlaying: Boolean
+        get() = player.isPlaying
+
 
     override fun setTrackUrl(url: String) {
         player.setDataSource(url)
