@@ -1,8 +1,8 @@
-package com.example.playlistmarket.features.search.domain.repository
+package com.example.playlistmarket.features.search.domain
 
 import com.example.playlistmarket.features.search.domain.model.ResponseModel
 
-interface QueryRepository {
+interface NetworkClient {
     var callback: (ResponseModel) -> Unit
     fun executeRequest(queryValue: String)
 }

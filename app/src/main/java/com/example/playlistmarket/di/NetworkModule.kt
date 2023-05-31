@@ -1,18 +1,18 @@
 package com.example.playlistmarket.di
 
-import com.example.playlistmarket.App
+import com.example.playlistmarket.App.Companion.SEARCH_TRACKS_BASE_URL
 import com.example.playlistmarket.features.search.data.network.ApiService
-import com.example.playlistmarket.features.search.data.network.NetworkClient
-import com.example.playlistmarket.features.search.data.network.NetworkClientImplRetrofit
+import com.example.playlistmarket.features.search.data.network.NetworkClientImpIRetrofit
+import com.example.playlistmarket.features.search.domain.NetworkClient
 import org.koin.dsl.module
 
 val networkModule = module {
 
     single<NetworkClient> {
-        NetworkClientImplRetrofit()
+        NetworkClientImpIRetrofit(get())
     }
 
     single {
-        ApiService(get(), App.SEARCH_TRACKS_BASE_URL)
+        ApiService(SEARCH_TRACKS_BASE_URL)
     }
 }

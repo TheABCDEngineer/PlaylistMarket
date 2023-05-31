@@ -1,14 +1,15 @@
 package com.example.playlistmarket.features.search.data.network
 
+import com.example.playlistmarket.features.search.data.dataConverter.ResponseConverter
 import com.example.playlistmarket.features.search.data.dto.Response
 import com.example.playlistmarket.features.search.data.dto.TracksRequest
 import com.example.playlistmarket.features.search.data.dto.TracksResponse
 import com.example.playlistmarket.features.search.domain.model.ResponseModel
-import com.example.playlistmarket.features.search.domain.repository.QueryRepository
+import com.example.playlistmarket.features.search.domain.NetworkClient
 import retrofit2.Call
 import retrofit2.Callback
 
-class QueryRepositoryImpIRetrofit(apiService: ApiService) : QueryRepository {
+class NetworkClientImpIRetrofit(apiService: ApiService) : NetworkClient {
 
     override lateinit var callback: (ResponseModel) -> Unit
     private val serviceApi = apiService.createApiService()

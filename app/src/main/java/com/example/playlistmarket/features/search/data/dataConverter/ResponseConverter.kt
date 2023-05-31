@@ -1,6 +1,5 @@
-package com.example.playlistmarket.features.search.data.network
+package com.example.playlistmarket.features.search.data.dataConverter
 
-import com.example.playlistmarket.features.search.data.dataConverter.TrackConverter
 import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.features.search.data.dto.Response
 import com.example.playlistmarket.features.search.data.dto.TracksResponse

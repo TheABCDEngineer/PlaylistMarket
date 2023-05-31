@@ -7,13 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.playlistmarket.features.search.domain.enums.FunctionalButtonMode
 import com.example.playlistmarket.features.search.domain.enums.QueryError
 import com.example.playlistmarket.features.search.domain.enums.SearchScreenState
-import com.example.playlistmarket.features.search.domain.interactors.QueryInteractor
 import com.example.playlistmarket.features.search.presentation.ui.recyclerView.SearchTrackAdapter
 import com.example.playlistmarket.App.Companion.RECENT_TRACKS_LIST_KEY
 import com.example.playlistmarket.App.Companion.CLICK_DEBOUNCE_DELAY
 import com.example.playlistmarket.features.player.presentation.Player
+import com.example.playlistmarket.features.search.domain.NetworkClient
+import com.example.playlistmarket.features.search.domain.model.ResponseModel
 import com.example.playlistmarket.root.debounce
-import com.example.playlistmarket.root.observe.Observer
 import com.example.playlistmarket.root.domain.PlaylistCreator
 import com.example.playlistmarket.root.domain.model.Track
 import kotlinx.coroutines.Job
@@ -21,9 +21,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
-    private val queryExecutor: QueryInteractor,
+    private val networkClient: NetworkClient,
     playlistCreator: PlaylistCreator
-) : ViewModel(), Observer {
+) : ViewModel() {
 
     private val screenStateLiveData = MutableLiveData<SearchScreenState>()
     fun observeScreenState(): LiveData<SearchScreenState> = screenStateLiveData
@@ -45,21 +45,10 @@ class SearchViewModel(
     private var previousRequestText = ""
 
     init {
-        queryExecutor.addObserver(this)
+        networkClient.callback = {
+            handleSearchingResponse(it)
+        }
         setStartScreen()
-    }
-
-    override fun <S, T> notifyObserver(event: S?, data: T?) {
-        if (data != null) {
-            if ((data as ArrayList<Track>).isNotEmpty()) setQueryResultsFeed(data)
-        }
-        val searchScreenState = when (event as QueryError) {
-            QueryError.NO_ERRORS -> SearchScreenState.QUERY_RESULTS
-            QueryError.NO_RESULTS -> SearchScreenState.NO_RESULTS
-            QueryError.SOMETHING_WENT_WRONG -> SearchScreenState.SOMETHING_WENT_WRONG
-            QueryError.NO_INTERNET_CONNECTION -> SearchScreenState.NO_INTERNET_CONNECTION
-        }
-        screenStateLiveData.postValue(searchScreenState)
     }
 
     fun setStartScreen() {
@@ -109,8 +98,20 @@ class SearchViewModel(
         searchJob = viewModelScope.launch {
             delay(delay)
             screenStateLiveData.postValue(SearchScreenState.SEARCHING)
-            queryExecutor.executeQuery(parameter)
+            networkClient.executeRequest(parameter)
         }
+    }
+
+    private fun handleSearchingResponse(response: ResponseModel) {
+        if (response.resultTrackList.isNotEmpty()) setQueryResultsFeed(response.resultTrackList)
+
+        val searchScreenState = when (response.error) {
+            QueryError.NO_ERRORS -> SearchScreenState.QUERY_RESULTS
+            QueryError.NO_RESULTS -> SearchScreenState.NO_RESULTS
+            QueryError.SOMETHING_WENT_WRONG -> SearchScreenState.SOMETHING_WENT_WRONG
+            QueryError.NO_INTERNET_CONNECTION -> SearchScreenState.NO_INTERNET_CONNECTION
+        }
+        screenStateLiveData.postValue(searchScreenState)
     }
 
     companion object {
