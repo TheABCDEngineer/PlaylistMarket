@@ -4,24 +4,33 @@ import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.playlistmarket.App
+import com.example.playlistmarket.App.Companion.appContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-fun clickDebounce(
-    isClickAllowed: Boolean,
-    changeClicker: (Boolean) -> Unit
-): Boolean {
-    if (isClickAllowed) {
-        changeClicker(false)
-        App.mainHandler.postDelayed({ changeClicker(true) }, 1000L)
+fun <T> debounce(
+    delayMillis: Long,
+    coroutineScope: CoroutineScope,
+    action: (T) -> Unit
+): (T) -> Unit {
+    var debounceJob: Job? = null
+    return { param: T ->
+        if (debounceJob?.isActive == false || debounceJob == null) {
+            debounceJob = coroutineScope.launch {
+                delay(delayMillis)
+                action.invoke(param)
+            }
+        }
     }
-    return isClickAllowed
 }
 
 fun hideKeyboard(fragment: Fragment) {
     val activity = fragment.requireActivity() as AppCompatActivity
     activity.currentFocus?.let { view ->
         val inputMethodManager =
-            App.appContext.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            appContext.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
         inputMethodManager?.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

@@ -6,19 +6,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
+import com.example.playlistmarket.App.Companion.CLICK_DEBOUNCE_DELAY
 import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.databinding.FragmentFavoritesBinding
 import com.example.playlistmarket.features.medialibrary.presentation.viewModel.FavoritesViewModel
+import com.example.playlistmarket.features.player.presentation.Player
 import com.example.playlistmarket.features.search.presentation.ui.recyclerView.SearchTrackAdapter
+import com.example.playlistmarket.root.debounce
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoritesFragment : Fragment() {
     companion object {
         fun newInstance() = FavoritesFragment()
     }
+
     private val viewModel by viewModel<FavoritesViewModel>()
     private lateinit var binding: FragmentFavoritesBinding
-    private val adapter = SearchTrackAdapter(ArrayList())
+
+    private val onAdapterItemClickedAction: (Track) -> Unit
+        get() = debounce(CLICK_DEBOUNCE_DELAY, lifecycleScope) { track: Track ->
+            Player.start(track)
+        }
+    private val adapter = SearchTrackAdapter(ArrayList(),onAdapterItemClickedAction)
 
     override fun onCreateView(
         inflater: LayoutInflater,
