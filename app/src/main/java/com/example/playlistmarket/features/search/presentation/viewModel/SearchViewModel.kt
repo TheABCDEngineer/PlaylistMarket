@@ -11,8 +11,8 @@ import com.example.playlistmarket.features.search.presentation.ui.recyclerView.S
 import com.example.playlistmarket.App.Companion.RECENT_TRACKS_LIST_KEY
 import com.example.playlistmarket.App.Companion.CLICK_DEBOUNCE_DELAY
 import com.example.playlistmarket.features.player.presentation.Player
-import com.example.playlistmarket.features.search.domain.NetworkClient
 import com.example.playlistmarket.features.search.domain.model.ResponseModel
+import com.example.playlistmarket.features.search.domain.repository.TracksRepository
 import com.example.playlistmarket.root.debounce
 import com.example.playlistmarket.root.domain.PlaylistCreator
 import com.example.playlistmarket.root.domain.model.Track
@@ -21,7 +21,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
-    private val networkClient: NetworkClient,
+    private val repository: TracksRepository,
     playlistCreator: PlaylistCreator
 ) : ViewModel() {
 
@@ -45,9 +45,6 @@ class SearchViewModel(
     private var previousRequestText = ""
 
     init {
-        networkClient.callback = {
-            handleSearchingResponse(it)
-        }
         setStartScreen()
     }
 
@@ -98,7 +95,14 @@ class SearchViewModel(
         searchJob = viewModelScope.launch {
             delay(delay)
             screenStateLiveData.postValue(SearchScreenState.SEARCHING)
-            networkClient.executeRequest(parameter)
+
+            viewModelScope.launch {
+                repository
+                    .searchTracks(parameter)
+                    .collect{
+                        handleSearchingResponse(it)
+                    }
+            }
         }
     }
 

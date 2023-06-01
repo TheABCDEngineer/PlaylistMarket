@@ -1,47 +1,23 @@
 package com.example.playlistmarket.features.search.data.network
 
-import com.example.playlistmarket.features.search.data.dataConverter.ResponseConverter
-import com.example.playlistmarket.features.search.data.dto.Response
 import com.example.playlistmarket.features.search.data.dto.TracksRequest
 import com.example.playlistmarket.features.search.data.dto.TracksResponse
-import com.example.playlistmarket.features.search.domain.model.ResponseModel
-import com.example.playlistmarket.features.search.domain.NetworkClient
-import retrofit2.Call
-import retrofit2.Callback
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class NetworkClientImpIRetrofit(apiService: ApiService) : NetworkClient {
-
-    override lateinit var callback: (ResponseModel) -> Unit
     private val serviceApi = apiService.createApiService()
 
-    override fun executeRequest(queryValue: String) {
-        val request = TracksRequest(queryValue)
-        serviceApi.findTrack(request.expression).enqueue(
-            object :
-                Callback<TracksResponse> {
-                override fun onResponse(
-                    call: Call<TracksResponse>,
-                    response: retrofit2.Response<TracksResponse>
-                ) {
-                    val body = response.body() ?: Response()
+    override suspend fun executeRequest(request: Any): TracksResponse {
+        if (request !is TracksRequest) return TracksResponse(ArrayList()).apply { responseCode = 400 }
 
-                    callback.invoke(
-                        ResponseConverter.convertToDomain(
-                            body.apply {
-                                responseCode = response.code()
-                            }
-                        )
-                    )
-                }
-
-                override fun onFailure(call: Call<TracksResponse>, t: Throwable) {
-                    callback.invoke(
-                        ResponseConverter.convertToDomain(
-                            TracksResponse(ArrayList()).apply { responseCode = 400 }
-                        )
-                    )
-                }
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = serviceApi.findTracks(request.expression)
+                response.apply { responseCode = 200 }
+            } catch (e: Throwable) {
+                TracksResponse(ArrayList()).apply { responseCode = 400 }
             }
-        )
+        }
     }
 }

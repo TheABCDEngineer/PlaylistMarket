@@ -10,7 +10,7 @@ object ResponseConverter {
     fun convertToDomain(response: Response): ResponseModel {
         var errorStatus = when (response.responseCode) {
             in 200..299 -> QueryError.NO_ERRORS
-            in 400..499 -> QueryError.NO_INTERNET_CONNECTION
+            in 401..499 -> QueryError.NO_INTERNET_CONNECTION
             else -> QueryError.SOMETHING_WENT_WRONG
         }
 
