@@ -63,12 +63,12 @@ class SearchViewModel(
             text == ""
         ) return
         previousRequestText = text
-        runSearching(SEARCH_DEBOUNCE_DELAY,text)
+        runSearching(SEARCH_DEBOUNCE_DELAY, text)
     }
 
     fun onFunctionalButtonPressed(mode: FunctionalButtonMode) {
         when (mode) {
-            FunctionalButtonMode.REFRESH -> runSearching(0L,previousRequestText)
+            FunctionalButtonMode.REFRESH -> runSearching(0L, previousRequestText)
             FunctionalButtonMode.CLEAR_HISTORY -> clearHistory()
         }
     }
@@ -95,14 +95,12 @@ class SearchViewModel(
         searchJob = viewModelScope.launch {
             delay(delay)
             screenStateLiveData.postValue(SearchScreenState.SEARCHING)
-
-            viewModelScope.launch {
-                repository
-                    .searchTracks(parameter)
-                    .collect{
-                        handleSearchingResponse(it)
-                    }
-            }
+            repository
+                .searchTracks(parameter)
+                .collect {
+                    handleSearchingResponse(it)
+                }
+            searchJob = null
         }
     }
 

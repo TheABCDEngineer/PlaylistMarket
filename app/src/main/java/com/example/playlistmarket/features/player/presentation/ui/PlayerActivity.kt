@@ -52,7 +52,7 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         goBackButton.setOnClickListener {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
         playButton.setOnClickListener {
             viewModel.changePlaybackState()
