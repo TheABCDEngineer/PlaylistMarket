@@ -1,29 +1,21 @@
 package com.example.playlistmarket.di
 
-import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.features.player.data.UrlTrackPlayerImplMediaPlayer
 import com.example.playlistmarket.features.player.domain.TrackHandleImpl
 import com.example.playlistmarket.features.player.domain.drivers.UrlTrackPlayer
 import com.example.playlistmarket.features.player.domain.interactors.TrackHandleInteractor
 import com.example.playlistmarket.features.player.presentation.viewModel.PlayerViewModel
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val playerModule = module {
 
-    single<TrackHandleInteractor> {
-        TrackHandleImpl(get())
-    }
+    singleOf(::TrackHandleImpl).bind<TrackHandleInteractor>()
 
-    factory<UrlTrackPlayer> {
-        UrlTrackPlayerImplMediaPlayer()
-    }
+    factoryOf(::UrlTrackPlayerImplMediaPlayer).bind<UrlTrackPlayer>()
 
-    viewModel { (track: Track) ->
-        PlayerViewModel(
-            track,
-            get(),
-            get()
-        )
-    }
+    viewModelOf(::PlayerViewModel).bind()
 }
