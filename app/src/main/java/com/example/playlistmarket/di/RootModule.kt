@@ -9,13 +9,16 @@ import com.example.playlistmarket.root.domain.repository.PlaylistRepository
 import com.example.playlistmarket.root.domain.repository.SettingsRepository
 import com.example.playlistmarket.root.presentation.viewModel.RootViewModel
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val rootModule = module {
-    viewModel {
-        RootViewModel(get())
-    }
+
+    viewModelOf(::RootViewModel).bind()
+
+    singleOf(::PlaylistCreator).bind()
 
     single<PlaylistRepository> {
         PlaylistRepositoryImplSharedPreferences(
@@ -27,9 +30,5 @@ val rootModule = module {
         SettingsRepositoryImplSharedPreferences(
             androidContext().getSharedPreferences(App.SETTINGS_FILE_NAME, Context.MODE_PRIVATE)
         )
-    }
-
-    single {
-        PlaylistCreator(get())
     }
 }

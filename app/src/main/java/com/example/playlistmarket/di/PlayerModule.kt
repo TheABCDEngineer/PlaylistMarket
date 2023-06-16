@@ -1,36 +1,21 @@
 package com.example.playlistmarket.di
 
-import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.features.player.data.UrlTrackPlayerImplMediaPlayer
-import com.example.playlistmarket.features.player.domain.PlaybackControlImpl
 import com.example.playlistmarket.features.player.domain.TrackHandleImpl
 import com.example.playlistmarket.features.player.domain.drivers.UrlTrackPlayer
-import com.example.playlistmarket.features.player.domain.interactors.PlaybackControlInteractor
 import com.example.playlistmarket.features.player.domain.interactors.TrackHandleInteractor
 import com.example.playlistmarket.features.player.presentation.viewModel.PlayerViewModel
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.parameter.parametersOf
+import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.core.module.dsl.factoryOf
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val playerModule = module {
 
-    factory<PlaybackControlInteractor> { (trackUrl: String) ->
-        PlaybackControlImpl(trackUrl,get())
-    }
+    singleOf(::TrackHandleImpl).bind<TrackHandleInteractor>()
 
-    single<TrackHandleInteractor> {
-        TrackHandleImpl(get())
-    }
+    factoryOf(::UrlTrackPlayerImplMediaPlayer).bind<UrlTrackPlayer>()
 
-    factory<UrlTrackPlayer> {
-        UrlTrackPlayerImplMediaPlayer()
-    }
-
-    viewModel { (track: Track) ->
-        PlayerViewModel(
-            track,
-            get { parametersOf(track.previewUrl) },
-            get()
-        )
-    }
+    viewModelOf(::PlayerViewModel).bind()
 }

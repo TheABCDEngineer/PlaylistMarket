@@ -1,5 +1,7 @@
 package com.example.playlistmarket.features.search.data.network
 
+import com.example.playlistmarket.features.search.data.dto.TracksResponse
+
 interface NetworkClient {
-    fun <T> getServiceApi(baseUrl: String, service: Class<T>): T
+    suspend fun executeRequest(request: Any): TracksResponse
 }

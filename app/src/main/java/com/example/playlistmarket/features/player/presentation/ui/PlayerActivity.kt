@@ -52,7 +52,7 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         goBackButton.setOnClickListener {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
         playButton.setOnClickListener {
             viewModel.changePlaybackState()
@@ -65,6 +65,11 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         trackPropertiesWidget.showTrackProperties(track)
+    }
+
+    override fun onPause() {
+        viewModel.onPaused()
+        super.onPause()
     }
 
     private fun updateTrackPlayingStatus(isPlaying: Boolean) {
@@ -95,10 +100,5 @@ class PlayerActivity : AppCompatActivity() {
             true -> addToPlaylistButton.setImageResource(R.drawable.player_add_to_playlist_done)
             false -> addToPlaylistButton.setImageResource(R.drawable.player_add_to_playlist_available)
         }
-    }
-
-    override fun onPause() {
-        viewModel.onPaused()
-        super.onPause()
     }
 }

@@ -3,24 +3,27 @@ package com.example.playlistmarket.features.search.presentation.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmarket.features.search.domain.enums.FunctionalButtonMode
 import com.example.playlistmarket.features.search.domain.enums.QueryError
 import com.example.playlistmarket.features.search.domain.enums.SearchScreenState
-import com.example.playlistmarket.features.search.domain.interactors.QueryInteractor
 import com.example.playlistmarket.features.search.presentation.ui.recyclerView.SearchTrackAdapter
-import com.example.playlistmarket.App
-import com.example.playlistmarket.root.observe.Observer
+import com.example.playlistmarket.App.Companion.RECENT_TRACKS_LIST_KEY
+import com.example.playlistmarket.App.Companion.CLICK_DEBOUNCE_DELAY
+import com.example.playlistmarket.features.player.presentation.Player
+import com.example.playlistmarket.features.search.domain.model.ResponseModel
+import com.example.playlistmarket.features.search.domain.repository.TracksRepository
+import com.example.playlistmarket.root.debounce
 import com.example.playlistmarket.root.domain.PlaylistCreator
 import com.example.playlistmarket.root.domain.model.Track
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SearchViewModel(
-    private val queryExecutor: QueryInteractor,
-    private val playlistCreator: PlaylistCreator
-) : ViewModel(), Observer {
-
-    companion object {
-        private const val SEARCH_DEBOUNCE_DELAY = 2000L
-    }
+    private val repository: TracksRepository,
+    playlistCreator: PlaylistCreator
+) : ViewModel() {
 
     private val screenStateLiveData = MutableLiveData<SearchScreenState>()
     fun observeScreenState(): LiveData<SearchScreenState> = screenStateLiveData
@@ -28,17 +31,20 @@ class SearchViewModel(
     private val trackFeedLiveData = MutableLiveData<SearchTrackAdapter>()
     fun observeTrackFeedState(): LiveData<SearchTrackAdapter> = trackFeedLiveData
 
-    private val historyPlaylist = playlistCreator.createPlaylist(App.RECENT_TRACKS_LIST_KEY, 10)
+    private val historyPlaylist = playlistCreator.createPlaylist(RECENT_TRACKS_LIST_KEY, 10)
     private val queryTrackList = ArrayList<Track>()
-    private val queryAdapter = SearchTrackAdapter(queryTrackList)
-    private val historyAdapter = SearchTrackAdapter(historyPlaylist.items)
-    private var searchRunnable: Runnable = Runnable {}
+
+    private val onAdapterItemClickedAction: (Track) -> Unit
+        get() = debounce(CLICK_DEBOUNCE_DELAY, viewModelScope) { track: Track ->
+            Player.start(track)
+            historyPlaylist.addTrack(track)
+        }
+    private val queryAdapter = SearchTrackAdapter(queryTrackList, onAdapterItemClickedAction)
+    private val historyAdapter = SearchTrackAdapter(historyPlaylist.items, onAdapterItemClickedAction)
+    private var searchJob: Job? = null
     private var previousRequestText = ""
 
     init {
-        queryExecutor.addObserver(this)
-        queryAdapter.addObserver(historyPlaylist)
-        historyAdapter.addObserver(historyPlaylist)
         setStartScreen()
     }
 
@@ -57,20 +63,19 @@ class SearchViewModel(
             text == ""
         ) return
         previousRequestText = text
-
-        App.mainHandler.removeCallbacks(searchRunnable)
-
-        searchRunnable = Runnable {
-            screenStateLiveData.postValue(SearchScreenState.SEARCHING)
-            queryExecutor.executeQuery(text)
-        }
-        App.mainHandler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+        runSearching(SEARCH_DEBOUNCE_DELAY, text)
     }
 
     fun onFunctionalButtonPressed(mode: FunctionalButtonMode) {
         when (mode) {
-            FunctionalButtonMode.REFRESH -> App.mainHandler.post(searchRunnable)
+            FunctionalButtonMode.REFRESH -> runSearching(0L, previousRequestText)
             FunctionalButtonMode.CLEAR_HISTORY -> clearHistory()
+        }
+    }
+
+    fun updateHistoryState() {
+        if (screenStateLiveData.value!! == SearchScreenState.HISTORY) {
+            trackFeedLiveData.postValue(historyAdapter)
         }
     }
 
@@ -85,9 +90,24 @@ class SearchViewModel(
         trackFeedLiveData.postValue(queryAdapter)
     }
 
-    override fun <S, T> notifyObserver(event: S?, data: T?) {
-        if ((data as ArrayList<Track>).isNotEmpty()) setQueryResultsFeed(data)
-        val searchScreenState = when (event as QueryError) {
+    private fun runSearching(delay: Long, parameter: String) {
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            delay(delay)
+            screenStateLiveData.postValue(SearchScreenState.SEARCHING)
+            repository
+                .searchTracks(parameter)
+                .collect {
+                    handleSearchingResponse(it)
+                }
+            searchJob = null
+        }
+    }
+
+    private fun handleSearchingResponse(response: ResponseModel) {
+        if (response.resultTrackList.isNotEmpty()) setQueryResultsFeed(response.resultTrackList)
+
+        val searchScreenState = when (response.error) {
             QueryError.NO_ERRORS -> SearchScreenState.QUERY_RESULTS
             QueryError.NO_RESULTS -> SearchScreenState.NO_RESULTS
             QueryError.SOMETHING_WENT_WRONG -> SearchScreenState.SOMETHING_WENT_WRONG
@@ -96,14 +116,7 @@ class SearchViewModel(
         screenStateLiveData.postValue(searchScreenState)
     }
 
-    override fun onCleared() {
-        App.mainHandler.removeCallbacks(searchRunnable)
-        super.onCleared()
-    }
-
-    fun updateHistoryState() {
-        if (screenStateLiveData.value!! == SearchScreenState.HISTORY) {
-            trackFeedLiveData.postValue(historyAdapter)
-        }
+    companion object {
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
 }

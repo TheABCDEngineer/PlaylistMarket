@@ -1,6 +1,5 @@
-package com.example.playlistmarket.features.search.data.network
+package com.example.playlistmarket.features.search.data.dataConverter
 
-import com.example.playlistmarket.features.search.data.dataConverter.TrackConverter
 import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.features.search.data.dto.Response
 import com.example.playlistmarket.features.search.data.dto.TracksResponse
@@ -11,7 +10,7 @@ object ResponseConverter {
     fun convertToDomain(response: Response): ResponseModel {
         var errorStatus = when (response.responseCode) {
             in 200..299 -> QueryError.NO_ERRORS
-            in 400..499 -> QueryError.NO_INTERNET_CONNECTION
+            in 401..499 -> QueryError.NO_INTERNET_CONNECTION
             else -> QueryError.SOMETHING_WENT_WRONG
         }
 

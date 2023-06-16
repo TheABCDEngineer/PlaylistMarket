@@ -2,8 +2,6 @@ package com.example.playlistmarket
 
 import android.app.Application
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
 import com.example.playlistmarket.di.networkModule
 import com.example.playlistmarket.di.playerModule
 import com.example.playlistmarket.di.rootModule
@@ -33,10 +31,9 @@ class App : Application() {
         const val PLAYLIST_TITLES_KEY = " playlists "
         const val SEARCH_TRACKS_BASE_URL = "https://itunes.apple.com"
         const val TRACK_KEY = "track"
+        const val CLICK_DEBOUNCE_DELAY = 200L
 
         lateinit var appContext: Context
-        val mainHandler = Handler(Looper.getMainLooper())
-        var playerAllowed = true
     }
 
 }
