@@ -15,7 +15,8 @@ interface TrackDao {
 
     @Query("" +
             "SELECT * " +
-            "FROM tracks_table "
+            "FROM tracks_table " +
+            "ORDER BY creationTimeTag DESC"
     )
     suspend fun getTracks(): Array<TrackEntity>
 

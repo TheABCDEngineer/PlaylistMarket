@@ -1,5 +1,6 @@
 package com.example.playlistmarket.root.data.database
 
+import com.example.playlistmarket.root.currentTimeTag
 import com.example.playlistmarket.root.data.database.entity.TrackEntity
 import com.example.playlistmarket.root.domain.model.Track
 
@@ -31,7 +32,8 @@ class DbConverter {
                 track.releaseYear,
                 track.genre,
                 track.country,
-                track.previewUrl
+                track.previewUrl,
+                currentTimeTag()
             )
         }
     }

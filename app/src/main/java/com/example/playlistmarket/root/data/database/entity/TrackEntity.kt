@@ -16,5 +16,6 @@ data class TrackEntity(
     val releaseYear: String,
     val genre: String,
     val country: String,
-    val previewUrl: String
+    val previewUrl: String,
+    val creationTimeTag: Int
 )
