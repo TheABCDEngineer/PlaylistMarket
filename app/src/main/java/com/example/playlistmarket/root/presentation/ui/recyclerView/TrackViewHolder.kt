@@ -1,4 +1,4 @@
-package com.example.playlistmarket.features.search.presentation.ui.recyclerView
+package com.example.playlistmarket.root.presentation.ui.recyclerView
 
 import android.view.View
 import android.widget.ImageView
@@ -9,7 +9,7 @@ import com.example.playlistmarket.R
 import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.root.domain.util.getFormattedTrackTime
 
-class SearchTrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val trackNameView: TextView = itemView.findViewById(R.id.search_cardview_track_title)
     private val artistNameView: TextView = itemView.findViewById(R.id.search_cardview_track_artist)
     private val trackTimeView: TextView = itemView.findViewById(R.id.search_cardview_track_time)
