@@ -12,7 +12,7 @@ import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.databinding.FragmentFavoritesBinding
 import com.example.playlistmarket.features.medialibrary.presentation.viewModel.FavoritesViewModel
 import com.example.playlistmarket.features.player.presentation.Player
-import com.example.playlistmarket.features.search.presentation.ui.recyclerView.SearchTrackAdapter
+import com.example.playlistmarket.root.presentation.ui.recyclerView.TrackAdapter
 import com.example.playlistmarket.root.debounce
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -28,7 +28,7 @@ class FavoritesFragment : Fragment() {
         get() = debounce(CLICK_DEBOUNCE_DELAY, lifecycleScope) { track: Track ->
             Player.start(track)
         }
-    private val adapter = SearchTrackAdapter(ArrayList(),onAdapterItemClickedAction)
+    private val adapter = TrackAdapter(ArrayList(),onAdapterItemClickedAction)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,16 +43,18 @@ class FavoritesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.mediaLibraryFavoritesList.adapter = adapter
 
+        viewModel.observeFavoritesFeedState().observe(viewLifecycleOwner) {
+            updateFavoritesFeed(it)
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        updateFavoritesFeed(
-            viewModel.getFavoritesList()
-        )
+        viewModel.onUiResume()
     }
 
     private fun updateFavoritesFeed(tracks: ArrayList<Track>) {
+        adapter.updateItems(tracks)
         binding.apply {
             mediaLibraryFavoritesList.isVisible = tracks.isNotEmpty()
             mediaLibraryFavoritesStatusText.isVisible = tracks.isEmpty()
@@ -60,7 +62,6 @@ class FavoritesFragment : Fragment() {
         }
         if (tracks.isEmpty()) return
 
-        adapter.updateItems(tracks)
         binding.mediaLibraryFavoritesList.adapter!!.notifyDataSetChanged()
     }
 }

@@ -4,43 +4,31 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.playlistmarket.features.search.domain.RecentTracks
 import com.example.playlistmarket.features.search.domain.enums.FunctionalButtonMode
 import com.example.playlistmarket.features.search.domain.enums.QueryError
 import com.example.playlistmarket.features.search.domain.enums.SearchScreenState
-import com.example.playlistmarket.features.search.presentation.ui.recyclerView.SearchTrackAdapter
-import com.example.playlistmarket.App.Companion.RECENT_TRACKS_LIST_KEY
-import com.example.playlistmarket.App.Companion.CLICK_DEBOUNCE_DELAY
-import com.example.playlistmarket.features.player.presentation.Player
 import com.example.playlistmarket.features.search.domain.model.ResponseModel
-import com.example.playlistmarket.features.search.domain.repository.TracksRepository
-import com.example.playlistmarket.root.debounce
-import com.example.playlistmarket.root.domain.PlaylistCreator
+import com.example.playlistmarket.features.search.domain.repository.RecentTracksRepository
+import com.example.playlistmarket.features.search.domain.repository.SearchTracksRepository
 import com.example.playlistmarket.root.domain.model.Track
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
-    private val repository: TracksRepository,
-    playlistCreator: PlaylistCreator
+    private val searchTracksRepository: SearchTracksRepository,
+    private val recentTracksRepository: RecentTracksRepository
 ) : ViewModel() {
 
     private val screenStateLiveData = MutableLiveData<SearchScreenState>()
     fun observeScreenState(): LiveData<SearchScreenState> = screenStateLiveData
 
-    private val trackFeedLiveData = MutableLiveData<SearchTrackAdapter>()
-    fun observeTrackFeedState(): LiveData<SearchTrackAdapter> = trackFeedLiveData
+    private val trackFeedLiveData = MutableLiveData<ArrayList<Track>>()
+    fun observeTrackFeedState(): LiveData<ArrayList<Track>> = trackFeedLiveData
 
-    private val historyPlaylist = playlistCreator.createPlaylist(RECENT_TRACKS_LIST_KEY, 10)
+    private val recentTracks = RecentTracks(recentTracksRepository)
     private val queryTrackList = ArrayList<Track>()
-
-    private val onAdapterItemClickedAction: (Track) -> Unit
-        get() = debounce(CLICK_DEBOUNCE_DELAY, viewModelScope) { track: Track ->
-            Player.start(track)
-            historyPlaylist.addTrack(track)
-        }
-    private val queryAdapter = SearchTrackAdapter(queryTrackList, onAdapterItemClickedAction)
-    private val historyAdapter = SearchTrackAdapter(historyPlaylist.items, onAdapterItemClickedAction)
     private var searchJob: Job? = null
     private var previousRequestText = ""
 
@@ -49,8 +37,9 @@ class SearchViewModel(
     }
 
     fun setStartScreen() {
-        if (historyPlaylist.items.isNotEmpty()) {
-            trackFeedLiveData.postValue(historyAdapter)
+        val recentTrackList = recentTracks.items
+        if (recentTrackList.isNotEmpty()) {
+            trackFeedLiveData.postValue(recentTrackList)
             screenStateLiveData.postValue(SearchScreenState.HISTORY)
         } else {
             screenStateLiveData.postValue(SearchScreenState.NEWBORN)
@@ -75,19 +64,23 @@ class SearchViewModel(
 
     fun updateHistoryState() {
         if (screenStateLiveData.value!! == SearchScreenState.HISTORY) {
-            trackFeedLiveData.postValue(historyAdapter)
+            trackFeedLiveData.postValue(recentTracks.items)
         }
     }
 
+    fun onTrackSelected(track: Track) {
+        recentTracks.addTrack(track)
+    }
+
     private fun clearHistory() {
-        historyPlaylist.clear()
+        recentTracks.clear()
         screenStateLiveData.postValue(SearchScreenState.NEWBORN)
     }
 
     private fun setQueryResultsFeed(trackList: ArrayList<Track>) {
         queryTrackList.clear()
         queryTrackList.addAll(trackList)
-        trackFeedLiveData.postValue(queryAdapter)
+        trackFeedLiveData.postValue(queryTrackList)
     }
 
     private fun runSearching(delay: Long, parameter: String) {
@@ -95,7 +88,7 @@ class SearchViewModel(
         searchJob = viewModelScope.launch {
             delay(delay)
             screenStateLiveData.postValue(SearchScreenState.SEARCHING)
-            repository
+            searchTracksRepository
                 .searchTracks(parameter)
                 .collect {
                     handleSearchingResponse(it)

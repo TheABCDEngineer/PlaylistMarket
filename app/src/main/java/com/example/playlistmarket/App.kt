@@ -24,11 +24,8 @@ class App : Application() {
 
     companion object {
         const val SETTINGS_FILE_NAME = "APP_preferences"
-        const val PLAYLISTS_FILE_NAME = "Playlists"
         const val THEME_MODE_STATUS_KEY = "theme_mode_status"
-        const val RECENT_TRACKS_LIST_KEY = " recent_tracks_list "
-        const val FAVORITES_LIST_KEY = " favorites "
-        const val PLAYLIST_TITLES_KEY = " playlists "
+        const val RECENT_TRACKS_KEY = "recent_tracks"
         const val SEARCH_TRACKS_BASE_URL = "https://itunes.apple.com"
         const val TRACK_KEY = "track"
         const val CLICK_DEBOUNCE_DELAY = 200L

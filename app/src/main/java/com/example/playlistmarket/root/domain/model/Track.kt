@@ -4,7 +4,7 @@ import android.os.Parcelable
 
 @kotlinx.parcelize.Parcelize
 data class Track(
-    val trackId: String,
+    val trackId: Int,
     val trackName: String,
     val artist: String,
     val trackTimeMillis: Int,
