@@ -9,7 +9,13 @@ class TrackHandleImpl(
 ) : TrackHandleInteractor {
 
     override suspend fun getTrackInFavoritesStatus(track: Track): Boolean {
-        val favorites = repository.loadTracks()
+        val favorites = ArrayList<Track>()
+        repository
+            .loadTracks()
+            .collect {
+                favorites.addAll(it)
+            }
+
         if (favorites.isEmpty()) return false
 
         val previousSize = favorites.size

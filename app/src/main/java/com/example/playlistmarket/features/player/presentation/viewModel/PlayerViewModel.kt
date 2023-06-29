@@ -9,6 +9,7 @@ import com.example.playlistmarket.features.player.domain.drivers.UrlTrackPlayer
 import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.root.domain.util.convertMSecToClockFormat
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -89,6 +90,7 @@ class PlayerViewModel(
         viewModelScope.launch {
             if (trackPlayingStatusLiveData.value!!) changePlaybackState()
             favoritesHandle()
+            this.cancel()
         }
     }
 

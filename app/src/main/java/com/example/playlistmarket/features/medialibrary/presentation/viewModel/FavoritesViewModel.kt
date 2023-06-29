@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.root.domain.repository.FavoritesRepository
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 class FavoritesViewModel(
@@ -17,8 +18,12 @@ class FavoritesViewModel(
 
     fun onUiResume() {
         viewModelScope.launch {
-            val favorites = favoritesRepository.loadTracks()
-            favoritesFeedLiveData.postValue(favorites)
+            favoritesRepository
+                .loadTracks()
+                .collect {
+                    favoritesFeedLiveData.postValue(it)
+                }
+                this.cancel()
         }
     }
 }

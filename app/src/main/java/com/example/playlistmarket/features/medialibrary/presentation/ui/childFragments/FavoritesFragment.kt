@@ -46,10 +46,6 @@ class FavoritesFragment : Fragment() {
         viewModel.observeFavoritesFeedState().observe(viewLifecycleOwner) {
             updateFavoritesFeed(it)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
         viewModel.onUiResume()
     }
 

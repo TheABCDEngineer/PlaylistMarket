@@ -10,7 +10,7 @@ import com.example.playlistmarket.root.data.database.TracksDatabase
 import com.example.playlistmarket.root.domain.repository.FavoritesRepository
 import com.example.playlistmarket.root.domain.repository.SettingsRepository
 import com.example.playlistmarket.root.presentation.viewModel.RootViewModel
-import com.example.playlistmarket.root.data.FavoritesRepositoryImpDb
+import com.example.playlistmarket.root.data.database.FavoritesRepositoryImpDb
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.singleOf
