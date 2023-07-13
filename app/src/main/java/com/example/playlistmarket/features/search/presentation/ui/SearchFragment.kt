@@ -5,19 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.playlistmarket.root.hideKeyboard
 import com.example.playlistmarket.databinding.FragmentSearchBinding
 import com.example.playlistmarket.features.search.domain.enums.SearchScreenState
-import com.example.playlistmarket.features.search.presentation.ui.recyclerView.SearchTrackAdapter
 import com.example.playlistmarket.features.search.presentation.ui.widgets.ScreenStateWidget
 import com.example.playlistmarket.features.search.presentation.ui.widgets.SearchingWidget
 import com.example.playlistmarket.features.search.presentation.viewModel.SearchViewModel
+import com.example.playlistmarket.root.domain.model.Track
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment: Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private val searchingWidget: SearchingWidget by lazy { SearchingWidget(binding) }
-    private val screenStateWidget: ScreenStateWidget by lazy { ScreenStateWidget(binding) }
+    private val screenStateWidget: ScreenStateWidget by lazy { ScreenStateWidget(binding, lifecycleScope) }
     private val viewModel by viewModel<SearchViewModel>()
 
     override fun onCreateView(
@@ -52,6 +53,9 @@ class SearchFragment: Fragment() {
             onFunctionalButtonClick = { mode ->
                 viewModel.onFunctionalButtonPressed(mode)
             }
+            onTrackAdapterItemClicked = { track ->
+                viewModel.onTrackSelected(track)
+            }
         }
     }
 
@@ -64,7 +68,7 @@ class SearchFragment: Fragment() {
         screenStateWidget.setScreenState(state)
     }
 
-    private fun updateTrackFeed(adapter: SearchTrackAdapter) {
-        screenStateWidget.setTrackFeed(adapter)
+    private fun updateTrackFeed(tracks: ArrayList<Track>) {
+        screenStateWidget.setTrackFeed(tracks)
     }
 }

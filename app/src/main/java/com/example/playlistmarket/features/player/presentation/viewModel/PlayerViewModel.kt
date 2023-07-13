@@ -5,11 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmarket.features.player.domain.interactors.TrackHandleInteractor
-import com.example.playlistmarket.App
 import com.example.playlistmarket.features.player.domain.drivers.UrlTrackPlayer
 import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.root.domain.util.convertMSecToClockFormat
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -52,11 +52,12 @@ class PlayerViewModel(
         player.setTrackUrl(track.previewUrl)
         trackPlayingStatusLiveData.postValue(false)
 
-        trackInFavoritesStatusLiveData.postValue(
-            trackHandle.getTrackInFavoritesStatus(track)
-        )
+        viewModelScope.launch {
+            val status = trackHandle.getTrackInFavoritesStatus(track)
+            trackInFavoritesStatusLiveData.postValue(status)
+        }
         trackInPlaylistStatusLiveData.postValue(
-            trackHandle.getTrackInPlaylistsStatus(track)
+            false
         )
     }
 
@@ -86,24 +87,24 @@ class PlayerViewModel(
     }
 
     fun onPaused() {
+        viewModelScope.launch {
+            if (trackPlayingStatusLiveData.value!!) changePlaybackState()
+            favoritesHandle()
+            this.cancel()
+        }
+    }
+
+    private suspend fun favoritesHandle() {
         val isFavoritesFlagChecked = trackInFavoritesStatusLiveData.value!!
         val isTrackAlreadyInFavorites = trackHandle.getTrackInFavoritesStatus(track)
-
         when (isFavoritesFlagChecked) {
             true -> {
-                if (!isTrackAlreadyInFavorites) trackHandle.addTrackToPlaylist(
-                    track,
-                    App.FAVORITES_LIST_KEY
-                )
+                if (!isTrackAlreadyInFavorites) trackHandle.saveTrackInFavorites(track)
             }
             false -> {
-                if (isTrackAlreadyInFavorites) trackHandle.deleteTrackFromPlaylist(
-                    track,
-                    App.FAVORITES_LIST_KEY
-                )
+                if (isTrackAlreadyInFavorites) trackHandle.deleteTrackFromFavorites(track)
             }
         }
-        if (trackPlayingStatusLiveData.value!!) changePlaybackState()
     }
 
     private fun startTimer() {

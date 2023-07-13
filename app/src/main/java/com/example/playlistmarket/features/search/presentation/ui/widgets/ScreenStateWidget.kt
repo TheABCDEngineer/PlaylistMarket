@@ -2,13 +2,19 @@ package com.example.playlistmarket.features.search.presentation.ui.widgets
 
 import android.widget.LinearLayout
 import androidx.core.view.isVisible
+import com.example.playlistmarket.App
 import com.example.playlistmarket.databinding.FragmentSearchBinding
+import com.example.playlistmarket.features.player.presentation.Player
 import com.example.playlistmarket.features.search.domain.enums.FunctionalButtonMode
 import com.example.playlistmarket.features.search.domain.enums.SearchScreenState
-import com.example.playlistmarket.features.search.presentation.ui.recyclerView.SearchTrackAdapter
+import com.example.playlistmarket.root.debounce
+import com.example.playlistmarket.root.domain.model.Track
+import com.example.playlistmarket.root.presentation.ui.recyclerView.TrackAdapter
+import kotlinx.coroutines.CoroutineScope
 
 class ScreenStateWidget(
-    binding: FragmentSearchBinding
+    binding: FragmentSearchBinding,
+    coroutineScope: CoroutineScope
 ) {
     private val requestStatusImage = binding.requestStatusImage
     private val requestStatusMessage = binding.requestStatusMessage
@@ -17,8 +23,16 @@ class ScreenStateWidget(
     private val feed = binding.trackFeed
     private val recyclerLayout = binding.recyclerLayout
     private val title = binding.recentTracksTitle
+
+    private val onAdapterItemClickedAction: (Track) -> Unit =
+        debounce(App.CLICK_DEBOUNCE_DELAY, coroutineScope) { track: Track ->
+            Player.start(track)
+            onTrackAdapterItemClicked(track)
+        }
+
     private lateinit var functionalButtonMode: FunctionalButtonMode
     lateinit var onFunctionalButtonClick: (FunctionalButtonMode) -> Unit
+    lateinit var onTrackAdapterItemClicked: (Track) -> Unit
 
     init {
         functionalButton.setOnClickListener {
@@ -46,7 +60,8 @@ class ScreenStateWidget(
         }
     }
 
-    fun setTrackFeed(adapter: SearchTrackAdapter) {
+    fun setTrackFeed(tracks: ArrayList<Track>) {
+        val adapter = TrackAdapter(tracks,onAdapterItemClickedAction)
         feed.adapter = adapter
         feed.adapter!!.notifyDataSetChanged()
     }

@@ -9,6 +9,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.lang.StringBuilder
+import java.time.LocalDateTime
 
 fun <T> debounce(
     delayMillis: Long,
@@ -34,3 +36,13 @@ fun hideKeyboard(fragment: Fragment) {
         inputMethodManager?.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }
+
+fun currentTimeTag(): Int =
+    with(LocalDateTime.now()) {
+        StringBuilder()
+            .append(year - 2023)
+            .append(dayOfYear)
+            .append(second + minute * 60 + hour * 3600)
+            .toString()
+            .toInt()
+    }

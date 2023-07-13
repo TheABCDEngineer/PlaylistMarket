@@ -1,17 +1,29 @@
 package com.example.playlistmarket.features.medialibrary.presentation.viewModel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.playlistmarket.App
-import com.example.playlistmarket.root.domain.PlaylistCreator
-import com.example.playlistmarket.root.domain.entity.Playlist
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmarket.root.domain.model.Track
+import com.example.playlistmarket.root.domain.repository.FavoritesRepository
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
 class FavoritesViewModel(
-    private val playlistCreator: PlaylistCreator
+    private val favoritesRepository: FavoritesRepository
 ): ViewModel() {
 
-    fun getFavoritesList(): ArrayList<Track> {
-        val favorites: Playlist = playlistCreator.createPlaylist(App.FAVORITES_LIST_KEY)
-        return favorites.items
+    private val favoritesFeedLiveData = MutableLiveData<ArrayList<Track>>()
+    fun observeFavoritesFeedState(): LiveData<ArrayList<Track>> = favoritesFeedLiveData
+
+    fun onUiResume() {
+        viewModelScope.launch {
+            favoritesRepository
+                .loadTracks()
+                .collect {
+                    favoritesFeedLiveData.postValue(it)
+                }
+                this.cancel()
+        }
     }
 }

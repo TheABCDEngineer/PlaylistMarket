@@ -10,11 +10,10 @@ object TrackConverter {
 
     private fun convertDtoToTrackModel(dto: TrackDto): Track {
         return Track(
-            dto.trackId ?: dto.hashCode().toString(),
+            dto.hashCode(),
             dto.trackName ?: App.appContext.getString(R.string.no_title),
             dto.artistName ?: App.appContext.getString(R.string.no_title),
             dto.let { dto.trackTimeMillis?.toInt() }  ?: 0,
-            //getArtwork(dto.artworkUrl100,100),
             dto.artworkUrl100 ?:App.appContext.getString(R.string.no_data),
             dto.collectionName ?: App.appContext.getString(R.string.no_title),
             dto.let { dto.releaseDate?.substring(0, 4) } ?: App.appContext.getString(R.string.no_data),
