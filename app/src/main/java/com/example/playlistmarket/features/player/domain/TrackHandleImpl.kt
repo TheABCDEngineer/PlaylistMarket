@@ -1,17 +1,20 @@
 package com.example.playlistmarket.features.player.domain
 
+import com.example.playlistmarket.App
 import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.features.player.domain.interactors.TrackHandleInteractor
-import com.example.playlistmarket.root.domain.repository.FavoritesRepository
+import com.example.playlistmarket.root.domain.repository.TracksRepository
 
 class TrackHandleImpl(
-    private val repository: FavoritesRepository
+    private val repository: TracksRepository
 ) : TrackHandleInteractor {
+
+    private val favoritesPlaylist = App.getFavoritesPlaylist()
 
     override suspend fun getTrackInFavoritesStatus(track: Track): Boolean {
         val favorites = ArrayList<Track>()
         repository
-            .loadTracks()
+            .loadTracksFromPlaylist(favoritesPlaylist.id)
             .collect {
                 favorites.addAll(it)
             }
@@ -24,11 +27,11 @@ class TrackHandleImpl(
     }
 
     override suspend fun saveTrackInFavorites(track: Track) {
-        repository.saveTrack(track)
+        repository.saveTrackToPlaylist(track, favoritesPlaylist.id)
     }
 
     override suspend fun deleteTrackFromFavorites(track: Track) {
-        repository.deleteTrack(track)
+        repository.deleteTrackFromPlaylist(track, favoritesPlaylist.id)
     }
 
 }

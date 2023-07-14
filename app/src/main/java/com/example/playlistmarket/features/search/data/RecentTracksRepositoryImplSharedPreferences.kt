@@ -2,7 +2,6 @@ package com.example.playlistmarket.features.search.data
 
 import android.content.SharedPreferences
 import com.example.playlistmarket.App
-import com.example.playlistmarket.root.domain.model.enums.PlaylistHandle
 import com.example.playlistmarket.features.search.domain.repository.RecentTracksRepository
 import com.example.playlistmarket.root.data.sharedPreferences.deleteFromFileOnKey
 import com.example.playlistmarket.root.data.sharedPreferences.loadListFromFileOnKey

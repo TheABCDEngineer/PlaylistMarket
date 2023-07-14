@@ -8,6 +8,7 @@ import com.example.playlistmarket.di.rootModule
 import com.example.playlistmarket.di.mediaLibraryModule
 import com.example.playlistmarket.di.searchModule
 import com.example.playlistmarket.di.settingsModule
+import com.example.playlistmarket.root.domain.model.Playlist
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -31,6 +32,13 @@ class App : Application() {
         const val CLICK_DEBOUNCE_DELAY = 200L
 
         lateinit var appContext: Context
+
+        fun getFavoritesPlaylist(): Playlist =
+            Playlist(
+                " favorites ",
+                "there is no any artwork because this playlist is system playlist",
+                "favorites hidden system playlist"
+            )
     }
 
 }

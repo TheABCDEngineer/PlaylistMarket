@@ -1,14 +1,17 @@
 package com.example.playlistmarket.root.data.database
 
 import com.example.playlistmarket.root.currentTimeTag
+import com.example.playlistmarket.root.data.database.entity.PlaylistEntity
 import com.example.playlistmarket.root.data.database.entity.TrackEntity
+import com.example.playlistmarket.root.data.database.entity.TracksLibraryEntity
+import com.example.playlistmarket.root.domain.model.Playlist
 import com.example.playlistmarket.root.domain.model.Track
 
 class DbConverter {
     companion object {
-        fun map(trackEntity: TrackEntity): Track = with(trackEntity) {
+        fun mapTrack(trackEntity: TrackEntity): Track = with(trackEntity) {
             Track(
-                Id,
+                id,
                 trackName,
                 artist,
                 trackTimeMillis,
@@ -21,7 +24,7 @@ class DbConverter {
             )
         }
 
-        fun map(track: Track): TrackEntity = with(track) {
+        fun mapTrack(track: Track): TrackEntity = with(track) {
             TrackEntity(
                 trackId,
                 trackName,
@@ -36,5 +39,26 @@ class DbConverter {
                 currentTimeTag()
             )
         }
+
+        fun mapPlaylist(playlistEntity: PlaylistEntity): Playlist = with(playlistEntity) {
+            Playlist(
+                title,
+                artworkPath,
+                description
+            )
+        }
+
+        fun mapPlaylist(playlist: Playlist): PlaylistEntity = with(playlist) {
+            PlaylistEntity(
+                id,
+                title,
+                artworkPath,
+                description,
+                currentTimeTag()
+            )
+        }
+
+        fun createRelationship(trackId: Int, playlistId: Int): TracksLibraryEntity =
+            TracksLibraryEntity(trackId, playlistId)
     }
 }

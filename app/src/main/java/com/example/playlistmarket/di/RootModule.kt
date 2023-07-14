@@ -7,10 +7,12 @@ import com.example.playlistmarket.features.search.data.RecentTracksRepositoryImp
 import com.example.playlistmarket.root.data.sharedPreferences.SettingsRepositoryImplSharedPreferences
 import com.example.playlistmarket.features.search.domain.repository.RecentTracksRepository
 import com.example.playlistmarket.root.data.database.TracksDatabase
-import com.example.playlistmarket.root.domain.repository.FavoritesRepository
+import com.example.playlistmarket.root.domain.repository.TracksRepository
+import com.example.playlistmarket.root.domain.repository.PlaylistsRepository
 import com.example.playlistmarket.root.domain.repository.SettingsRepository
 import com.example.playlistmarket.root.presentation.viewModel.RootViewModel
-import com.example.playlistmarket.root.data.database.FavoritesRepositoryImpDb
+import com.example.playlistmarket.root.data.database.TracksRepositoryImpDb
+import com.example.playlistmarket.root.data.database.PlaylistsRepositoryImplDb
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.singleOf
@@ -33,10 +35,12 @@ val rootModule = module {
         )
     }
 
-    singleOf(::FavoritesRepositoryImpDb).bind<FavoritesRepository>()
+    singleOf(::TracksRepositoryImpDb).bind<TracksRepository>()
+
+    singleOf(::PlaylistsRepositoryImplDb).bind<PlaylistsRepository>()
 
     single {
-        Room.databaseBuilder(androidContext(), TracksDatabase::class.java, "tracksDb.db")
+        Room.databaseBuilder(androidContext(), TracksDatabase::class.java, "tracksDb6.db")
             .build()
     }
 }
