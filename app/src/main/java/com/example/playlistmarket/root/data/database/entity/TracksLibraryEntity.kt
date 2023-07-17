@@ -8,10 +8,6 @@ import androidx.room.Index
 @Entity(
     tableName = "library_table",
     primaryKeys = ["track_id", "playlist_id"],
-    indices = [
-        Index(value = ["track_id"]),
-        Index(value = ["playlist_id"])
-    ],
     foreignKeys = [
         ForeignKey(entity = TrackEntity::class,
             parentColumns = ["id"],

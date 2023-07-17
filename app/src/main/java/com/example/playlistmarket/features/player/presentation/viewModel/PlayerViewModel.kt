@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.playlistmarket.features.player.domain.interactors.TrackHandleInteractor
 import com.example.playlistmarket.features.player.domain.drivers.UrlTrackPlayer
 import com.example.playlistmarket.root.domain.model.Track
+import com.example.playlistmarket.root.domain.repository.PlaylistsRepository
 import com.example.playlistmarket.root.domain.util.convertMSecToClockFormat
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
@@ -16,7 +17,8 @@ import kotlinx.coroutines.launch
 class PlayerViewModel(
     private val track: Track,
     private val player: UrlTrackPlayer,
-    private val trackHandle: TrackHandleInteractor
+    private val trackHandle: TrackHandleInteractor,
+    private val playlistsRepository: PlaylistsRepository
 ) : ViewModel() {
     private  var timerJob: Job? = null
 
@@ -53,6 +55,9 @@ class PlayerViewModel(
         trackPlayingStatusLiveData.postValue(false)
 
         viewModelScope.launch {
+            trackHandle.setFavoritesPlaylist(
+                playlistsRepository.loadFavoritesPlaylist()
+            )
             val status = trackHandle.getTrackInFavoritesStatus(track)
             trackInFavoritesStatusLiveData.postValue(status)
         }

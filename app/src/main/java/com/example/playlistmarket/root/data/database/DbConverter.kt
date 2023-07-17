@@ -44,7 +44,9 @@ class DbConverter {
             Playlist(
                 title,
                 artworkPath,
-                description
+                description,
+                trackQuantity,
+                id
             )
         }
 
@@ -54,6 +56,7 @@ class DbConverter {
                 title,
                 artworkPath,
                 description,
+                trackQuantity,
                 currentTimeTag()
             )
         }

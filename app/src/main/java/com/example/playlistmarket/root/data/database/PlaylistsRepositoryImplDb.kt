@@ -1,5 +1,7 @@
 package com.example.playlistmarket.root.data.database
 
+import com.example.playlistmarket.App
+import com.example.playlistmarket.root.data.database.entity.PlaylistEntity
 import com.example.playlistmarket.root.domain.model.Playlist
 import com.example.playlistmarket.root.domain.repository.PlaylistsRepository
 import kotlinx.coroutines.flow.Flow
@@ -25,7 +27,24 @@ class PlaylistsRepositoryImplDb(
                 )
             }
         }
+        if (playlists.isNotEmpty()) playlists.removeAt(0)
         emit(playlists)
+    }
+
+    override suspend fun loadFavoritesPlaylist(): Playlist {
+        val playlistEntityList = database.playlistDao().getPlaylists()
+
+        if (playlistEntityList.isNotEmpty()) {
+            for (item in playlistEntityList) {
+                if (item.title == App.FAVORITES_UNIQUE_KEY) return DbConverter.mapPlaylist(item)
+            }
+        }
+
+        val favoritesEntity = PlaylistEntity(
+            0, App.FAVORITES_UNIQUE_KEY, "", "", 0, 0
+        )
+        database.playlistDao().insertPlaylist(favoritesEntity)
+        return loadFavoritesPlaylist()
     }
 
     override suspend fun deletePlaylist(playlist: Playlist) {

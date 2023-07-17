@@ -8,7 +8,6 @@ import com.example.playlistmarket.di.rootModule
 import com.example.playlistmarket.di.mediaLibraryModule
 import com.example.playlistmarket.di.searchModule
 import com.example.playlistmarket.di.settingsModule
-import com.example.playlistmarket.root.domain.model.Playlist
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -27,18 +26,13 @@ class App : Application() {
         const val SETTINGS_FILE_NAME = "APP_preferences"
         const val THEME_MODE_STATUS_KEY = "theme_mode_status"
         const val RECENT_TRACKS_KEY = "recent_tracks"
+        const val FAVORITES_UNIQUE_KEY = " favorites//SYSTEM_PLAYLIST "
         const val SEARCH_TRACKS_BASE_URL = "https://itunes.apple.com"
         const val TRACK_KEY = "track"
         const val CLICK_DEBOUNCE_DELAY = 200L
 
         lateinit var appContext: Context
 
-        fun getFavoritesPlaylist(): Playlist =
-            Playlist(
-                " favorites ",
-                "there is no any artwork because this playlist is system playlist",
-                "favorites hidden system playlist"
-            )
     }
 
 }

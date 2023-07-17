@@ -1,15 +1,18 @@
 package com.example.playlistmarket.features.player.domain
 
-import com.example.playlistmarket.App
 import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.features.player.domain.interactors.TrackHandleInteractor
+import com.example.playlistmarket.root.domain.model.Playlist
 import com.example.playlistmarket.root.domain.repository.TracksRepository
 
 class TrackHandleImpl(
     private val repository: TracksRepository
 ) : TrackHandleInteractor {
 
-    private val favoritesPlaylist = App.getFavoritesPlaylist()
+    private lateinit var favoritesPlaylist: Playlist
+    override suspend fun setFavoritesPlaylist(playlist: Playlist) {
+        favoritesPlaylist = playlist
+    }
 
     override suspend fun getTrackInFavoritesStatus(track: Track): Boolean {
         val favorites = ArrayList<Track>()
