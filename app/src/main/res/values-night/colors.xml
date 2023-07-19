@@ -20,4 +20,6 @@
     <color name="text_edit_icon_color">#FF000000</color>
     <color name="player_add_track_button_color">#40FFFFFF</color>
     <color name="search_progressBar_color">#6200EE</color>
+    <color name="playlist_creator_edit_text_empty">#FFFFFF</color>
+    <color name="playlist_creator_edit_text_input">#3772E7</color>
 </resources>

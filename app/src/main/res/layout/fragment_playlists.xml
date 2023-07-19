@@ -9,7 +9,7 @@
     tools:context=".features.medialibrary.presentation.ui.childFragments.PlaylistsFragment">
 
     <Button
-        android:id="@+id/search_refresh_button"
+        android:id="@+id/new_playlist_button"
         style="@style/SearchRefreshButton"
         android:layout_width="wrap_content"
         android:layout_height="44dp"

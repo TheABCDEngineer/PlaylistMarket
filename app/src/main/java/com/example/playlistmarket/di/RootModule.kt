@@ -40,7 +40,7 @@ val rootModule = module {
     singleOf(::PlaylistsRepositoryImplDb).bind<PlaylistsRepository>()
 
     single {
-        Room.databaseBuilder(androidContext(), TracksDatabase::class.java, "tracksDb9.db")
+        Room.databaseBuilder(androidContext(), TracksDatabase::class.java, "tracksDb11.db")
             .build()
     }
 }

@@ -43,7 +43,7 @@ class DbConverter {
         fun mapPlaylist(playlistEntity: PlaylistEntity): Playlist = with(playlistEntity) {
             Playlist(
                 title,
-                artworkPath,
+                //artworkFileName,
                 description,
                 trackQuantity,
                 id
@@ -54,7 +54,7 @@ class DbConverter {
             PlaylistEntity(
                 id,
                 title,
-                artworkPath,
+                //artworkFileName,
                 description,
                 trackQuantity,
                 currentTimeTag()

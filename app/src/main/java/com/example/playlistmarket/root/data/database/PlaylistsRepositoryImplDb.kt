@@ -4,19 +4,19 @@ import com.example.playlistmarket.App
 import com.example.playlistmarket.root.data.database.entity.PlaylistEntity
 import com.example.playlistmarket.root.domain.model.Playlist
 import com.example.playlistmarket.root.domain.repository.PlaylistsRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 class PlaylistsRepositoryImplDb(
     val database: TracksDatabase
 ): PlaylistsRepository {
-    override suspend fun savePlaylist(playlist: Playlist) {
+    override suspend fun savePlaylist(playlist: Playlist): Int {
         database.playlistDao().insertPlaylist(
             DbConverter.mapPlaylist(playlist)
         )
+        val playlistEntityList = database.playlistDao().getPlaylists()
+        return playlistEntityList[0].id
     }
 
-    override suspend fun loadPlaylists(): Flow<ArrayList<Playlist>> = flow {
+    override suspend fun loadPlaylists(): ArrayList<Playlist> {
         val playlistEntityList = database.playlistDao().getPlaylists()
         val playlists = ArrayList<Playlist>()
 
@@ -27,8 +27,8 @@ class PlaylistsRepositoryImplDb(
                 )
             }
         }
-        if (playlists.isNotEmpty()) playlists.removeAt(0)
-        emit(playlists)
+        if (playlists.isNotEmpty()) playlists.removeAt(playlists.size-1)
+        return playlists
     }
 
     override suspend fun loadFavoritesPlaylist(): Playlist {
@@ -41,7 +41,7 @@ class PlaylistsRepositoryImplDb(
         }
 
         val favoritesEntity = PlaylistEntity(
-            0, App.FAVORITES_UNIQUE_KEY, "", "", 0, 0
+            0, App.FAVORITES_UNIQUE_KEY, "", 0, 0
         )
         database.playlistDao().insertPlaylist(favoritesEntity)
         return loadFavoritesPlaylist()

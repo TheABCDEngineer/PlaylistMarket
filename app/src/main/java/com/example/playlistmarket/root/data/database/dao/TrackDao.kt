@@ -9,7 +9,7 @@ import com.example.playlistmarket.root.data.database.entity.TrackEntity
 @Dao
 interface TrackDao {
     @Insert(
-        onConflict = OnConflictStrategy.REPLACE
+        onConflict = OnConflictStrategy.IGNORE
     )
     suspend fun insertTrack(track: TrackEntity)
 
