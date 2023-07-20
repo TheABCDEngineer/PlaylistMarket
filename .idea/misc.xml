@@ -58,6 +58,7 @@
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.30129375559398586" />
         <entry key="app/src/main/res/layout/fragment_settings2.xml" value="0.30262451171875004" />
         <entry key="app/src/main/res/layout/fragment_theme_settings.xml" value="0.22474365234375002" />
+        <entry key="app/src/main/res/layout/playlist_recycler_item.xml" value="0.30885416666666665" />
         <entry key="app/src/main/res/layout/search_track_item.xml" value="0.4192281087239584" />
         <entry key="app/src/main/res/layout/search_track_item_copy.xml" value="0.2947916666666667" />
         <entry key="app/src/main/res/layout/search_track_item_prev_vers.xml" value="0.2947916666666667" />

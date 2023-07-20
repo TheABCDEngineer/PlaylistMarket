@@ -9,7 +9,7 @@ val playlistCreatorModule = module {
 
     viewModel { (track: Track?) ->
         PlaylistCreatorViewModel(
-            track, get(), get()
+            track, get(), get(), get()
         )
     }
 }

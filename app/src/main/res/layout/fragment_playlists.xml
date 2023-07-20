@@ -38,4 +38,11 @@
         android:textSize="@dimen/search_request_status_text"
         android:text="@string/media_library_no_any_playlists" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/media_library_playlists_table"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
 </LinearLayout>

@@ -1,9 +1,6 @@
 package com.example.playlistmarket.features.playlistCreator.presentation.viewModel
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Environment
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -12,20 +9,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.playlistmarket.App
-import com.example.playlistmarket.R
 import com.example.playlistmarket.features.playlistCreator.presentation.EditScreenState
 import com.example.playlistmarket.root.domain.model.Playlist
 import com.example.playlistmarket.root.domain.model.Track
+import com.example.playlistmarket.root.domain.repository.PlaylistArtworksRepository
 import com.example.playlistmarket.root.domain.repository.PlaylistsRepository
 import com.example.playlistmarket.root.domain.repository.TracksRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import java.io.File
-import java.io.FileOutputStream
 
 class PlaylistCreatorViewModel(
     private val track: Track?,
+    private val playlistArtworksRepository: PlaylistArtworksRepository,
     private val playlistsRepository: PlaylistsRepository,
     private val tracksRepository: TracksRepository
 ): ViewModel() {
@@ -77,7 +72,7 @@ class PlaylistCreatorViewModel(
         )
     }
 
-    fun createPlayList(activity: AppCompatActivity): String {
+    fun createPlayList(): String {
         val trackQuantity = if (track != null) 1 else 0
         val newPlayList = Playlist(title.trim(),description,trackQuantity)
 
@@ -85,31 +80,15 @@ class PlaylistCreatorViewModel(
             val newPlaylistId = playlistsRepository.savePlaylist(newPlayList)
             if (track != null) tracksRepository.saveTrackToPlaylist(track, newPlaylistId)
             if (artworkImageLiveData.value != null)
-                saveArtworkToAppStorage(activity, artworkImageLiveData.value!!, newPlaylistId)
+                saveArtworkToAppStorage(artworkImageLiveData.value!!, newPlaylistId)
         }
         return title.trim()
     }
 
-    private fun saveArtworkToAppStorage(activity: AppCompatActivity, uri: Uri, playlistId: Int) {
-        val filePath = File(
-            activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-            App.appContext.getString(R.string.title)
-        )
-        if (!filePath.exists()){
-            filePath.mkdirs()
+    private fun saveArtworkToAppStorage(uri: Uri, playlistId: Int) {
+        viewModelScope.launch {
+            playlistArtworksRepository.saveArtwork(uri, playlistId.toString())
         }
-
-        val file = File(filePath, "$playlistId.jpg")
-
-        BitmapFactory
-            .decodeStream(
-                activity.contentResolver.openInputStream(uri)
-            )
-            .compress(
-                Bitmap.CompressFormat.JPEG,
-                30,
-                FileOutputStream(file)
-            )
     }
 
     private fun postTitleUniqueWarning() {

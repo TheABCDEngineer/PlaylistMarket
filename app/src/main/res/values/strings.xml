@@ -42,4 +42,7 @@
     <string name="not_unique_playlist_title">Плейлист с таким названием уже существует</string>
     <string name="playlist">Плейлист</string>
     <string name="has_been_created">создан</string>
+    <string name="track_1">трек</string>
+    <string name="tracks_2_3_4">трека</string>
+    <string name="tracks_of">треков</string>
 </resources>

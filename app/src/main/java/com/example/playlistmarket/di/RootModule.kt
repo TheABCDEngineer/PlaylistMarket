@@ -13,6 +13,8 @@ import com.example.playlistmarket.root.domain.repository.SettingsRepository
 import com.example.playlistmarket.root.presentation.viewModel.RootViewModel
 import com.example.playlistmarket.root.data.database.TracksRepositoryImpDb
 import com.example.playlistmarket.root.data.database.PlaylistsRepositoryImplDb
+import com.example.playlistmarket.root.data.files.PlaylistArtworksRepositoryImplFile
+import com.example.playlistmarket.root.domain.repository.PlaylistArtworksRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.singleOf
@@ -38,6 +40,8 @@ val rootModule = module {
     singleOf(::TracksRepositoryImpDb).bind<TracksRepository>()
 
     singleOf(::PlaylistsRepositoryImplDb).bind<PlaylistsRepository>()
+
+    singleOf(::PlaylistArtworksRepositoryImplFile).bind<PlaylistArtworksRepository>()
 
     single {
         Room.databaseBuilder(androidContext(), TracksDatabase::class.java, "tracksDb11.db")

@@ -75,7 +75,7 @@ class PlaylistCreatorActivity : AppCompatActivity() {
             viewModel.onDescriptionFieldTextChange(charSequence)
         }
         createPlaylistButton.setOnClickListener {
-            val playlistTitle = viewModel.createPlayList(this)
+            val playlistTitle = viewModel.createPlayList()
             val message = getString(R.string.playlist) + " " + playlistTitle + " " + getString(R.string.has_been_created)
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
             this.finish()
