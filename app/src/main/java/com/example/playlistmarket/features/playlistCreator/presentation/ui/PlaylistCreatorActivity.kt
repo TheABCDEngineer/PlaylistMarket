@@ -1,5 +1,7 @@
 package com.example.playlistmarket.features.playlistCreator.presentation.ui
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,8 +13,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.example.playlistmarket.App
 import com.example.playlistmarket.R
@@ -41,10 +45,13 @@ class PlaylistCreatorActivity : AppCompatActivity() {
             finishOnBackPressed()
         }
     }
-
     private val viewModel by viewModel<PlaylistCreatorViewModel> {
         parametersOf(track)
     }
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) viewModel.setArtwork()
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +73,11 @@ class PlaylistCreatorActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
         artwork.setOnClickListener {
-            viewModel.setArtwork()
+            if (ContextCompat.checkSelfPermission(this,Manifest.permission.READ_MEDIA_IMAGES)
+                    == PackageManager.PERMISSION_GRANTED)
+                viewModel.setArtwork()
+            else
+                requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
         }
         initiateEditText(titleEditor) { charSequence ->
             viewModel.onTitleFieldTextChange(charSequence)
