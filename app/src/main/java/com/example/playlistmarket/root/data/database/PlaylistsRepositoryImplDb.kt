@@ -31,6 +31,14 @@ class PlaylistsRepositoryImplDb(
         return playlists
     }
 
+    override suspend fun loadPlaylist(playlistId: Int): Playlist? {
+        val playlistEntityList = database.playlistDao().getPlaylist(playlistId)
+        if (playlistEntityList.isEmpty()) return null
+        return DbConverter.mapPlaylist(
+            playlistEntityList[0]
+        )
+    }
+
     override suspend fun loadFavoritesPlaylist(): Playlist {
         val playlistEntityList = database.playlistDao().getPlaylists()
 
@@ -59,5 +67,30 @@ class PlaylistsRepositoryImplDb(
                 database.trackDao().deleteTrack(track.id)
             }
         }
+    }
+
+    override suspend fun updatePlaylist(playlist: Playlist) {
+        database.playlistDao().updatePlaylist(
+            playlist.id,
+            playlist.title,
+            playlist.description,
+            playlist.trackQuantity
+        )
+    }
+
+    override suspend fun getPlaylistsOfTrack(trackId: Int): ArrayList<Playlist> {
+        val playlistEntityList = database.playlistDao().getPlaylistsOfTrack(trackId)
+        val playlists = ArrayList<Playlist>()
+
+        if (playlistEntityList.isNotEmpty()) {
+            val favoritesPlaylist = loadFavoritesPlaylist()
+            for (playlist in playlistEntityList) {
+                if (playlist.id != favoritesPlaylist.id)
+                    playlists.add(
+                        DbConverter.mapPlaylist(playlist)
+                    )
+            }
+        }
+        return playlists
     }
 }

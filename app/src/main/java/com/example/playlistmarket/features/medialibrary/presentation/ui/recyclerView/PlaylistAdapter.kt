@@ -13,7 +13,7 @@ class PlaylistAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.playlist_recycler_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.playlist_recycler_grid_item, parent, false)
         return PlaylistViewHolder(view)
     }
 

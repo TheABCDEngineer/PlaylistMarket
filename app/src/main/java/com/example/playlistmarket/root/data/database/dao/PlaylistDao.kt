@@ -35,4 +35,18 @@ interface PlaylistDao {
             "WHERE id = :playlistId"
     )
     suspend fun deletePlaylist(playlistId: Int): Int
+
+    @Query("" +
+            "UPDATE playlists_table " +
+            "SET title = :title, description = :description, trackQuantity = :trackQuantity " +
+            "WHERE id = :playlistId"
+    )
+    suspend fun updatePlaylist(playlistId: Int, title: String, description: String, trackQuantity: Int)
+
+    @Query("" +
+            "SELECT * " +
+            "FROM playlists_table " +
+            "WHERE id = :playlistId"
+    )
+    suspend fun getPlaylist(playlistId: Int): Array<PlaylistEntity>
 }

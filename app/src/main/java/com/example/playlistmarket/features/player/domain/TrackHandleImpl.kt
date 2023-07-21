@@ -2,22 +2,25 @@ package com.example.playlistmarket.features.player.domain
 
 import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.features.player.domain.interactors.TrackHandleInteractor
-import com.example.playlistmarket.root.domain.model.Playlist
+import com.example.playlistmarket.root.domain.repository.PlaylistsRepository
 import com.example.playlistmarket.root.domain.repository.TracksRepository
 
 class TrackHandleImpl(
-    private val repository: TracksRepository
+    private val tracksRepository: TracksRepository,
+    private val playlistsRepository: PlaylistsRepository
 ) : TrackHandleInteractor {
 
-    private lateinit var favoritesPlaylist: Playlist
-    override suspend fun setFavoritesPlaylist(playlist: Playlist) {
-        favoritesPlaylist = playlist
+    private var favoritesPlaylistId: Int? = null
+    override fun getFavoritesPlaylistId(): Int {
+        return favoritesPlaylistId!!
     }
 
     override suspend fun getTrackInFavoritesStatus(track: Track): Boolean {
+        if (favoritesPlaylistId == null) favoritesPlaylistId =
+            playlistsRepository.loadFavoritesPlaylist().id
         val favorites = ArrayList<Track>()
-        repository
-            .loadTracksFromPlaylist(favoritesPlaylist.id)
+        tracksRepository
+            .loadTracksFromPlaylist(favoritesPlaylistId!!)
             .collect {
                 favorites.addAll(it)
             }
@@ -29,12 +32,19 @@ class TrackHandleImpl(
         return previousSize > favorites.size
     }
 
-    override suspend fun saveTrackInFavorites(track: Track) {
-        repository.saveTrackToPlaylist(track, favoritesPlaylist.id)
+    override suspend fun getTrackInPlaylistsStatus(trackId: Int): Boolean {
+        val playlistIdList = getTrackPlaylistOwnersIdList(trackId)
+        if (playlistIdList.isEmpty()) return false
+        return true
     }
 
-    override suspend fun deleteTrackFromFavorites(track: Track) {
-        repository.deleteTrackFromPlaylist(track, favoritesPlaylist.id)
-    }
+    override suspend fun getTrackPlaylistOwnersIdList(trackId: Int): ArrayList<Int> {
+        val playlists = playlistsRepository.getPlaylistsOfTrack(trackId)
+        val playlistIdList = ArrayList<Int>()
 
+        if (playlists.isNotEmpty()) {
+            for (playlist in playlists) playlistIdList.add(playlist.id)
+        }
+        return playlistIdList
+    }
 }
