@@ -25,7 +25,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class PlayerActivity : AppCompatActivity() {
-    private val track: Track by lazy { intent.getParcelableExtra(App.TRACK_KEY)!! }
+    private val track: Track by lazy { intent.getParcelableExtra(App.TRACK_KEY, Track::class.java)!! }
     private val goBackButton: ImageButton by lazy { findViewById(R.id.player_back_button) }
     private val playButton: ImageButton by lazy { findViewById(R.id.player_play_button) }
     private val addToPlaylistButton: ImageButton by lazy { findViewById(R.id.player_add_to_playlist_button) }

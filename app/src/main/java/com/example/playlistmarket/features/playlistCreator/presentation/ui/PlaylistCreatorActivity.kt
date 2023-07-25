@@ -28,7 +28,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class PlaylistCreatorActivity : AppCompatActivity() {
-    private val track: Track? by lazy { intent.getParcelableExtra(App.TRACK_KEY)}
+    private val track: Track? by lazy { intent.getParcelableExtra(App.TRACK_KEY, Track::class.java) }
     private lateinit var binding: ActivityPlaylistCreatorBinding
     private val backButton: ImageButton by lazy { binding.backButton }
     private val placeHolder: ImageView by lazy { binding.placeHolder }

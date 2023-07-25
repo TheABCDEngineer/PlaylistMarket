@@ -12,7 +12,7 @@ class PlaylistModelsConverter(
     private val artworksRepository: PlaylistArtworksRepository
 ) {
     fun map(playlist: Playlist): PlaylistRecyclerModel {
-        var artworkUri: Uri? = null
+        var artworkUri: Uri?
         runBlocking {
             artworkUri = artworksRepository.loadArtwork(playlist.id.toString())
         }
