@@ -32,4 +32,20 @@
     <string name="media_library_favorites_tab_title">Избранные треки</string>
     <string name="media_library_playlists_tab_title">Плейлисты</string>
     <string name="media_library_new_playlists_button_title">Новый плейлист</string>
+    <string name="title">Название*</string>
+    <string name="description">Описание</string>
+    <string name="to_create">Создать</string>
+    <string name="unsaved_data_will_be_loose">Все несохраненные данные будут потеряны</string>
+    <string name="complete">Завершить</string>
+    <string name="cancel">Отмена</string>
+    <string name="do_playlist_creation_complete">Завершить создание плейлиста?</string>
+    <string name="not_unique_playlist_title">Плейлист с таким названием уже существует</string>
+    <string name="playlist">Плейлист</string>
+    <string name="has_been_created">создан</string>
+    <string name="track_1">трек</string>
+    <string name="tracks_2_3_4">трека</string>
+    <string name="tracks_of">треков</string>
+    <string name="add_to_playlist">Добавить в плейлист</string>
+    <string name="track_already_add">Трек уже добавлен в плейлист</string>
+    <string name="added_to_playlist">Добавлено в плейлист</string>
 </resources>

@@ -9,21 +9,24 @@ import com.example.playlistmarket.root.data.database.entity.TrackEntity
 @Dao
 interface TrackDao {
     @Insert(
-        onConflict = OnConflictStrategy.REPLACE
+        onConflict = OnConflictStrategy.IGNORE
     )
     suspend fun insertTrack(track: TrackEntity)
 
     @Query("" +
             "SELECT * " +
             "FROM tracks_table " +
+            "INNER JOIN library_table ON " +
+            "tracks_table.id = library_table.track_id WHERE " +
+            "library_table.playlist_id = :playlistId " +
             "ORDER BY creationTimeTag DESC"
     )
-    suspend fun getTracks(): Array<TrackEntity>
+    suspend fun getTracksFromPlaylist(playlistId: Int): Array<TrackEntity>
 
     @Query("" +
             "DELETE " +
             "FROM tracks_table " +
-            "WHERE Id = :trackId"
+            "WHERE id = :trackId"
     )
     suspend fun deleteTrack(trackId: Int): Int
 }

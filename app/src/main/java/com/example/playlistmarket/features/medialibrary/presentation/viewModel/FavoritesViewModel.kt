@@ -5,12 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmarket.root.domain.model.Track
-import com.example.playlistmarket.root.domain.repository.FavoritesRepository
+import com.example.playlistmarket.root.domain.repository.PlaylistsRepository
+import com.example.playlistmarket.root.domain.repository.TracksRepository
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 class FavoritesViewModel(
-    private val favoritesRepository: FavoritesRepository
+    private val tracksRepository: TracksRepository,
+    private val playlistsRepository: PlaylistsRepository
 ): ViewModel() {
 
     private val favoritesFeedLiveData = MutableLiveData<ArrayList<Track>>()
@@ -18,8 +20,9 @@ class FavoritesViewModel(
 
     fun onUiResume() {
         viewModelScope.launch {
-            favoritesRepository
-                .loadTracks()
+            val favoritesPlaylist = playlistsRepository.loadFavoritesPlaylist()
+            tracksRepository
+                .loadTracksFromPlaylist(favoritesPlaylist.id)
                 .collect {
                     favoritesFeedLiveData.postValue(it)
                 }

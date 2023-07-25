@@ -21,5 +21,6 @@
     <color name="player_add_track_button_color">#401A1B22</color>
     <color name="search_progressBar_color">#6200EE</color>
     <color name="bottom_navigator_item_checked">#3772E7</color>
-
+    <color name="playlist_creator_edit_text_empty">#AEAFB4</color>
+    <color name="playlist_creator_edit_text_input">#3772E7</color>
 </resources>
