@@ -38,6 +38,7 @@
     <string name="unsaved_data_will_be_loose">Все несохраненные данные будут потеряны</string>
     <string name="complete">Завершить</string>
     <string name="cancel">Отмена</string>
+    <string name="delete">Удалить</string>
     <string name="do_playlist_creation_complete">Завершить создание плейлиста?</string>
     <string name="not_unique_playlist_title">Плейлист с таким названием уже существует</string>
     <string name="playlist">Плейлист</string>
@@ -45,7 +46,19 @@
     <string name="track_1">трек</string>
     <string name="tracks_2_3_4">трека</string>
     <string name="tracks_of">треков</string>
+    <string name="minute_1">минута</string>
+    <string name="minutes_2_3_4">минуты</string>
+    <string name="minutes_of">минут</string>
     <string name="add_to_playlist">Добавить в плейлист</string>
     <string name="track_already_add">Трек уже добавлен в плейлист</string>
     <string name="added_to_playlist">Добавлено в плейлист</string>
+    <string name="error">Ошибка</string>
+    <string name="cant_load_playlist_data">Невозможно загрузить данные</string>
+    <string name="no_description">Нет описания</string>
+    <string name="playlist_is_empty">Плейлист пуст</string>
+    <string name="delete_a_track">Удалить трек</string>
+    <string name="warning_delete_a_track">Вы уверены, что хотите удалить трек из плейлиста?</string>
+    <string name="share">Поделиться</string>
+    <string name="modify_info">Редактировать информацию</string>
+    <string name="delete_a_playlist">Удалить плейлист</string>
 </resources>

@@ -3,6 +3,7 @@ package com.example.playlistmarket.features.playlistCreator.presentation.ui
 import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -28,7 +29,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class PlaylistCreatorActivity : AppCompatActivity() {
-    private val track: Track? by lazy { intent.getParcelableExtra(App.TRACK_KEY, Track::class.java) }
+    private var track: Track? = null
     private lateinit var binding: ActivityPlaylistCreatorBinding
     private val backButton: ImageButton by lazy { binding.backButton }
     private val placeHolder: ImageView by lazy { binding.placeHolder }
@@ -59,6 +60,11 @@ class PlaylistCreatorActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
+        track = if (Build.VERSION.SDK_INT < 33)
+            intent.getParcelableExtra(App.TRACK_KEY)
+        else
+            intent.getParcelableExtra(App.TRACK_KEY, Track::class.java)
+
         onBackPressedDispatcher.addCallback(onBackPressedCallback)
 
         viewModel.apply {
@@ -73,6 +79,10 @@ class PlaylistCreatorActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
         artwork.setOnClickListener {
+            if (Build.VERSION.SDK_INT < 33) {
+                viewModel.setArtwork()
+                return@setOnClickListener
+            }
             if (ContextCompat.checkSelfPermission(this,Manifest.permission.READ_MEDIA_IMAGES)
                     == PackageManager.PERMISSION_GRANTED)
                 viewModel.setArtwork()

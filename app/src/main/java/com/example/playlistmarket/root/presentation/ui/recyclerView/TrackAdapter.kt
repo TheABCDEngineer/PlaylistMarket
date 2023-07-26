@@ -8,7 +8,8 @@ import com.example.playlistmarket.root.domain.model.Track
 
 class TrackAdapter(
     private val trackList: ArrayList<Track>,
-    private val onItemClickedAction: (Track) -> Unit
+    private val onItemClickedAction: (Track) -> Unit,
+    private val onItemLongClickedAction: ((Track) -> Unit)? = null
 ) : RecyclerView.Adapter<TrackViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
@@ -21,6 +22,10 @@ class TrackAdapter(
         holder.bind(trackList[position])
         holder.itemView.setOnClickListener {
             onItemClickedAction.invoke(trackList[position])
+        }
+        holder.itemView.setOnLongClickListener {
+            onItemLongClickedAction?.invoke(trackList[position])
+            return@setOnLongClickListener true
         }
     }
 

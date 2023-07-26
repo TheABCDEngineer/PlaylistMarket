@@ -8,7 +8,11 @@
         android:id="@+id/mediaLibraryFragment"
         android:name="com.example.playlistmarket.features.medialibrary.presentation.ui.MediaLibraryFragment"
         android:label="fragment_media_library"
-        tools:layout="@layout/fragment_media_library" />
+        tools:layout="@layout/fragment_media_library" >
+        <action
+            android:id="@+id/action_mediaLibraryFragment_to_playlistPropertiesFragment"
+            app:destination="@id/playlistPropertiesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.playlistmarket.features.search.presentation.ui.SearchFragment"
@@ -33,4 +37,9 @@
         android:name="com.example.playlistmarket.features.setting.presentation.ui.ThemeFragment"
         android:label="fragment_theme_settings"
         tools:layout="@layout/fragment_theme_settings" />
+    <fragment
+        android:id="@+id/playlistPropertiesFragment"
+        android:name="com.example.playlistmarket.features.medialibrary.presentation.ui.PlaylistPropertiesFragment"
+        android:label="fragment_playlist_properties"
+        tools:layout="@layout/fragment_playlist_properties" />
 </navigation>

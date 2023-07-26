@@ -30,6 +30,7 @@ class App : Application() {
         const val FAVORITES_UNIQUE_KEY = " favorites//SYSTEM_PLAYLIST "
         const val SEARCH_TRACKS_BASE_URL = "https://itunes.apple.com"
         const val TRACK_KEY = "track"
+        const val PLAYLIST_KEY = "playlist"
         const val CLICK_DEBOUNCE_DELAY = 200L
 
         lateinit var appContext: Context

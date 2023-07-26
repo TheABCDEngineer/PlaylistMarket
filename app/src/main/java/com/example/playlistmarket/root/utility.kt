@@ -2,6 +2,7 @@ package com.example.playlistmarket.root
 
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.playlistmarket.App.Companion.appContext
@@ -46,3 +47,29 @@ fun currentTimeTag(): Int =
             .toString()
             .toInt()
     }
+
+fun showSimpleAlertDialog(
+    context: Context,
+    title: String? = null,
+    message: String? = null,
+    positiveButtonTitle: String? = null,
+    positiveButtonAction: () -> Unit = {},
+    negativeButtonTitle: String? = null,
+    negativeButtonAction: () -> Unit = {},
+    neutralButtonTitle: String? = null,
+    neutralButtonAction: () -> Unit = {}
+) {
+    val dialog = AlertDialog.Builder(context)
+    if (title != null) dialog.setTitle(title)
+    if (message != null) dialog.setMessage(message)
+    if (positiveButtonTitle !=null) dialog.setPositiveButton(positiveButtonTitle) {_,_->
+        positiveButtonAction.invoke()
+    }
+    if (negativeButtonTitle !=null) dialog.setNegativeButton(negativeButtonTitle) {_,_->
+        negativeButtonAction.invoke()
+    }
+    if (neutralButtonTitle !=null) dialog.setNeutralButton(neutralButtonTitle) {_,_->
+        neutralButtonAction.invoke()
+    }
+    dialog.show()
+}

@@ -1,5 +1,6 @@
 package com.example.playlistmarket.features.player.presentation.ui
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -25,7 +26,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class PlayerActivity : AppCompatActivity() {
-    private val track: Track by lazy { intent.getParcelableExtra(App.TRACK_KEY, Track::class.java)!! }
+    private lateinit var track: Track
     private val goBackButton: ImageButton by lazy { findViewById(R.id.player_back_button) }
     private val playButton: ImageButton by lazy { findViewById(R.id.player_play_button) }
     private val addToPlaylistButton: ImageButton by lazy { findViewById(R.id.player_add_to_playlist_button) }
@@ -57,6 +58,11 @@ class PlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
         supportActionBar?.hide()
+
+        track = if (Build.VERSION.SDK_INT < 33)
+            intent.getParcelableExtra(App.TRACK_KEY)!!
+        else
+            intent.getParcelableExtra(App.TRACK_KEY, Track::class.java)!!
 
         viewModel.apply {
             trackPlayingStatusObserve().observe(this@PlayerActivity) {

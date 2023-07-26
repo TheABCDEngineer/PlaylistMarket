@@ -10,9 +10,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmarket.App
+import com.example.playlistmarket.R
 import com.example.playlistmarket.databinding.FragmentPlaylistsBinding
 import com.example.playlistmarket.features.medialibrary.domain.PlaylistRecyclerModel
 import com.example.playlistmarket.features.medialibrary.presentation.ui.recyclerView.PlaylistAdapter
@@ -33,7 +35,18 @@ class PlaylistsFragment : Fragment() {
 
     private val onAdapterItemClickedAction: (Int) -> Unit
         get() = debounce(App.CLICK_DEBOUNCE_DELAY, lifecycleScope) { playlistId: Int ->
-            viewModel.onPlaylistChoose(playlistId)
+            //viewModel.onPlaylistChoose(playlistId)
+//            val bundle = Bundle()
+//            bundle.putInt(App.PLAYLIST_KEY,playlistId)
+            findNavController().navigate(
+                R.id.action_mediaLibraryFragment_to_playlistPropertiesFragment,
+                Bundle().apply { putInt(App.PLAYLIST_KEY,playlistId) }
+            )
+            //NavHostFragment.findNavController(requireActivity()).navigate(R.id.action_mediaLibraryFragment_to_playlistPropertiesFragment)
+//            val navHostFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.container_view) as NavHostFragment
+//            val navController = navHostFragment.navController
+//            Log.i("qwert","enter")
+//            navController.navigate(R.id.action_mediaLibraryFragment_to_playlistPropertiesFragment)
         }
     private val adapter = PlaylistAdapter(ArrayList(),onAdapterItemClickedAction)
 
