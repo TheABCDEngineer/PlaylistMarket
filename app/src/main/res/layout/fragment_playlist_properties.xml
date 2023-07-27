@@ -137,11 +137,19 @@
         app:behavior_peekHeight="270dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/bottom_sheet_handle_rectangle"
+            />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/playlist_properties_track_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="12dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
         <TextView
@@ -176,11 +184,19 @@
         app:behavior_peekHeight="380dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/bottom_sheet_handle_rectangle"
+            />
+
         <include
             android:id="@+id/playlist_properties_menu_playlist_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             layout="@layout/playlist_recycler_single_item"/>
 
         <TextView style="@style/PlaylistMenuItemTitle"
