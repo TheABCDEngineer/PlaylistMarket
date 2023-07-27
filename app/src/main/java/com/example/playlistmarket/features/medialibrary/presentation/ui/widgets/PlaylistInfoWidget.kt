@@ -2,8 +2,6 @@ package com.example.playlistmarket.features.medialibrary.presentation.ui.widgets
 
 import android.widget.ImageView
 import androidx.core.view.isVisible
-import com.example.playlistmarket.App
-import com.example.playlistmarket.R
 import com.example.playlistmarket.databinding.FragmentPlaylistPropertiesBinding
 import com.example.playlistmarket.features.medialibrary.domain.PlaylistScreenModel
 import com.example.playlistmarket.root.domain.model.Track
@@ -20,14 +18,12 @@ class PlaylistInfoWidget(
     fun updatePlaylistProperties(model: PlaylistScreenModel) {
         val scaleType =
             if (model.artwork != null) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER
-        val description =
-            if (model.description == "") App.appContext.getString(R.string.no_description) else model.description
         binding.apply {
             playlistPropertiesArtwork.setImageURI(null)
             playlistPropertiesArtwork.setImageURI(model.artwork)
             playlistPropertiesArtwork.scaleType = scaleType
             playlistPropertiesTitle.text = model.title
-            playlistPropertiesDescription.text = description
+            playlistPropertiesDescription.text = model.description
             playlistPropertiesTotalDuration.text = model.totalDuration
             playlistPropertiesTracksQuantity.text = model.trackQuantity
         }

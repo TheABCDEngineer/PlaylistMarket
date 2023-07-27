@@ -64,4 +64,6 @@
     <string name="warning_delete_a_playlist">Вы действительно хотите удалить этот плейлист?</string>
     <string name="to_save">Сохранить</string>
     <string name="to_modify">Редактировать</string>
+    <string name="impossible_to_share_playlist">В этом плейлисте нет списка треков, которым можно поделиться</string>
+    <string name="ok">ОК</string>
 </resources>

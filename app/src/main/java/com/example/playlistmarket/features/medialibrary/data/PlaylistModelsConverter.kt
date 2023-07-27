@@ -7,7 +7,6 @@ import com.example.playlistmarket.features.medialibrary.domain.PlaylistRecyclerM
 import com.example.playlistmarket.features.medialibrary.domain.PlaylistScreenModel
 import com.example.playlistmarket.root.domain.model.Playlist
 import com.example.playlistmarket.root.domain.repository.PlaylistArtworksRepository
-import com.example.playlistmarket.root.domain.repository.TracksRepository
 import kotlinx.coroutines.runBlocking
 
 class PlaylistModelsConverter(
@@ -31,10 +30,12 @@ class PlaylistModelsConverter(
         runBlocking {
             artworkUri = artworksRepository.loadArtwork(playlist.id.toString())
         }
+        val description =
+            if (playlist.description == "") App.appContext.getString(R.string.no_description) else playlist.description
         return PlaylistScreenModel(
             artworkUri,
             playlist.title,
-            playlist.description,
+            description,
             getStringTotalDuration(totalDuration),
             getStringQuantity(playlist.trackQuantity)
         )
