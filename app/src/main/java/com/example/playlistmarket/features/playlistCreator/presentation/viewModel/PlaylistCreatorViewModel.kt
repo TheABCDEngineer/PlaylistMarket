@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmarket.features.playlistCreator.presentation.EditScreenState
+import com.example.playlistmarket.features.playlistCreator.presentation.PlaylistInfoModel
 import com.example.playlistmarket.root.domain.model.Playlist
 import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.root.domain.repository.PlaylistArtworksRepository
@@ -20,17 +21,21 @@ import kotlinx.coroutines.runBlocking
 
 class PlaylistCreatorViewModel(
     private val track: Track?,
+    private val playlistId: Int,
     private val playlistArtworksRepository: PlaylistArtworksRepository,
     private val playlistsRepository: PlaylistsRepository,
     private val tracksRepository: TracksRepository
-): ViewModel() {
+) : ViewModel() {
     private val playlistsTitles = ArrayList<String>()
     private lateinit var title: String
     private var description: String = ""
     private lateinit var pickImage: ActivityResultLauncher<PickVisualMediaRequest>
 
-    private val artworkImageLiveData = MutableLiveData<Uri>()
-    fun observeArtworkImage(): LiveData<Uri> = artworkImageLiveData
+    private val artworkImageLiveData = MutableLiveData<Uri?>()
+    fun observeArtworkImage(): LiveData<Uri?> = artworkImageLiveData
+
+    private val playlistInfo = MutableLiveData<PlaylistInfoModel>()
+    fun observePlaylistInfo(): LiveData<PlaylistInfoModel> = playlistInfo
 
     private val titleFieldStateLiveData = MutableLiveData<EditScreenState>()
     fun observeTitleFieldState(): LiveData<EditScreenState> = titleFieldStateLiveData
@@ -39,30 +44,34 @@ class PlaylistCreatorViewModel(
     fun observeDescriptionFieldState(): LiveData<EditScreenState> = descriptionFieldStateLiveData
 
     fun onUiCreate(activity: AppCompatActivity) {
-        pickImage = activity.registerForActivityResult(ActivityResultContracts.PickVisualMedia()){ uri ->
-            if (uri != null) {
-                artworkImageLiveData.postValue(uri)
+        pickImage =
+            activity.registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+                if (uri != null) {
+                    artworkImageLiveData.postValue(uri)
+                }
             }
-        }
         viewModelScope.launch {
             val playlists = playlistsRepository.loadPlaylists()
             if (playlists.isEmpty()) return@launch
             for (playlist in playlists) {
                 playlistsTitles.add(playlist.title)
             }
+            if (playlistId != -1) initModifyPlaylistInfo(playlistId)
         }
     }
 
     fun onTitleFieldTextChange(charSequence: CharSequence?) {
         title = charSequence?.toString() ?: ""
-        val state = if (title == "") EditScreenState.INACTIVE_FIELD else EditScreenState.ACTIVE_FIELD
+        val state =
+            if (title == "") EditScreenState.INACTIVE_FIELD else EditScreenState.ACTIVE_FIELD
         titleFieldStateLiveData.postValue(state)
         viewModelScope.launch { postTitleUniqueWarning() }
     }
 
     fun onDescriptionFieldTextChange(charSequence: CharSequence?) {
         description = charSequence?.toString() ?: ""
-        val state = if (description == "") EditScreenState.INACTIVE_FIELD else EditScreenState.ACTIVE_FIELD
+        val state =
+            if (description == "") EditScreenState.INACTIVE_FIELD else EditScreenState.ACTIVE_FIELD
         descriptionFieldStateLiveData.postValue(state)
     }
 
@@ -72,28 +81,59 @@ class PlaylistCreatorViewModel(
         )
     }
 
-    fun createPlayList(): String {
-        val trackQuantity = if (track != null) 1 else 0
-        val newPlayList = Playlist(title.trim(),description,trackQuantity)
-
+    fun savePlayList(): String? {
+        var returnedTitle: String? = null
         runBlocking {
-            val newPlaylistId = playlistsRepository.savePlaylist(newPlayList)
-            if (track != null) tracksRepository.saveTrackToPlaylist(track, newPlaylistId)
-            if (artworkImageLiveData.value != null)
-                saveArtworkToAppStorage(artworkImageLiveData.value!!, newPlaylistId)
+            if (playlistId == -1) {
+                createPlaylist()
+                returnedTitle = title.trim()
+            } else {
+                modifyPlaylist()
+            }
         }
-        return title.trim()
+        return returnedTitle
     }
 
-    private fun saveArtworkToAppStorage(uri: Uri, playlistId: Int) {
-        viewModelScope.launch {
-            playlistArtworksRepository.saveArtwork(uri, playlistId.toString())
-        }
+    private suspend fun createPlaylist() {
+        val trackQuantity = if (track != null) 1 else 0
+        val newPlayList = Playlist(title.trim(), description, trackQuantity)
+        val newPlaylistId = playlistsRepository.savePlaylist(newPlayList)
+        saveArtworkToAppStorage(newPlaylistId)
+        if (track != null) tracksRepository.saveTrackToPlaylist(track, newPlaylistId)
+    }
+
+    private suspend fun modifyPlaylist() {
+        val playlist = playlistsRepository.loadPlaylist(playlistId) ?: return
+        playlist.title = title
+        playlist.description = description
+        playlistsRepository.updatePlaylist(playlist)
+        saveArtworkToAppStorage(playlistId)
+    }
+
+    private suspend fun saveArtworkToAppStorage(playlistId: Int) {
+        val uri = artworkImageLiveData.value ?: return
+        playlistArtworksRepository.saveArtwork(uri, playlistId.toString())
     }
 
     private fun postTitleUniqueWarning() {
         for (title in playlistsTitles) {
             if (this.title.trim() == title) titleFieldStateLiveData.postValue(EditScreenState.UNIQUE_TITLE)
         }
+    }
+
+    private suspend fun initModifyPlaylistInfo(playlistId: Int) {
+        val modifyPlaylist = playlistsRepository.loadPlaylist(playlistId) ?: return
+        val playlistInfoModel =
+            PlaylistInfoModel(modifyPlaylist.title, modifyPlaylist.description)
+        val artworkUri =
+            playlistArtworksRepository.loadArtwork(modifyPlaylist.id.toString())
+
+        playlistInfo.postValue(playlistInfoModel)
+        artworkImageLiveData.postValue(artworkUri)
+        titleFieldStateLiveData.postValue(EditScreenState.ACTIVE_FIELD)
+        if (modifyPlaylist.description != "") descriptionFieldStateLiveData.postValue(
+            EditScreenState.ACTIVE_FIELD
+        )
+        playlistsTitles.remove(modifyPlaylist.title)
     }
 }

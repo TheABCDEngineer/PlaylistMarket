@@ -7,9 +7,9 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 
 val playlistCreatorModule = module {
 
-    viewModel { (track: Track?) ->
+    viewModel { (track: Track?, playlistId: Int) ->
         PlaylistCreatorViewModel(
-            track, get(), get(), get()
+            track, playlistId, get(), get(), get()
         )
     }
 }

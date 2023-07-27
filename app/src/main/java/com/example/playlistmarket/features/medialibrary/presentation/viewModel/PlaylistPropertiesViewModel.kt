@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmarket.features.medialibrary.data.PlaylistModelsConverter
 import com.example.playlistmarket.features.medialibrary.domain.PlaylistScreenModel
+import com.example.playlistmarket.features.playlistCreator.PlaylistCreator
 import com.example.playlistmarket.root.domain.model.Playlist
 import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.root.domain.repository.PlaylistsRepository
@@ -13,6 +14,7 @@ import com.example.playlistmarket.root.domain.repository.TracksRepository
 import kotlinx.coroutines.launch
 
 class PlaylistPropertiesViewModel(
+    private val playlistId: Int?,
     private val playlistsRepository: PlaylistsRepository,
     private val tracksRepository: TracksRepository,
     private val converter: PlaylistModelsConverter
@@ -28,7 +30,7 @@ class PlaylistPropertiesViewModel(
     private val tracksData = MutableLiveData<ArrayList<Track>>()
     fun observeTracks(): LiveData<ArrayList<Track>> = tracksData
 
-    fun setPlaylist(playlistId: Int?) {
+    fun onUiResume() {
         if (playlistId == null) {
             playlistNullException.postValue(true)
             return
@@ -54,6 +56,18 @@ class PlaylistPropertiesViewModel(
 
             updatePlaylistInfo(tracks)
         }
+    }
+
+    fun sharePlaylist() {
+
+    }
+
+    fun modifyPlaylist() {
+        PlaylistCreator.start(playlistId = playlist?.id)
+    }
+
+    fun deletePlaylist() {
+
     }
 
     private fun getTotalTracksDuration(tracks: ArrayList<Track>): Int {

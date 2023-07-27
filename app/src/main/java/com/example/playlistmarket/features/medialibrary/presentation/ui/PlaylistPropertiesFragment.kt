@@ -18,9 +18,12 @@ import com.example.playlistmarket.root.presentation.ui.recyclerView.TrackAdapter
 import com.example.playlistmarket.root.showSimpleAlertDialog
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class PlaylistPropertiesFragment: Fragment() {
-    private val viewModel by viewModel<PlaylistPropertiesViewModel>()
+    private val viewModel by viewModel<PlaylistPropertiesViewModel>() {
+        parametersOf(arguments?.getInt(App.PLAYLIST_KEY))
+    }
     private lateinit var playlistInfoWidget: PlaylistInfoWidget
     private lateinit var binding: FragmentPlaylistPropertiesBinding
 
@@ -35,7 +38,6 @@ class PlaylistPropertiesFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.setPlaylist(arguments?.getInt(App.PLAYLIST_KEY))
         playlistInfoWidget = PlaylistInfoWidget(
             binding,
             TrackAdapter(
@@ -66,6 +68,18 @@ class PlaylistPropertiesFragment: Fragment() {
             overlay.isVisible = true
             menuBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
         }
+        binding.playlistPropertiesShare.setOnClickListener {
+            menuBottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
+            viewModel.sharePlaylist()
+        }
+        binding.playlistPropertiesModify.setOnClickListener {
+            menuBottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
+            viewModel.modifyPlaylist()
+        }
+        binding.playlistPropertiesDelete.setOnClickListener {
+            onDeletePlaylistClicked()
+        }
+
         menuBottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
         menuBottomSheet.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
@@ -81,6 +95,11 @@ class PlaylistPropertiesFragment: Fragment() {
                 overlay.alpha = ((slideOffset + 1.0) / 2).toFloat()
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onUiResume()
     }
 
     private fun executePlaylistNullExceptionDialog() {
@@ -100,6 +119,20 @@ class PlaylistPropertiesFragment: Fragment() {
             message = getString(R.string.warning_delete_a_track),
             positiveButtonTitle = getString(R.string.delete),
             positiveButtonAction = { viewModel.deleteTrackFromPlaylist(track) },
+            negativeButtonTitle = getString(R.string.cancel)
+        )
+    }
+
+    private fun onDeletePlaylistClicked() {
+        showSimpleAlertDialog(
+            context = this.requireContext(),
+            title = getString(R.string.delete_a_playlist),
+            message = getString(R.string.warning_delete_a_playlist),
+            positiveButtonTitle = getString(R.string.delete),
+            positiveButtonAction = {
+                viewModel.deletePlaylist()
+                findNavController().popBackStack()
+            },
             negativeButtonTitle = getString(R.string.cancel)
         )
     }

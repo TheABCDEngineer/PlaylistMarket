@@ -23,6 +23,7 @@ class PlaylistInfoWidget(
         val description =
             if (model.description == "") App.appContext.getString(R.string.no_description) else model.description
         binding.apply {
+            playlistPropertiesArtwork.setImageURI(null)
             playlistPropertiesArtwork.setImageURI(model.artwork)
             playlistPropertiesArtwork.scaleType = scaleType
             playlistPropertiesTitle.text = model.title
@@ -36,6 +37,7 @@ class PlaylistInfoWidget(
         val scaleType =
             if (model.artwork != null) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER
         binding.playlistPropertiesMenuPlaylistView.apply {
+            recyclerSinglePlaylistArtwork.setImageURI(null)
             recyclerSinglePlaylistArtwork.setImageURI(model.artwork)
             recyclerSinglePlaylistArtwork.scaleType = scaleType
             recyclerSinglePlaylistTitle.text = model.title

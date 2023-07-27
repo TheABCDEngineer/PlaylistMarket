@@ -35,18 +35,10 @@ class PlaylistsFragment : Fragment() {
 
     private val onAdapterItemClickedAction: (Int) -> Unit
         get() = debounce(App.CLICK_DEBOUNCE_DELAY, lifecycleScope) { playlistId: Int ->
-            //viewModel.onPlaylistChoose(playlistId)
-//            val bundle = Bundle()
-//            bundle.putInt(App.PLAYLIST_KEY,playlistId)
             findNavController().navigate(
                 R.id.action_mediaLibraryFragment_to_playlistPropertiesFragment,
                 Bundle().apply { putInt(App.PLAYLIST_KEY,playlistId) }
             )
-            //NavHostFragment.findNavController(requireActivity()).navigate(R.id.action_mediaLibraryFragment_to_playlistPropertiesFragment)
-//            val navHostFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.container_view) as NavHostFragment
-//            val navController = navHostFragment.navController
-//            Log.i("qwert","enter")
-//            navController.navigate(R.id.action_mediaLibraryFragment_to_playlistPropertiesFragment)
         }
     private val adapter = PlaylistAdapter(ArrayList(),onAdapterItemClickedAction)
 
