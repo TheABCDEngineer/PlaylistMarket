@@ -12,6 +12,7 @@ import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.root.domain.repository.PlaylistsRepository
 import com.example.playlistmarket.root.domain.repository.TracksRepository
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class PlaylistPropertiesViewModel(
     private val playlistId: Int?,
@@ -67,7 +68,9 @@ class PlaylistPropertiesViewModel(
     }
 
     fun deletePlaylist() {
-
+        runBlocking {
+            playlistsRepository.deletePlaylist(playlistId!!)
+        }
     }
 
     private fun getTotalTracksDuration(tracks: ArrayList<Track>): Int {

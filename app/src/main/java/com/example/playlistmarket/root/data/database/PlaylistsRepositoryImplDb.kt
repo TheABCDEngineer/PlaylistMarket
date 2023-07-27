@@ -55,10 +55,10 @@ class PlaylistsRepositoryImplDb(
         return loadFavoritesPlaylist()
     }
 
-    override suspend fun deletePlaylist(playlist: Playlist) {
-        val tracks = database.trackDao().getTracksFromPlaylist(playlist.id)
-        database.playlistDao().deletePlaylist(playlist.id)
-        database.trackLibraryDao().deleteRelationshipOfPlaylist(playlist.id)
+    override suspend fun deletePlaylist(playlistId: Int) {
+        val tracks = database.trackDao().getTracksFromPlaylist(playlistId)
+        database.playlistDao().deletePlaylist(playlistId)
+        database.trackLibraryDao().deleteRelationshipOfPlaylist(playlistId)
         if (tracks.isEmpty()) return
 
         for (track in tracks) {
