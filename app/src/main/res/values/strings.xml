@@ -57,13 +57,15 @@
     <string name="no_description">Нет описания</string>
     <string name="playlist_is_empty">Плейлист пуст</string>
     <string name="delete_a_track">Удалить трек</string>
-    <string name="warning_delete_a_track">Вы уверены, что хотите удалить трек из плейлиста?</string>
+    <string name="warning_delete_a_track">Хотите удалить трек?</string>
     <string name="share">Поделиться</string>
     <string name="modify_info">Редактировать информацию</string>
     <string name="delete_a_playlist">Удалить плейлист</string>
-    <string name="warning_delete_a_playlist">Вы действительно хотите удалить этот плейлист?</string>
+    <string name="warning_delete_a_playlist">Хотите удалить плейлист?</string>
     <string name="to_save">Сохранить</string>
     <string name="to_modify">Редактировать</string>
     <string name="impossible_to_share_playlist">В этом плейлисте нет списка треков, которым можно поделиться</string>
     <string name="ok">ОК</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
 </resources>

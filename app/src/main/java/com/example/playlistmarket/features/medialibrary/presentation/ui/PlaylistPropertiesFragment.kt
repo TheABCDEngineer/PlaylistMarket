@@ -42,9 +42,10 @@ class PlaylistPropertiesFragment: Fragment() {
         playlistInfoWidget = PlaylistInfoWidget(
             binding,
             TrackAdapter(
-                ArrayList(),
-                { track -> Player.start(track) },
-                { track -> onFeedItemLongClicked(track) }
+                trackList = ArrayList(),
+                artworkResolution = 60,
+                onItemClickedAction = { track -> Player.start(track) },
+                onItemLongClickedAction = { track -> onFeedItemLongClicked(track) }
             )
         )
         alertDialogWidget = AlertDialogWidget(this.requireContext())

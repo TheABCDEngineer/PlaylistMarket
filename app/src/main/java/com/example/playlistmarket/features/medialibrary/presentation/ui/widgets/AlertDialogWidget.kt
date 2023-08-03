@@ -21,9 +21,9 @@ class AlertDialogWidget(
             context = context,
             title = context.getString(R.string.delete_a_track),
             message = context.getString(R.string.warning_delete_a_track),
-            positiveButtonTitle = context.getString(R.string.delete),
+            positiveButtonTitle = context.getString(R.string.yes),
             positiveButtonAction = action,
-            negativeButtonTitle = context.getString(R.string.cancel)
+            negativeButtonTitle = context.getString(R.string.no)
         )
     }
 
@@ -32,9 +32,9 @@ class AlertDialogWidget(
             context = context,
             title = context.getString(R.string.delete_a_playlist),
             message = context.getString(R.string.warning_delete_a_playlist),
-            positiveButtonTitle = context.getString(R.string.delete),
+            positiveButtonTitle = context.getString(R.string.yes),
             positiveButtonAction = action,
-            negativeButtonTitle = context.getString(R.string.cancel)
+            negativeButtonTitle = context.getString(R.string.no)
         )
     }
 

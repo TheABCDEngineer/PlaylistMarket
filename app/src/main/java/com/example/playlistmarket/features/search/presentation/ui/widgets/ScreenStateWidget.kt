@@ -61,7 +61,7 @@ class ScreenStateWidget(
     }
 
     fun setTrackFeed(tracks: ArrayList<Track>) {
-        val adapter = TrackAdapter(tracks,onAdapterItemClickedAction)
+        val adapter = TrackAdapter(trackList = tracks, onItemClickedAction = onAdapterItemClickedAction)
         feed.adapter = adapter
         feed.adapter!!.notifyDataSetChanged()
     }

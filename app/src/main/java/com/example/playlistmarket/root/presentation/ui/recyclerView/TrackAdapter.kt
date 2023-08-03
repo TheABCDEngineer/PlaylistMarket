@@ -8,6 +8,7 @@ import com.example.playlistmarket.root.domain.model.Track
 
 class TrackAdapter(
     private val trackList: ArrayList<Track>,
+    private val artworkResolution: Int = 100,
     private val onItemClickedAction: (Track) -> Unit,
     private val onItemLongClickedAction: ((Track) -> Unit)? = null
 ) : RecyclerView.Adapter<TrackViewHolder>() {
@@ -15,7 +16,7 @@ class TrackAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.search_track_item, parent, false)
-        return TrackViewHolder(view)
+        return TrackViewHolder(view, artworkResolution)
     }
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {

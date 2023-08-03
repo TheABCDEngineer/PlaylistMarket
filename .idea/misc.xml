@@ -32,6 +32,7 @@
         <entry key="app/src/main/res/drawable/playlist_creator_edit_text.xml" value="0.1635" />
         <entry key="app/src/main/res/drawable/playlist_creator_edit_text_empty.xml" value="0.153" />
         <entry key="app/src/main/res/drawable/playlist_creator_edit_text_input.xml" value="0.153" />
+        <entry key="app/src/main/res/drawable/playlist_creator_text_input.xml" value="0.1795" />
         <entry key="app/src/main/res/drawable/playlist_menu_icon.xml" value="0.1795" />
         <entry key="app/src/main/res/drawable/please_wait_icon.xml" value="0.158" />
         <entry key="app/src/main/res/drawable/rounded_edittext.xml" value="0.1615" />

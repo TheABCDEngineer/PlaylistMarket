@@ -28,7 +28,7 @@ class FavoritesFragment : Fragment() {
         get() = debounce(CLICK_DEBOUNCE_DELAY, lifecycleScope) { track: Track ->
             Player.start(track)
         }
-    private val adapter = TrackAdapter(ArrayList(),onAdapterItemClickedAction)
+    private val adapter = TrackAdapter(trackList = ArrayList(), onItemClickedAction = onAdapterItemClickedAction)
 
     override fun onCreateView(
         inflater: LayoutInflater,

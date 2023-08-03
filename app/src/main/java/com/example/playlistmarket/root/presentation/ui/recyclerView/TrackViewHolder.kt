@@ -7,9 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.playlistmarket.R
 import com.example.playlistmarket.root.domain.model.Track
+import com.example.playlistmarket.root.domain.util.getArtwork
 import com.example.playlistmarket.root.domain.util.getFormattedTrackTime
 
-class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class TrackViewHolder(
+    itemView: View,
+    private val artworkResolution: Int
+) : RecyclerView.ViewHolder(itemView) {
     private val trackNameView: TextView = itemView.findViewById(R.id.search_cardview_track_title)
     private val artistNameView: TextView = itemView.findViewById(R.id.search_cardview_track_artist)
     private val trackTimeView: TextView = itemView.findViewById(R.id.search_cardview_track_time)
@@ -21,7 +25,7 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         trackTimeView.text = getFormattedTrackTime(trackData.trackTimeMillis)
 
         Glide.with(itemView)
-            .load(trackData.artworkUrl100)
+            .load(getArtwork(trackData.artworkUrl100,artworkResolution))
             .centerCrop()
             .placeholder(R.drawable.default_album_image)
             .into(artworkView)
