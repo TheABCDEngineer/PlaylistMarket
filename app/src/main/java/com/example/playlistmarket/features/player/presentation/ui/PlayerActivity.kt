@@ -41,7 +41,7 @@ class PlayerActivity : AppCompatActivity() {
     private val newPlaylistButton: Button by lazy { findViewById(R.id.player_bottom_sheet_new_playlist_button) }
     private val playlistTable: RecyclerView by lazy { findViewById(R.id.player_bottom_sheet_playlists_table) }
     private val onAdapterItemClickedAction: (PlaylistRecyclerModel) -> Unit
-        get() = debounce(App.CLICK_DEBOUNCE_DELAY, lifecycleScope) { playlist ->
+        get() = debounce(App.CLICK_DEBOUNCE_DELAY_MILLIS, lifecycleScope) { playlist ->
             makeToast(
                 viewModel.onPlaylistChoose(playlist.id, playlist.title)
             )
@@ -164,7 +164,7 @@ class PlayerActivity : AppCompatActivity() {
 
     private fun updatePlaylistFeed(items: ArrayList<PlaylistRecyclerModel>) {
         adapter.updateItems(items)
-        playlistTable.adapter!!.notifyDataSetChanged()
+        playlistTable.adapter?.notifyDataSetChanged()
     }
 
     private fun makeToast(message: String) {

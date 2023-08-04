@@ -10,7 +10,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
@@ -32,15 +31,15 @@ import kotlin.properties.Delegates
 class PlaylistCreatorActivity : AppCompatActivity() {
     private var track: Track? = null
     private var playlistId by Delegates.notNull<Int>()
-    private lateinit var binding: ActivityPlaylistCreatorBinding
-    private val placeHolder: ImageView by lazy { binding.placeHolder }
-    private val artwork: ImageView by lazy { binding.setImage }
-    private val titleEditor: EditText by lazy { binding.playlistTitleField }
-    private val titleFieldHeader: TextView by lazy { binding.titleFieldHeader }
-    private val uniqueTitleWarning: TextView by lazy { binding.uniqueTitleWarning }
-    private val descriptionEditor: EditText by lazy { binding.playlistDescriptionField }
-    private val descriptionFieldHeader: TextView by lazy { binding.descriptionFieldHeader }
-    private val createPlaylistButton: AppCompatButton by lazy { binding.createButton }
+    private var binding: ActivityPlaylistCreatorBinding? = null
+    private var placeHolder: ImageView? = null
+    private var artwork: ImageView? = null
+    private var titleEditor: EditText? = null
+    //private val titleFieldHeader: TextView by lazy { binding.titleFieldHeader }
+    //private val uniqueTitleWarning: TextView by lazy { binding.uniqueTitleWarning }
+    private var descriptionEditor: EditText? = null
+    //private val descriptionFieldHeader: TextView by lazy { binding.descriptionFieldHeader }
+    private var createPlaylistButton: AppCompatButton? = null
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true){
         override fun handleOnBackPressed() {
@@ -58,8 +57,13 @@ class PlaylistCreatorActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlaylistCreatorBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(binding?.root)
         supportActionBar?.hide()
+        placeHolder = binding?.placeHolder
+        artwork = binding?.setImage
+        titleEditor = binding?.playlistTitleField
+        descriptionEditor = binding?.playlistDescriptionField
+        createPlaylistButton = binding?.createButton
 
         track = if (Build.VERSION.SDK_INT < 33)
             intent.getParcelableExtra(App.TRACK_KEY)
@@ -68,13 +72,13 @@ class PlaylistCreatorActivity : AppCompatActivity() {
 
         playlistId = intent.getIntExtra(App.PLAYLIST_KEY,-1)
         if (playlistId != -1) {
-            createPlaylistButton.text = getString(R.string.to_save)
-            binding.playlistCreatorInterfaceHeader.text = getString(R.string.to_modify)
+            createPlaylistButton?.text = getString(R.string.to_save)
+            binding?.playlistCreatorInterfaceHeader?.text = getString(R.string.to_modify)
         }
 
         onBackPressedDispatcher.addCallback(onBackPressedCallback)
 
-        viewModel.apply {
+        with(viewModel) {
             observeArtworkImage()
                 .observe(this@PlaylistCreatorActivity) {updateArtwork(it)}
             observeTitleFieldState()
@@ -84,10 +88,10 @@ class PlaylistCreatorActivity : AppCompatActivity() {
             observePlaylistInfo()
                 .observe(this@PlaylistCreatorActivity) {updateEditFieldText(it.title, it.description)}
         }
-        binding.backButton.setOnClickListener {
+        binding?.backButton?.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
-        artwork.setOnClickListener {
+        artwork?.setOnClickListener {
             if (Build.VERSION.SDK_INT < 33) {
                 viewModel.setArtwork()
                 return@setOnClickListener
@@ -104,7 +108,7 @@ class PlaylistCreatorActivity : AppCompatActivity() {
         initiateEditText(descriptionEditor) { charSequence ->
             viewModel.onDescriptionFieldTextChange(charSequence)
         }
-        createPlaylistButton.setOnClickListener {
+        createPlaylistButton?.setOnClickListener {
             val playlistTitle = viewModel.savePlayList()
             val message = if (track == null)
                 getString(R.string.playlist) + " " + playlistTitle + " " + getString(R.string.has_been_created) else
@@ -115,38 +119,43 @@ class PlaylistCreatorActivity : AppCompatActivity() {
         viewModel.onUiCreate(this)
     }
 
+    override fun onDestroy() {
+        binding = null
+        super.onDestroy()
+    }
+
     private fun updateArtwork(uri: Uri?) {
-        placeHolder.isVisible = false
+        placeHolder?.isVisible = false
         if (uri != null) {
-            artwork.setImageURI(uri)
-            artwork.scaleType = ImageView.ScaleType.CENTER_CROP
+            artwork?.setImageURI(uri)
+            artwork?.scaleType = ImageView.ScaleType.CENTER_CROP
             return
         }
-        artwork.setImageDrawable(
+        artwork?.setImageDrawable(
             AppCompatResources.getDrawable(this, R.drawable.default_album_image)
         )
-        artwork.scaleType = ImageView.ScaleType.FIT_CENTER
+        artwork?.scaleType = ImageView.ScaleType.FIT_CENTER
     }
 
     private fun updateTitleFieldState(state: EditScreenState) {
-        titleFieldHeader.isVisible = state.isHeaderVisible
-        titleEditor.background = state.backGround
-        uniqueTitleWarning.isVisible = state.isWarningMessageVisible
-        createPlaylistButton.isEnabled = state.isButtonEnable
+        binding?.titleFieldHeader?.isVisible = state.isHeaderVisible
+        titleEditor?.background = state.backGround
+        binding?.uniqueTitleWarning?.isVisible = state.isWarningMessageVisible
+        createPlaylistButton?.isEnabled = state.isButtonEnable
     }
 
     private fun updateDescriptionFieldState(state: EditScreenState) {
-        descriptionFieldHeader.isVisible = state.isHeaderVisible
-        descriptionEditor.background = state.backGround
+        binding?.descriptionFieldHeader?.isVisible = state.isHeaderVisible
+        descriptionEditor?.background = state.backGround
     }
 
     private fun updateEditFieldText(title: String = "", description: String = "") {
-        if (title != "") titleEditor.setText(title)
-        if (description != "") descriptionEditor.setText(description)
+        if (title != "") titleEditor?.setText(title)
+        if (description != "") descriptionEditor?.setText(description)
     }
 
-    private fun initiateEditText(view: EditText, action: (CharSequence?)-> Unit) {
-        view.addTextChangedListener(object : TextWatcher {
+    private fun initiateEditText(view: EditText?, action: (CharSequence?)-> Unit) {
+        view?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -172,9 +181,9 @@ class PlaylistCreatorActivity : AppCompatActivity() {
 
     private fun allowedFinishOnBackPressed(): Boolean {
         if (playlistId != -1) return true
-        if (!placeHolder.isVisible) return false
-        if (!titleEditor.text.isNullOrEmpty()) return false
-        if (!descriptionEditor.text.isNullOrEmpty()) return false
+        if (placeHolder != null && !placeHolder!!.isVisible) return false
+        if (titleEditor != null && !titleEditor!!.text.isNullOrEmpty()) return false
+        if (descriptionEditor != null && !descriptionEditor!!.text.isNullOrEmpty()) return false
         return true
     }
 }

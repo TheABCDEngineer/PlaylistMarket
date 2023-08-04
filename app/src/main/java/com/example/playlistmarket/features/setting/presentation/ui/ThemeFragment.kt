@@ -13,35 +13,36 @@ import com.example.playlistmarket.features.setting.presentation.viewModel.ThemeV
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ThemeFragment: Fragment() {
-    private lateinit var binding: FragmentThemeSettingsBinding
+    private var binding: FragmentThemeSettingsBinding? = null
     private val viewModel by viewModel<ThemeViewModel>()
     private val radioGroup = ThemeRadioGroup()
-    private lateinit var defaultButton: ThemeRadioButton
-    private lateinit var lightButton: ThemeRadioButton
-    private lateinit var darkButton: ThemeRadioButton
+    private var defaultButton: ThemeRadioButton? = null
+    private var lightButton: ThemeRadioButton? = null
+    private var darkButton: ThemeRadioButton? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentThemeSettingsBinding.inflate(inflater,container,false)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (binding == null) return
         initRadioGroup()
-        binding.defaultThemeRadioButton.setOnClickListener {
-            defaultButton.checked()
+        binding!!.defaultThemeRadioButton.setOnClickListener {
+            defaultButton?.checked()
             viewModel.onUserModeSelected(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
-        binding.lightThemeRadioButton.setOnClickListener {
-            lightButton.checked()
+        binding!!.lightThemeRadioButton.setOnClickListener {
+            lightButton?.checked()
             viewModel.onUserModeSelected(AppCompatDelegate.MODE_NIGHT_NO)
         }
-        binding.darkThemeRadioButton.setOnClickListener {
-            darkButton.checked()
+        binding!!.darkThemeRadioButton.setOnClickListener {
+            darkButton?.checked()
             viewModel.onUserModeSelected(AppCompatDelegate.MODE_NIGHT_YES)
         }
         updateThemeRadioGroupState(
@@ -49,17 +50,23 @@ class ThemeFragment: Fragment() {
         )
     }
 
+    override fun onDestroy() {
+        binding = null
+        super.onDestroy()
+    }
+
     private fun initRadioGroup() {
-        defaultButton = ThemeRadioButton(binding.defaultThemeRadioButton, radioGroup)
-        lightButton = ThemeRadioButton(binding.lightThemeRadioButton, radioGroup)
-        darkButton = ThemeRadioButton(binding.darkThemeRadioButton, radioGroup)
+        if (binding == null) return
+        defaultButton = ThemeRadioButton(binding!!.defaultThemeRadioButton, radioGroup)
+        lightButton = ThemeRadioButton(binding!!.lightThemeRadioButton, radioGroup)
+        darkButton = ThemeRadioButton(binding!!.darkThemeRadioButton, radioGroup)
     }
 
     private fun updateThemeRadioGroupState(themeMode: Int) {
         when (themeMode) {
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> defaultButton.checked()
-            AppCompatDelegate.MODE_NIGHT_NO -> lightButton.checked()
-            AppCompatDelegate.MODE_NIGHT_YES -> darkButton.checked()
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> defaultButton?.checked()
+            AppCompatDelegate.MODE_NIGHT_NO -> lightButton?.checked()
+            AppCompatDelegate.MODE_NIGHT_YES -> darkButton?.checked()
         }
     }
 }

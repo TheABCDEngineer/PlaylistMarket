@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlistmarket.R
 import com.example.playlistmarket.App.Companion.appContext
-import com.example.playlistmarket.App.Companion.CLICK_DEBOUNCE_DELAY
+import com.example.playlistmarket.App.Companion.CLICK_DEBOUNCE_DELAY_MILLIS
 import com.example.playlistmarket.root.debounce
 import com.example.playlistmarket.root.domain.repository.SettingsRepository
 
@@ -26,7 +26,7 @@ class SettingsViewModel(
     }
 
     fun executeShare() {
-        val action = debounce<Unit>(CLICK_DEBOUNCE_DELAY, viewModelScope) { _ ->
+        val action = debounce<Unit>(CLICK_DEBOUNCE_DELAY_MILLIS, viewModelScope) { _ ->
             val shareIntent = Intent(Intent.ACTION_SEND)
             shareIntent.putExtra(
                 Intent.EXTRA_TEXT,
@@ -40,7 +40,7 @@ class SettingsViewModel(
     }
 
     fun sendMailToSupport() {
-        val action = debounce<Unit>(CLICK_DEBOUNCE_DELAY, viewModelScope) { _ ->
+        val action = debounce<Unit>(CLICK_DEBOUNCE_DELAY_MILLIS, viewModelScope) { _ ->
             val mailIntent = Intent(Intent.ACTION_SENDTO)
             mailIntent.data = Uri.parse("mailto:")
             mailIntent.putExtra(
@@ -62,7 +62,7 @@ class SettingsViewModel(
     }
 
     fun presentUserTerms() {
-        val action = debounce<Unit>(CLICK_DEBOUNCE_DELAY, viewModelScope) { _ ->
+        val action = debounce<Unit>(CLICK_DEBOUNCE_DELAY_MILLIS, viewModelScope) { _ ->
             val webpage: Uri = Uri.parse(appContext.getString(R.string.settings_user_terms_link))
             val intent = Intent(Intent.ACTION_VIEW, webpage)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK

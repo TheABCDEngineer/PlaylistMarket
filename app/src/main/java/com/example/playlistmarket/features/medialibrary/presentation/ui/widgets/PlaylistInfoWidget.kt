@@ -11,14 +11,14 @@ class PlaylistInfoWidget(
     private val binding: FragmentPlaylistPropertiesBinding,
     private val feedAdapter: TrackAdapter
 ) {
-   init {
-       binding.playlistPropertiesTrackList.adapter = feedAdapter
-   }
+    init {
+        binding.playlistPropertiesTrackList.adapter = feedAdapter
+    }
 
     fun updatePlaylistProperties(model: PlaylistScreenModel) {
         val scaleType =
             if (model.artwork != null) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER
-        binding.apply {
+        with(binding) {
             playlistPropertiesArtwork.setImageURI(null)
             playlistPropertiesArtwork.setImageURI(model.artwork)
             playlistPropertiesArtwork.scaleType = scaleType
@@ -32,7 +32,7 @@ class PlaylistInfoWidget(
     fun updatePlaylistInfoCard(model: PlaylistScreenModel) {
         val scaleType =
             if (model.artwork != null) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER
-        binding.playlistPropertiesMenuPlaylistView.apply {
+        with(binding.playlistPropertiesMenuPlaylistView) {
             recyclerSinglePlaylistArtwork.setImageURI(null)
             recyclerSinglePlaylistArtwork.setImageURI(model.artwork)
             recyclerSinglePlaylistArtwork.scaleType = scaleType
@@ -45,6 +45,6 @@ class PlaylistInfoWidget(
         binding.playlistPropertiesTrackList.isVisible = items.isNotEmpty()
         binding.playlistPropertiesStatusText.isVisible = items.isEmpty()
         feedAdapter.updateItems(items)
-        binding.playlistPropertiesTrackList.adapter!!.notifyDataSetChanged()
+        binding.playlistPropertiesTrackList.adapter?.notifyDataSetChanged()
     }
 }

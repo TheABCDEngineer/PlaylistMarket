@@ -7,7 +7,7 @@ import com.example.playlistmarket.root.showSimpleAlertDialog
 class AlertDialogWidget(
     val context: Context
 ) {
-    fun showPlaylistNullExceptionDialog() {
+    fun showOnPlaylistLoadingError() {
         showSimpleAlertDialog(
             context = context,
             title = context.getString(R.string.error),

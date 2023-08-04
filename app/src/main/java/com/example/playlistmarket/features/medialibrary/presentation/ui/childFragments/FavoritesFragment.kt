@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import com.example.playlistmarket.App.Companion.CLICK_DEBOUNCE_DELAY
+import com.example.playlistmarket.App.Companion.CLICK_DEBOUNCE_DELAY_MILLIS
 import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.databinding.FragmentFavoritesBinding
 import com.example.playlistmarket.features.medialibrary.presentation.viewModel.FavoritesViewModel
@@ -20,28 +20,28 @@ class FavoritesFragment : Fragment() {
     companion object {
         fun newInstance() = FavoritesFragment()
     }
-
     private val viewModel by viewModel<FavoritesViewModel>()
-    private lateinit var binding: FragmentFavoritesBinding
+    private var binding: FragmentFavoritesBinding? = null
 
-    private val onAdapterItemClickedAction: (Track) -> Unit
-        get() = debounce(CLICK_DEBOUNCE_DELAY, lifecycleScope) { track: Track ->
+    private val adapter = TrackAdapter(
+        trackList = ArrayList(),
+        onItemClickedAction = debounce(CLICK_DEBOUNCE_DELAY_MILLIS, lifecycleScope) { track: Track ->
             Player.start(track)
         }
-    private val adapter = TrackAdapter(trackList = ArrayList(), onItemClickedAction = onAdapterItemClickedAction)
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentFavoritesBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.mediaLibraryFavoritesList.adapter = adapter
+        binding?.mediaLibraryFavoritesList?.adapter = adapter
 
         viewModel.observeFavoritesFeedState().observe(viewLifecycleOwner) {
             updateFavoritesFeed(it)
@@ -53,15 +53,19 @@ class FavoritesFragment : Fragment() {
         viewModel.onUiResume()
     }
 
+    override fun onDestroy() {
+        binding = null
+        super.onDestroy()
+    }
+
     private fun updateFavoritesFeed(tracks: ArrayList<Track>) {
         adapter.updateItems(tracks)
-        binding.apply {
+        if (binding == null) return
+        binding!!.mediaLibraryFavoritesList.adapter?.notifyDataSetChanged()
+        with(binding!!) {
             mediaLibraryFavoritesList.isVisible = tracks.isNotEmpty()
             mediaLibraryFavoritesStatusText.isVisible = tracks.isEmpty()
             mediaLibraryFavoritesStatusImage.isVisible = tracks.isEmpty()
         }
-        if (tracks.isEmpty()) return
-
-        binding.mediaLibraryFavoritesList.adapter!!.notifyDataSetChanged()
     }
 }

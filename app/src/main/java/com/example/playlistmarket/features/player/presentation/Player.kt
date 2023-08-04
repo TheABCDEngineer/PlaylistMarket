@@ -6,17 +6,15 @@ import com.example.playlistmarket.App.Companion.TRACK_KEY
 import com.example.playlistmarket.root.domain.model.Track
 import com.example.playlistmarket.features.player.presentation.ui.PlayerActivity
 
-class Player {
-    companion object {
-        fun start(track: Track?) {
-            if (track == null) return
+object Player {
+    fun start(track: Track?) {
+        if (track == null) return
 
-            appContext.startActivity(
-                Intent(appContext,PlayerActivity::class.java).apply {
-                    putExtra(TRACK_KEY, track)
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                }
-            )
-        }
+        appContext.startActivity(
+            Intent(appContext, PlayerActivity::class.java).apply {
+                putExtra(TRACK_KEY, track)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+        )
     }
 }

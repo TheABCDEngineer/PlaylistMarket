@@ -63,7 +63,7 @@ class PlaylistCreatorViewModel(
     fun onTitleFieldTextChange(charSequence: CharSequence?) {
         title = charSequence?.toString() ?: ""
         val state =
-            if (title == "") EditScreenState.INACTIVE_FIELD else EditScreenState.ACTIVE_FIELD
+            if (title.isEmpty()) EditScreenState.INACTIVE_FIELD else EditScreenState.ACTIVE_FIELD
         titleFieldStateLiveData.postValue(state)
         viewModelScope.launch { postTitleUniqueWarning() }
     }
@@ -71,7 +71,7 @@ class PlaylistCreatorViewModel(
     fun onDescriptionFieldTextChange(charSequence: CharSequence?) {
         description = charSequence?.toString() ?: ""
         val state =
-            if (description == "") EditScreenState.INACTIVE_FIELD else EditScreenState.ACTIVE_FIELD
+            if (description.isEmpty()) EditScreenState.INACTIVE_FIELD else EditScreenState.ACTIVE_FIELD
         descriptionFieldStateLiveData.postValue(state)
     }
 

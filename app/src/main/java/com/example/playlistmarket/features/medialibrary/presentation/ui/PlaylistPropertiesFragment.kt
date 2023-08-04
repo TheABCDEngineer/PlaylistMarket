@@ -24,23 +24,26 @@ class PlaylistPropertiesFragment: Fragment() {
     private val viewModel by viewModel<PlaylistPropertiesViewModel> {
         parametersOf(arguments?.getInt(App.PLAYLIST_KEY))
     }
-    private lateinit var playlistInfoWidget: PlaylistInfoWidget
+    private var binding: FragmentPlaylistPropertiesBinding? = null
+    private var playlistInfoWidget: PlaylistInfoWidget? = null
     private lateinit var alertDialogWidget: AlertDialogWidget
-    private lateinit var binding: FragmentPlaylistPropertiesBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentPlaylistPropertiesBinding.inflate(inflater,container,false)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        alertDialogWidget = AlertDialogWidget(this.requireContext())
+        if (binding == null) return
+
         playlistInfoWidget = PlaylistInfoWidget(
-            binding,
+            binding!!,
             TrackAdapter(
                 trackList = ArrayList(),
                 artworkResolution = 60,
@@ -48,10 +51,8 @@ class PlaylistPropertiesFragment: Fragment() {
                 onItemLongClickedAction = { track -> onFeedItemLongClicked(track) }
             )
         )
-        alertDialogWidget = AlertDialogWidget(this.requireContext())
-
-        val menuBottomSheet = BottomSheetBehavior.from(binding.playlistPropertiesBottomSheetMenu)
-        val overlay = binding.playlistOverlay
+        val menuBottomSheet = BottomSheetBehavior.from(binding!!.playlistPropertiesBottomSheetMenu)
+        val overlay = binding!!.playlistOverlay
 
         setDataObservers()
         setOnClickListeners(overlay, menuBottomSheet)
@@ -63,44 +64,50 @@ class PlaylistPropertiesFragment: Fragment() {
         viewModel.onUiResume()
     }
 
+    override fun onDestroy() {
+        binding = null
+        super.onDestroy()
+    }
+
     private fun setDataObservers() {
-        viewModel.apply {
-            observePlaylistNullException().observe(viewLifecycleOwner) { exception ->
-                if (exception) executePlaylistNullExceptionDialog()
+        with(viewModel) {
+            observePlaylistLoading().observe(viewLifecycleOwner) { isLoaded ->
+                if (!isLoaded) executePlaylistLoadingErrorDialog()
             }
             observePlaylistProperties().observe(viewLifecycleOwner) { model ->
-                playlistInfoWidget.updatePlaylistProperties(model)
-                playlistInfoWidget.updatePlaylistInfoCard(model)
+                playlistInfoWidget?.updatePlaylistProperties(model)
+                playlistInfoWidget?.updatePlaylistInfoCard(model)
             }
             observeTracks().observe(viewLifecycleOwner) { tracks ->
-                playlistInfoWidget.updateTracksFeed(tracks)
+                playlistInfoWidget?.updateTracksFeed(tracks)
             }
         }
     }
 
     private fun setOnClickListeners(overlay: View, menuBottomSheet:BottomSheetBehavior<LinearLayout>) {
-        binding.playlistPropertiesBackButton.setOnClickListener {
-            findNavController().popBackStack()
-        }
-        binding.playlistMenu.setOnClickListener {
-            overlay.alpha = 0F
-            overlay.isVisible = true
-            menuBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
-        }
+        if (binding == null) return
         val shareButtonClickListener = View.OnClickListener {
             menuBottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
-            if (
-                !viewModel.sharePlaylist()
-            ) onImpossibleShare()
+            if (!viewModel.sharePlaylist()) onImpossibleShare()
         }
-        binding.playlistShare.setOnClickListener(shareButtonClickListener)
-        binding.playlistPropertiesShare.setOnClickListener(shareButtonClickListener)
-        binding.playlistPropertiesModify.setOnClickListener {
-            menuBottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
-            viewModel.modifyPlaylist()
-        }
-        binding.playlistPropertiesDelete.setOnClickListener {
-            onDeletePlaylistClicked()
+        with(binding!!) {
+            playlistPropertiesBackButton.setOnClickListener {
+                findNavController().popBackStack()
+            }
+            playlistMenu.setOnClickListener {
+                overlay.alpha = 0F
+                overlay.isVisible = true
+                menuBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+            playlistShare.setOnClickListener(shareButtonClickListener)
+            playlistPropertiesShare.setOnClickListener(shareButtonClickListener)
+            playlistPropertiesModify.setOnClickListener {
+                menuBottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
+                viewModel.modifyPlaylist()
+            }
+            playlistPropertiesDelete.setOnClickListener {
+                onDeletePlaylistClicked()
+            }
         }
     }
 
@@ -122,8 +129,8 @@ class PlaylistPropertiesFragment: Fragment() {
         })
     }
 
-    private fun executePlaylistNullExceptionDialog() {
-        alertDialogWidget.showPlaylistNullExceptionDialog()
+    private fun executePlaylistLoadingErrorDialog() {
+        alertDialogWidget.showOnPlaylistLoadingError()
         findNavController().popBackStack()
     }
 

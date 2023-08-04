@@ -13,19 +13,19 @@ import com.example.playlistmarket.root.presentation.ui.recyclerView.TrackAdapter
 import kotlinx.coroutines.CoroutineScope
 
 class ScreenStateWidget(
-    binding: FragmentSearchBinding,
+    binding: FragmentSearchBinding?,
     coroutineScope: CoroutineScope
 ) {
-    private val requestStatusImage = binding.requestStatusImage
-    private val requestStatusMessage = binding.requestStatusMessage
-    private val progressBar = binding.progressBar
-    private val functionalButton = binding.functionalButton
-    private val feed = binding.trackFeed
-    private val recyclerLayout = binding.recyclerLayout
-    private val title = binding.recentTracksTitle
+    private val requestStatusImage = binding?.requestStatusImage
+    private val requestStatusMessage = binding?.requestStatusMessage
+    private val progressBar = binding?.progressBar
+    private val functionalButton = binding?.functionalButton
+    private val feed = binding?.trackFeed
+    private val recyclerLayout = binding?.recyclerLayout
+    private val title = binding?.recentTracksTitle
 
     private val onAdapterItemClickedAction: (Track) -> Unit =
-        debounce(App.CLICK_DEBOUNCE_DELAY, coroutineScope) { track: Track ->
+        debounce(App.CLICK_DEBOUNCE_DELAY_MILLIS, coroutineScope) { track: Track ->
             Player.start(track)
             onTrackAdapterItemClicked(track)
         }
@@ -35,34 +35,34 @@ class ScreenStateWidget(
     lateinit var onTrackAdapterItemClicked: (Track) -> Unit
 
     init {
-        functionalButton.setOnClickListener {
+        functionalButton?.setOnClickListener {
             onFunctionalButtonClick.invoke(functionalButtonMode)
         }
     }
 
     fun setScreenState(state: SearchScreenState) {
-        title.text = state.title
-        requestStatusImage.setImageDrawable(state.image)
-        requestStatusMessage.text = state.message
-        functionalButton.text = state.functionalButton.title
+        title?.text = state.title
+        requestStatusImage?.setImageDrawable(state.image)
+        requestStatusMessage?.text = state.message
+        functionalButton?.text = state.functionalButton.title
         functionalButtonMode = state.functionalButton
 
-        title.isVisible = state.isTitle
-        feed.isVisible = state.isFeed
-        requestStatusImage.isVisible = !state.isFeed
-        requestStatusMessage.isVisible = !state.isFeed
-        functionalButton.isVisible = state.isFunctionalButton
-        progressBar.isVisible = state.isProgressBar
+        title?.isVisible = state.isTitle
+        feed?.isVisible = state.isFeed
+        requestStatusImage?.isVisible = !state.isFeed
+        requestStatusMessage?.isVisible = !state.isFeed
+        functionalButton?.isVisible = state.isFunctionalButton
+        progressBar?.isVisible = state.isProgressBar
 
-        recyclerLayout.layoutParams.height = state.functionalButton.layoutHeight
-        recyclerLayout.layoutParams.apply {
+        recyclerLayout?.layoutParams?.height = state.functionalButton.layoutHeight
+        recyclerLayout?.layoutParams.apply {
             (this as LinearLayout.LayoutParams).weight = state.functionalButton.layoutWeight
         }
     }
 
     fun setTrackFeed(tracks: ArrayList<Track>) {
         val adapter = TrackAdapter(trackList = tracks, onItemClickedAction = onAdapterItemClickedAction)
-        feed.adapter = adapter
-        feed.adapter!!.notifyDataSetChanged()
+        feed?.adapter = adapter
+        feed?.adapter?.notifyDataSetChanged()
     }
 }

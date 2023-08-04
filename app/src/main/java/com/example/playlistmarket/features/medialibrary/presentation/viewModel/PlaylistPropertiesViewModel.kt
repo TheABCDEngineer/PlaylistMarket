@@ -26,8 +26,8 @@ class PlaylistPropertiesViewModel(
 ) : ViewModel() {
     private var playlist: Playlist? = null
 
-    private val playlistNullException = MutableLiveData<Boolean>()
-    fun observePlaylistNullException(): LiveData<Boolean> = playlistNullException
+    private val isPlaylistLoaded = MutableLiveData<Boolean>()
+    fun observePlaylistLoading(): LiveData<Boolean> = isPlaylistLoaded
 
     private val playlistProperties = MutableLiveData<PlaylistScreenModel>()
     fun observePlaylistProperties(): LiveData<PlaylistScreenModel> = playlistProperties
@@ -37,7 +37,7 @@ class PlaylistPropertiesViewModel(
 
     fun onUiResume() {
         if (playlistId == null) {
-            playlistNullException.postValue(true)
+            isPlaylistLoaded.postValue(false)
             return
         }
         viewModelScope.launch {
@@ -46,7 +46,7 @@ class PlaylistPropertiesViewModel(
                 val tracks = loadTracks(playlistId)
                 updatePlaylistInfo(tracks)
             } else
-                playlistNullException.postValue(true)
+                isPlaylistLoaded.postValue(false)
         }
     }
 
@@ -66,7 +66,7 @@ class PlaylistPropertiesViewModel(
     fun sharePlaylist(): Boolean {
         if (tracksData.value!!.isNullOrEmpty()) return false
         val message = createSharedPlaylistPropertiesMessage()
-        val action = debounce<String>(App.CLICK_DEBOUNCE_DELAY, viewModelScope) { body ->
+        val action = debounce<String>(App.CLICK_DEBOUNCE_DELAY_MILLIS, viewModelScope) { body ->
             val shareIntent = Intent(Intent.ACTION_SEND)
             shareIntent.putExtra(Intent.EXTRA_TEXT, body)
             shareIntent.type = "text/plain"

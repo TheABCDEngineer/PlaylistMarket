@@ -9,31 +9,30 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.playlistmarket.R
 import com.example.playlistmarket.root.presentation.viewModel.RootViewModel
 import com.example.playlistmarket.databinding.AvtivityRootBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RootActivity : AppCompatActivity() {
-    private lateinit var binding: AvtivityRootBinding
-    private val navigationMenu: BottomNavigationView by lazy { binding.bottomNavigationView }
+    private var binding: AvtivityRootBinding? = null
     private val viewModel by viewModel<RootViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = AvtivityRootBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(binding?.root)
         supportActionBar?.hide()
 
+        val navigationMenu = binding?.bottomNavigationView
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.container_view) as NavHostFragment
         val navController = navHostFragment.navController
-        navigationMenu.setupWithNavController(navController)
+        navigationMenu?.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.themeFragment, R.id.playlistPropertiesFragment -> {
-                    navigationMenu.isVisible= false
+                    navigationMenu?.isVisible= false
                 }
                 else -> {
-                    navigationMenu.isVisible= true
+                    navigationMenu?.isVisible= true
                 }
             }
         }
@@ -44,5 +43,10 @@ class RootActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(
             viewModel.getAppDarkModeValue()
         )
+    }
+
+    override fun onDestroy() {
+        binding = null
+        super.onDestroy()
     }
 }
