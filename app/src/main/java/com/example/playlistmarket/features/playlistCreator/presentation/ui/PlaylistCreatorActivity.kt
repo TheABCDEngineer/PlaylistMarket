@@ -2,6 +2,7 @@ package com.example.playlistmarket.features.playlistCreator.presentation.ui
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -35,13 +36,10 @@ class PlaylistCreatorActivity : AppCompatActivity() {
     private var placeHolder: ImageView? = null
     private var artwork: ImageView? = null
     private var titleEditor: EditText? = null
-    //private val titleFieldHeader: TextView by lazy { binding.titleFieldHeader }
-    //private val uniqueTitleWarning: TextView by lazy { binding.uniqueTitleWarning }
     private var descriptionEditor: EditText? = null
-    //private val descriptionFieldHeader: TextView by lazy { binding.descriptionFieldHeader }
     private var createPlaylistButton: AppCompatButton? = null
 
-    private val onBackPressedCallback = object : OnBackPressedCallback(true){
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             finishOnBackPressed()
         }
@@ -80,13 +78,18 @@ class PlaylistCreatorActivity : AppCompatActivity() {
 
         with(viewModel) {
             observeArtworkImage()
-                .observe(this@PlaylistCreatorActivity) {updateArtwork(it)}
+                .observe(this@PlaylistCreatorActivity) { updateArtwork(it) }
             observeTitleFieldState()
-                .observe(this@PlaylistCreatorActivity) {updateTitleFieldState(it)}
+                .observe(this@PlaylistCreatorActivity) { updateTitleFieldState(it) }
             observeDescriptionFieldState()
-                .observe(this@PlaylistCreatorActivity) {updateDescriptionFieldState(it)}
+                .observe(this@PlaylistCreatorActivity) { updateDescriptionFieldState(it) }
             observePlaylistInfo()
-                .observe(this@PlaylistCreatorActivity) {updateEditFieldText(it.title, it.description)}
+                .observe(this@PlaylistCreatorActivity) {
+                    updateEditFieldText(
+                        it.title,
+                        it.description
+                    )
+                }
         }
         binding?.backButton?.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
@@ -96,8 +99,9 @@ class PlaylistCreatorActivity : AppCompatActivity() {
                 viewModel.setArtwork()
                 return@setOnClickListener
             }
-            if (ContextCompat.checkSelfPermission(this,Manifest.permission.READ_MEDIA_IMAGES)
-                    == PackageManager.PERMISSION_GRANTED)
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
+                == PackageManager.PERMISSION_GRANTED
+            )
                 viewModel.setArtwork()
             else
                 requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
@@ -139,14 +143,14 @@ class PlaylistCreatorActivity : AppCompatActivity() {
 
     private fun updateTitleFieldState(state: EditScreenState) {
         binding?.titleFieldHeader?.isVisible = state.isHeaderVisible
-        titleEditor?.background = state.backGround
+        titleEditor?.background = getFieldBackground(state)
         binding?.uniqueTitleWarning?.isVisible = state.isWarningMessageVisible
         createPlaylistButton?.isEnabled = state.isButtonEnable
     }
 
     private fun updateDescriptionFieldState(state: EditScreenState) {
         binding?.descriptionFieldHeader?.isVisible = state.isHeaderVisible
-        descriptionEditor?.background = state.backGround
+        descriptionEditor?.background = getFieldBackground(state)
     }
 
     private fun updateEditFieldText(title: String = "", description: String = "") {
@@ -185,5 +189,14 @@ class PlaylistCreatorActivity : AppCompatActivity() {
         if (titleEditor != null && !titleEditor!!.text.isNullOrEmpty()) return false
         if (descriptionEditor != null && !descriptionEditor!!.text.isNullOrEmpty()) return false
         return true
+    }
+
+    private fun getFieldBackground(state: EditScreenState): Drawable? {
+        return when (state) {
+            EditScreenState.INACTIVE_FIELD ->
+                AppCompatResources.getDrawable(this, R.drawable.playlist_creator_edit_text_empty)
+            else ->
+                AppCompatResources.getDrawable(this, R.drawable.playlist_creator_text_input)
+        }
     }
 }
