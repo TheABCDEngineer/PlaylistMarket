@@ -16,7 +16,7 @@ import com.example.playlistmarket.root.domain.model.Track
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment: Fragment() {
-    private lateinit var binding: FragmentSearchBinding
+    private var binding: FragmentSearchBinding? = null
     private val searchingWidget: SearchingWidget by lazy { SearchingWidget(binding) }
     private val screenStateWidget: ScreenStateWidget by lazy { ScreenStateWidget(binding, lifecycleScope) }
     private val viewModel by viewModel<SearchViewModel>()
@@ -25,9 +25,9 @@ class SearchFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,7 +38,7 @@ class SearchFragment: Fragment() {
         viewModel.observeTrackFeedState().observe(viewLifecycleOwner) {
             updateTrackFeed(it)
         }
-        searchingWidget.apply {
+        with(searchingWidget) {
             onUserRequestTextChange = { value ->
                 viewModel.onUserRequestTextChange(value)
             }
@@ -49,7 +49,7 @@ class SearchFragment: Fragment() {
                 hideKeyboard(this@SearchFragment)
             }
         }
-        screenStateWidget.apply {
+        with(screenStateWidget) {
             onFunctionalButtonClick = { mode ->
                 viewModel.onFunctionalButtonPressed(mode)
             }
@@ -62,6 +62,11 @@ class SearchFragment: Fragment() {
     override fun onStop() {
         super.onStop()
         viewModel.updateHistoryState()
+    }
+
+    override fun onDestroy() {
+        binding = null
+        super.onDestroy()
     }
 
     private fun updateScreenState(state: SearchScreenState) {

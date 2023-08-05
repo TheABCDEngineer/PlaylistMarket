@@ -16,6 +16,7 @@ fun getArtwork(url: String?, frame: Int): String {
     if (url == null) return ""
     val size: Int = when (frame) {
         512 -> 512
+        60 -> 60
         else -> 100
     }
     return url.replaceAfterLast('/', "${size}x${size}bb.jpg")

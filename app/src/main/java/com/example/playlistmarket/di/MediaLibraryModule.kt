@@ -2,6 +2,7 @@ package com.example.playlistmarket.di
 
 import com.example.playlistmarket.features.medialibrary.data.PlaylistModelsConverter
 import com.example.playlistmarket.features.medialibrary.presentation.viewModel.FavoritesViewModel
+import com.example.playlistmarket.features.medialibrary.presentation.viewModel.PlaylistPropertiesViewModel
 import com.example.playlistmarket.features.medialibrary.presentation.viewModel.PlaylistsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.singleOf
@@ -14,6 +15,8 @@ val mediaLibraryModule = module {
     viewModelOf(::FavoritesViewModel).bind()
 
     viewModelOf(::PlaylistsViewModel).bind()
+
+    viewModelOf(::PlaylistPropertiesViewModel).bind()
 
     singleOf(::PlaylistModelsConverter).bind()
 }

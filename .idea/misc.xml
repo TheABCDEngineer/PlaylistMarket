@@ -3,16 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.10761390887290168" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1645" />
         <entry key="app/src/main/res/drawable-v24/playlist_creator_edit_text_input.xml" value="0.167" />
         <entry key="app/src/main/res/drawable/add_playlist_artwork.xml" value="0.167" />
         <entry key="app/src/main/res/drawable/arrow_back.xml" value="0.152" />
         <entry key="app/src/main/res/drawable/arrow_forward.xml" value="0.172" />
+        <entry key="app/src/main/res/drawable/bottom_sheet_handle_rectangle.xml" value="0.1795" />
         <entry key="app/src/main/res/drawable/button_status_selector.xml" value="0.1635" />
         <entry key="app/src/main/res/drawable/cursor_color.xml" value="0.1615" />
         <entry key="app/src/main/res/drawable/dash_dot_rectangle.xml" value="0.167" />
         <entry key="app/src/main/res/drawable/default_album_image.xml" value="0.158" />
         <entry key="app/src/main/res/drawable/edit_text_clear_button.xml" value="0.172" />
+        <entry key="app/src/main/res/drawable/ellipse_playlist_properties.xml" value="0.1795" />
         <entry key="app/src/main/res/drawable/ellipse_track_time.xml" value="0.1615" />
         <entry key="app/src/main/res/drawable/emoji_doodle.xml" value="0.158" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.172" />
@@ -30,6 +33,8 @@
         <entry key="app/src/main/res/drawable/playlist_creator_edit_text.xml" value="0.1635" />
         <entry key="app/src/main/res/drawable/playlist_creator_edit_text_empty.xml" value="0.153" />
         <entry key="app/src/main/res/drawable/playlist_creator_edit_text_input.xml" value="0.153" />
+        <entry key="app/src/main/res/drawable/playlist_creator_text_input.xml" value="0.1795" />
+        <entry key="app/src/main/res/drawable/playlist_menu_icon.xml" value="0.1795" />
         <entry key="app/src/main/res/drawable/please_wait_icon.xml" value="0.158" />
         <entry key="app/src/main/res/drawable/rounded_edittext.xml" value="0.1615" />
         <entry key="app/src/main/res/drawable/search_icon.xml" value="0.172" />
@@ -53,6 +58,7 @@
         <entry key="app/src/main/res/layout/fragment_favorites.xml" value="0.28192901611328125" />
         <entry key="app/src/main/res/layout/fragment_favorites2.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_media_library.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_playlist_properties.xml" value="0.2215042114257813" />
         <entry key="app/src/main/res/layout/fragment_playlists.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_playlists2.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.3098958333333333" />

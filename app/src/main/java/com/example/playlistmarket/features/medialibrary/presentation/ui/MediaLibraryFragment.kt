@@ -11,33 +11,34 @@ import com.example.playlistmarket.features.medialibrary.presentation.ui.viewPage
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MediaLibraryFragment: Fragment() {
-    private lateinit var binding: FragmentMediaLibraryBinding
-    private lateinit var tabMediator: TabLayoutMediator
+    private var binding: FragmentMediaLibraryBinding? = null
+    private var tabMediator: TabLayoutMediator? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentMediaLibraryBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.viewPager.adapter = MediaLibraryViewPagerAdapter(childFragmentManager,lifecycle)
+        if (binding == null) return
+        binding!!.viewPager.adapter = MediaLibraryViewPagerAdapter(childFragmentManager,lifecycle)
 
-        tabMediator = TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+        tabMediator = TabLayoutMediator(binding!!.tabLayout, binding!!.viewPager) { tab, position ->
             when(position) {
                 0 -> tab.text = getString(R.string.media_library_favorites_tab_title)
                 1 -> tab.text = getString(R.string.media_library_playlists_tab_title)
             }
         }
-        tabMediator.attach()
+        tabMediator?.attach()
     }
 
     override fun onDestroyView() {
-        tabMediator.detach()
+        tabMediator?.detach()
         super.onDestroyView()
     }
 }

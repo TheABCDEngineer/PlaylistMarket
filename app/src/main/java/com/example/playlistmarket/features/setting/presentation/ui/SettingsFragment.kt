@@ -12,37 +12,42 @@ import com.example.playlistmarket.features.setting.presentation.viewModel.Settin
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : Fragment() {
-    private lateinit var binding: FragmentSettingsBinding
+    private var binding: FragmentSettingsBinding? = null
     private val viewModel by viewModel<SettingsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.themeValue.text = viewModel.getThemeModeValue()
+        binding?.themeValue?.text = viewModel.getThemeModeValue()
 
-        binding.themeChanger.setOnClickListener {
+        binding?.themeChanger?.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_themeFragment)
         }
 
-        binding.settingsShare.setOnClickListener {
+        binding?.settingsShare?.setOnClickListener {
             viewModel.executeShare()
         }
 
-        binding.settingsMailToSupport.setOnClickListener {
+        binding?.settingsMailToSupport?.setOnClickListener {
             viewModel.sendMailToSupport()
         }
 
-        binding.settingsUserTerms.setOnClickListener {
+        binding?.settingsUserTerms?.setOnClickListener {
             viewModel.presentUserTerms()
         }
+    }
+
+    override fun onDestroy() {
+        binding = null
+        super.onDestroy()
     }
 }

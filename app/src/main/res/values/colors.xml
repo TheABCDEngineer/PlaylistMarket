@@ -23,4 +23,5 @@
     <color name="bottom_navigator_item_checked">#3772E7</color>
     <color name="playlist_creator_edit_text_empty">#AEAFB4</color>
     <color name="playlist_creator_edit_text_input">#3772E7</color>
+    <color name="secondary_support">#E6E8EB</color>
 </resources>

@@ -7,7 +7,7 @@ interface PlaylistsRepository {
     suspend fun loadPlaylists(): ArrayList<Playlist>
     suspend fun loadPlaylist(playlistId: Int): Playlist?
     suspend fun loadFavoritesPlaylist(): Playlist
-    suspend fun deletePlaylist(playlist: Playlist)
+    suspend fun deletePlaylist(playlistId: Int)
     suspend fun updatePlaylist(playlist: Playlist)
     suspend fun getPlaylistsOfTrack(trackId: Int): ArrayList<Playlist>
 }

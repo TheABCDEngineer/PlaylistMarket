@@ -10,9 +10,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmarket.App
+import com.example.playlistmarket.R
 import com.example.playlistmarket.databinding.FragmentPlaylistsBinding
 import com.example.playlistmarket.features.medialibrary.domain.PlaylistRecyclerModel
 import com.example.playlistmarket.features.medialibrary.presentation.ui.recyclerView.PlaylistAdapter
@@ -25,39 +27,43 @@ class PlaylistsFragment : Fragment() {
         fun  newInstance() = PlaylistsFragment()
     }
     private val viewModel by viewModel<PlaylistsViewModel>()
-    private lateinit var binding: FragmentPlaylistsBinding
-    private lateinit var newPlaylistButton: Button
-    private lateinit var placeholderImage: ImageView
-    private lateinit var placeholderMessage: TextView
-    private lateinit var playlistsRecycler: RecyclerView
+    private var binding: FragmentPlaylistsBinding? = null
+    private var newPlaylistButton: Button? = null
+    private var placeholderImage: ImageView? = null
+    private var placeholderMessage: TextView? = null
+    private var playlistsRecycler: RecyclerView? = null
 
-    private val onAdapterItemClickedAction: (Int) -> Unit
-        get() = debounce(App.CLICK_DEBOUNCE_DELAY, lifecycleScope) { playlistId: Int ->
-            viewModel.onPlaylistChoose(playlistId)
+    private val adapter = PlaylistAdapter(
+        playlists = ArrayList(),
+        onItemClickedAction = debounce(App.CLICK_DEBOUNCE_DELAY_MILLIS, lifecycleScope) { playlistId: Int ->
+            findNavController().navigate(
+                R.id.action_mediaLibraryFragment_to_playlistPropertiesFragment,
+                Bundle().apply { putInt(App.PLAYLIST_KEY,playlistId) }
+            )
         }
-    private val adapter = PlaylistAdapter(ArrayList(),onAdapterItemClickedAction)
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentPlaylistsBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        newPlaylistButton = binding.newPlaylistButton
-        newPlaylistButton.setOnClickListener{
+        newPlaylistButton = binding?.newPlaylistButton
+        newPlaylistButton?.setOnClickListener{
             viewModel.onNewPlaylistButtonClicked()
         }
-        placeholderImage = binding.mediaLibraryPlaylistsStatusImage
-        placeholderMessage = binding.mediaLibraryPlaylistsStatusText
+        placeholderImage = binding?.mediaLibraryPlaylistsStatusImage
+        placeholderMessage = binding?.mediaLibraryPlaylistsStatusText
 
-        playlistsRecycler = binding.mediaLibraryPlaylistsTable
-        playlistsRecycler.layoutManager = GridLayoutManager(requireContext(),2)
-        playlistsRecycler.adapter = adapter
+        playlistsRecycler = binding?.mediaLibraryPlaylistsTable
+        playlistsRecycler?.layoutManager = GridLayoutManager(requireContext(),2)
+        playlistsRecycler?.adapter = adapter
 
         viewModel.observeFeedState().observe(viewLifecycleOwner) {
             updateFeed(it)
@@ -69,10 +75,15 @@ class PlaylistsFragment : Fragment() {
         viewModel.onUiResume()
     }
 
+    override fun onDestroy() {
+        binding = null
+        super.onDestroy()
+    }
+
     private fun updateFeed(items: ArrayList<PlaylistRecyclerModel>) {
         adapter.updateItems(items)
-        placeholderImage.isVisible = items.isEmpty()
-        placeholderMessage.isVisible = items.isEmpty()
-        playlistsRecycler.adapter!!.notifyDataSetChanged()
+        playlistsRecycler?.adapter?.notifyDataSetChanged()
+        placeholderImage?.isVisible = items.isEmpty()
+        placeholderMessage?.isVisible = items.isEmpty()
     }
 }

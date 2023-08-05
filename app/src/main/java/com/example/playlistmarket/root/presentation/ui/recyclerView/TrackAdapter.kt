@@ -8,19 +8,25 @@ import com.example.playlistmarket.root.domain.model.Track
 
 class TrackAdapter(
     private val trackList: ArrayList<Track>,
-    private val onItemClickedAction: (Track) -> Unit
+    private val artworkResolution: Int = 100,
+    private val onItemClickedAction: (Track) -> Unit,
+    private val onItemLongClickedAction: ((Track) -> Unit)? = null
 ) : RecyclerView.Adapter<TrackViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.search_track_item, parent, false)
-        return TrackViewHolder(view)
+        return TrackViewHolder(view, artworkResolution)
     }
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
         holder.bind(trackList[position])
         holder.itemView.setOnClickListener {
             onItemClickedAction.invoke(trackList[position])
+        }
+        holder.itemView.setOnLongClickListener {
+            onItemLongClickedAction?.invoke(trackList[position])
+            return@setOnLongClickListener true
         }
     }
 

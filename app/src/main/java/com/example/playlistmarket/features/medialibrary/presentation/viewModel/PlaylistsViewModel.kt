@@ -8,12 +8,10 @@ import com.example.playlistmarket.features.medialibrary.data.PlaylistModelsConve
 import com.example.playlistmarket.features.medialibrary.domain.PlaylistRecyclerModel
 import com.example.playlistmarket.features.playlistCreator.PlaylistCreator
 import com.example.playlistmarket.root.domain.repository.PlaylistsRepository
-import com.example.playlistmarket.root.domain.repository.TracksRepository
 import kotlinx.coroutines.launch
 
 class PlaylistsViewModel(
     private val playlistsRepository: PlaylistsRepository,
-    private val tracksRepository: TracksRepository,
     private val converter: PlaylistModelsConverter
 ) : ViewModel() {
 
@@ -27,18 +25,14 @@ class PlaylistsViewModel(
 
             for (playlist in playlists) {
                 playlistModels.add(
-                    converter.map(playlist)
+                    converter.mapToRecyclerModel(playlist)
                 )
             }
             feedLiveData.postValue(playlistModels)
         }
     }
 
-    fun onPlaylistChoose(playlistId: Int) {
-
-    }
-
     fun onNewPlaylistButtonClicked() {
-        PlaylistCreator.start(null)
+        PlaylistCreator.start()
     }
 }

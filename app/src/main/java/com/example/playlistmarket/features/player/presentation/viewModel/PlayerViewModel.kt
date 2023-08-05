@@ -140,7 +140,7 @@ class PlayerViewModel(
 
             for (playlist in playlists) {
                 playlistModels.add(
-                    converter.map(playlist)
+                    converter.mapToRecyclerModel(playlist)
                 )
             }
             feedLiveData.postValue(playlistModels)
